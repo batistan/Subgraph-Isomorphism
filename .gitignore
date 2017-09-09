@@ -2,6 +2,9 @@
 *.log
 *.aux
 
+# gvim on windows makes backup files
+*~
+
 # vim buffer files
 *.swp
 *.swo
