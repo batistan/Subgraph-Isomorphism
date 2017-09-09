@@ -1,0 +1,7 @@
+# in case someone forgets to do a make clean
+*.log
+*.aux
+
+# vim buffer files
+*.swp
+*.swo
