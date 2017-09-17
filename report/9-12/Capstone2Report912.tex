@@ -14,14 +14,19 @@
 
 \noindent Report for Sept. 12
 
-Our project intends to first solve the Graph Isomorphism Problem and then use GPU programming to parallelize the solution for a significant performance improvement. The project's progress should proceed as follows. Each week will be accompanied with a report detailing the actual progress.
+
+Our project is going to be based on sub-graph isomorphism. Our plan is to take Twitter data and create recommended groups based on a shared interests. For example, if 2 people like the same 10 accounts, it would notify them and recommend that they follow each other, if they don't already. If more than 2 people like the same 10 accounts, it would notify them of the others that like them and suggest forming a ``friend group.''
+
+We have at our disposal a graph that tracks people's ``mentions,'' which refers to the act of one person mentioning another. This is done by prefacing the other person's name with an ``at'' sign (@). Our plan is to track multiple people mentioning the same few accounts. From this, we can create a subgraph and compare it to the entire graph of mentions to see how many times our subgraph appears. For example, if person A mentions accounts 1 through 10, we have to find other people who like the same 10 accounts.
+If only one person, B, likes the same 10 accounts, then it recommends to A to follow B, and vice versa. If multiple people, B, C, and D, like the same things as A, and they do not currently follow each other, recommend a friend group/social circle.
+
+The project's progress should proceed as follows. Each week will be accompanied with a report detailing the actual progress.
 
 \begin{itemize}
   \item September 12th --- This report, along with the data set that will be used to test our solution, both for correctness and for performance benchmarks.
   \item September 19th --- Report on plans to implement our solution, as well as progress on development of the solution itself.
-  \item September 26th --- Completion of program to match % MAAAAAX
-    % maybe completion of CPU implementation?
-  \item October 3rd --- % MAAAAAX
+  \item September 26th --- Completion of program to match nodes in one graph to corresponding nodes in larger graph.
+  \item October 3rd ---  Addition of ability to match nodes in one graph to corresponding edges in larger graph, after finding corresponding nodes.
   \item October 10th --- Verification that solution works on data set provided, begin planning GPU implementation.
     % these next two are a crapshoot
   \item October 17th --- Begin work on GPU implementation, with focus on optimizing speed of mapping nodes from one graph to another.
