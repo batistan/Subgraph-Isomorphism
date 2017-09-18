@@ -15,4 +15,10 @@
 
 \noindent Report for Sept. 19
 
+We will be using the 2010 Ullmann algorithm for the CPU implementation of our project. We have found a working Python implementation and have almost completed an equivalent C++ implementation. 
+
+Previously, we had allocated a rather large amount of time to implementing a CPU version a solution to the subgraph isomorphism problem. However, it became apparent that this would take too long, so we have instead settled on finding a working CPU version and instead converting it into a version that can run on a GPU\@. The goal thus becomes focused more on recording the performance improvements of the GPU implementation in a realistic scenario by running our completed project using the CPU implementation and then the GPU implementation in the background on a suitably large graph, then comparing the performances of each.
+
+Currently, the main hurdle is finding an adequate data structure to represent a graph. The \texttt{BasicGraph} class provided by the Stanford \texttt{cslib} C++ library (see https://stanford.edu/~stepp/cppdoc/BasicGraph-class.html) is very promising, but we have not found a way to successfully compile code which uses it. It seems the installation process is not as straightforward as we had hoped. We are instead using the Boost library's adjacency list structure to implement graphs. We are in the process of testing the various features of this implementation to verify its suitability for our purposes.
+
 \end{document}
