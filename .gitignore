@@ -1,6 +1,7 @@
 # in case someone forgets to do a make clean
 *.log
 *.aux
+*.out
 
 # gvim on windows makes backup files
 *~

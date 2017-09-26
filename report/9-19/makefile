@@ -6,4 +6,4 @@ $(FILE).pdf: $(FILE).tex
 	pdflatex $(FILE).tex
 
 clean:
-	rm -v *.aux *.log
+	rm -v *.aux *.log *.out
