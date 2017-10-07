@@ -1,53 +1,27 @@
-def search(graph,subgraph,assignments,possible_assignments):
-  update_possible_assignments(graph,subgraph,possible_assignments)
+import sys #args
+from graph import *
+from ismorphism import *
 
-  i=len(assignments)
+#C/C++ habits coming at me again
+def import_data(graph):
+    if (len(sys.argv) == 0)
+        print("You need a filename as an argument.\n 'python main.py filename.txt'")
+        sys.exit(0)
 
-  # Make sure that every edge between assigned vertices in the subgraph is also an
-  # edge in the graph.
-  for edge in subgraph.edges:
-    if edge.first<i and edge.second<i:
-      if not graph.has_edge(assignments[edge.first],assignments[edge.second]):
-        return False
+    fh = open(sys.argv[1], 'r')
 
-  # If all the vertices in the subgraph are assigned, then we are done.
-  if i==subgraph.n_vertices:
-    return True
+    current_line = fh.readline()
+    while (current_line != ''):
+        current_line = fh.readline()
+        current_line.split()
+        graph.add_edge(current_line[0], current_line[1], current_line[2])
 
-  for j in possible_assignments[i]:
-    if j not in assignments:
-      assignments.append(j)
+        current_line = fh.readline()
 
-      # Create a new set of possible assignments, where graph node j is the only
-      # possibility for the assignment of subgraph node i.
-      new_possible_assignments = deep_copy(possible_assignments)
-      new_possible_assignments[i] = [j]
+    fh.close()
 
-      if search(graph,subgraph,assignments,new_possible_assignments):
-        return True
+    return 0
 
-      assignments.pop()
-    possible_assignments[i].remove(j)
-    update_possible_assignments(graph,subgraph,possible_assignments)
 
-def find_isomporhism(graph,subgraph):
-  assignments=[]
-  possible_assignments = [[True]*graph.n_vertices for i in range(subgraph.n_vertices)]
-  if search(graph,subgraph,asignments,possible_assignments):
-    return assignments
-  return None
-
-def update_possible_assignements(graph,subgraph,possible_assignments):
-  any_changes=True
-  while any_changes:
-    any_changes = False
-    for i in range(0,len(subgraph.n_vertices)):
-      for j in possible_assignments[i]:
-        for x in subgraph.adjacencies(i):
-          match=False
-          for y in range(0,len(graph.n_vertices)):
-            if y in possible_assignments[x] and graph.has_edge(j,y):
-              match=True
-          if not match:
-            possible_assignments[i].remove(j)
-            any_changes = True
+test_graph = Graph()
+import_data(test_graph)
