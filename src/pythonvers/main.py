@@ -11,29 +11,8 @@ def main(argv):
     """
     argc = len(argv)
 
-    # TODO change to False for final deployment
-    debug = True
-    interactive = False
 
-    if argc == 1:
-        usage(argv[0], True)
-        sys.exit(1)
-    elif argc >= 2:
-        try:
-            opts, args = getopt.getopt(argv, "hid", ["help", "interactive", "debug"])
-        except getopt.GetoptError:
-            # print usage info and quit
-            usage(argv[0], True)
-            sys.exit(1)
-        # handle args
-        for arg in args:
-            if arg in ("-h", "--help"):
-                usage(argv[0], False)
-                sys.exit()
-            elif arg in ("-i", "--interactive"):
-                interactive = True
-            elif arg in ("-d", "--debug"):
-                debug = True
+    interactive, debug = handle_args(argc, argv)
 
     if interactive:
         filename = sys.stdin
@@ -41,21 +20,6 @@ def main(argv):
         filename = argv[1]
 
     graph = import_data(filename, debug)
-
-def usage(name, err):
-    """ Prints usage info
-    """
-    usg = """usage: %s [FILE] [OPTION]
-    Options and arguments:
-    FILE:               Space-separated file containing graph adjacency list. If edge weights are not specified, all weights will be assumed 0.
-    -h, --help:         Print this help message and exit.
-    -i, --interactive:  Get space-separated graph adjacency list from stdin.
-    -d, --debug:        Print debugging information.\n"""
-    if err:
-        sys.stderr.write(usg % name)
-        return
-
-    sys.stdout.write(usg % name)
 
 def import_data(filename, debug):
     """ Takes graph adjacency list written in file fd
@@ -104,6 +68,50 @@ def import_data(filename, debug):
         fd.close()
 
     return graph
+
+def usage(name, err):
+    """ Prints usage info
+    """
+    usg = """usage: %s [FILE] [OPTION]
+    Options and arguments:
+    FILE:               Space-separated file containing graph adjacency list. If edge weights are not specified, all weights will be assumed 0.
+    -h, --help:         Print this help message and exit.
+    -i, --interactive:  Get space-separated graph adjacency list from stdin.
+    -d, --debug:        Print debugging information.\n"""
+    if err:
+        sys.stderr.write(usg % name)
+        return
+
+    sys.stdout.write(usg % name)
+
+def handle_args(argc, argv):
+    """ get command line arguments, set variables accordingly
+    """
+    # TODO change to False for final deployment
+    debug = True
+    interactive = False
+
+    if argc == 1:
+        usage(argv[0], True)
+        sys.exit(1)
+    elif argc >= 2:
+        try:
+            opts, args = getopt.getopt(argv, "hid", ["help", "interactive", "debug"])
+        except getopt.GetoptError:
+            # print usage info and quit
+            usage(argv[0], True)
+            sys.exit(1)
+        # handle args
+        for arg in args:
+            if arg in ("-h", "--help"):
+                usage(argv[0], False)
+                sys.exit()
+            elif arg in ("-i", "--interactive"):
+                interactive = True
+            elif arg in ("-d", "--debug"):
+                debug = True
+
+    return interactive, debug
 
 if __name__ == "__main__":
     main(sys.argv)
