@@ -1,26 +1,45 @@
+"""
+Graph module
+only has a class
+"""
+
 class Graph:
-    def __init__(self, vertices = {}, edges = {}, adjacencies = {}):
-        self.vertices = vertices
-        self.edges = edges
-        self.adjacencies = adjacencies
-        __update_adjacencies()
+    """
+    Graph class
+    """
+    def __init__(self, vertices=None, edges=None, adjacencies=None):
+        if vertices is None:
+            self.vertices = []
+        if edges is None:
+            self.edges = []
+        if adjacencies is None:
+            self.adjacencies = []
+
+        self.__update_adjacencies()
 
     #Private, don't want anyone calling this by accident.
-    def __update_adjacencies():
+    def __update_adjacencies(self):
         for edge in self.edges:
             self.adjacencies.append((edge[0], edge[1]))
 
-
-    def add_vertex(self, vertex = Vertex()):
-        self.verticies.append(vertex)
+    # TODO: figure out what fran was initially trying to do with the default argument here
+    def add_vertex(self, vertex):#=vertex()):
+        """ Add vertex to graph
+        """
+        self.vertices.append(vertex)
 
     def add_edge(self, source, dest, weight):
-        if ( (source or dest) not in self.verticies):
-            self.verticies.append(source)
-            self.verticies.append(dest)
+        """ Add edge connecting source and dest
+        along with weight
+        """
+        if (source or dest) not in self.vertices:
+            self.vertices.append(source)
+            self.vertices.append(dest)
 
-        self.edges.append( {source, dest}, weight) )
+        self.edges.append({source, dest, weight})
         self.adjacencies.append({source, dest})
 
-    def has_edge(self, v1, v2):
-        return ( {v1, v2} in self.adjacencies ) #if adjacent, there's an edge
+    def has_edge(self, vert1, vert2):
+        """ Checks if edge conecting vert1 and vert2 is in the graph
+        """
+        return ({vert1, vert2} in self.adjacencies) #if adjacent, there's an edge
