@@ -47,17 +47,18 @@ def find_isomorphism(graph, subgraph):
     # TODO remove subgraph instance from graph and run this again with the modified graph
     matches = 0
     if search(graph, subgraph, assignments, possible_assignments):
-        print(assignments)
+        #print(assignments)
         print("Match found")
-        return True
+        #return True
        # something like this
-       # matches += 1
-       # for node in assignments:
-       #     graph.remove_vertex(node)
+        matches += 1
+        for node in assignments:
+            graph.remove_vertex(node)
        #     optionally put the removed nodes into a new graph and tack that onto a list
        #     idk why max wants that but that's how i'd do it
-       # matches += find_isomorphism(graph, subgraph)
+        matches += find_isomorphism(graph, subgraph)
        #
+    print(matches, " matches found")
     return matches
 
 def update_possible_assignments(graph, subgraph, possible_assignments):

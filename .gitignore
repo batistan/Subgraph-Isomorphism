@@ -11,6 +11,8 @@
 *.swo
 
 # ignore pycache folder and all files within
-*/__pycache__
-*/__pycache__/*
+src/pythonvers/__pycache__
+src/pythonvers/__pycache__/*
+src/pythonvers/test.vertices
+src/pythonvers/out.txt
 
