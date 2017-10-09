@@ -2,6 +2,15 @@
 Graph module
 only has a class
 """
+class Vertex:
+    """
+    Vertex Class
+    """
+    def __init__(self, label = "", data="", visited=False):
+        self.label = label
+        self.data = data
+        self.visited = visited
+
 
 class Graph:
     """
@@ -10,10 +19,9 @@ class Graph:
     def __init__(self, vertices=None, edges=None, adjacencies=None):
         if vertices is None:
             self.vertices = []
-            self.n_vertices = 0
+            self.n_vertices = lambda : len(self.vertices)
         else:
             self.vertices = vertices
-            self.n_vertices = len(vertices)
         if edges is None:
             self.edges = []
         else:
@@ -28,14 +36,12 @@ class Graph:
     #Private, don't want anyone calling this by accident.
     def __update_adjacencies(self):
         for edge in self.edges:
-            self.adjacencies.append((edge[0], edge[1]))
+            self.adjacencies.append({edge[0], edge[1]})
 
-    # TODO: figure out what fran was initially trying to do with the default argument here
-    def add_vertex(self, vertex):#=vertex()):
+    def add_vertex(self, vertex=Vertex()):
         """ Add vertex to graph
         """
         self.vertices.append(vertex)
-        self.n_vertices += 1
 
     def remove_vertex(self, vertex):
         """ Remove vertex from graph
@@ -48,7 +54,6 @@ class Graph:
         self.edges.remove([edge for edge in self.edges if vertex in edge])
         # see above
         self.adjacencies.remove([adj for adj in self.adjacencies if vertex in adj])
-        self.n_vertices -= 1
 
     def add_edge(self, source, dest, weight):
         """ Add edge connecting source and dest
@@ -59,12 +64,12 @@ class Graph:
             self.vertices.append(dest)
 
         self.edges.append([source, dest, weight])
-        self.adjacencies.append([source, dest])
+        self.adjacencies.append({source, dest})
 
     def has_edge(self, vert1, vert2):
         """ Checks if edge conecting vert1 and vert2 is in the graph
         """
-        return ([vert1, vert2] in self.adjacencies) #if adjacent, there's an edge
+        return ({vert1, vert2} in self.adjacencies) #if adjacent, there's an edge
 
     # for debugging
     def print_graph(self):

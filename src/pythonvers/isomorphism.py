@@ -20,7 +20,7 @@ def search(graph, subgraph, assignments, possible_assignments):
                 return False
 
     # If all the vertices in the subgraph are assigned, then we are done.
-    if i == subgraph.n_vertices:
+    if i == subgraph.n_vertices():
         return True
 
     for j in possible_assignments[i]:
@@ -43,7 +43,7 @@ def search(graph, subgraph, assignments, possible_assignments):
 def find_isomorphism(graph, subgraph):
 
     assignments = []
-    possible_assignments = [[True]*graph.n_vertices for i in range(subgraph.n_vertices)]
+    possible_assignments = [[True]*graph.n_vertices() for i in range(subgraph.n_vertices())]
     # TODO remove subgraph instance from graph and run this again with the modified graph
     matches = 0
     if search(graph, subgraph, assignments, possible_assignments):
@@ -68,11 +68,11 @@ def update_possible_assignments(graph, subgraph, possible_assignments):
     any_changes = True
     while any_changes:
         any_changes = False
-        for i in range(0, subgraph.n_vertices):
+        for i in range(0, subgraph.n_vertices()):
             for j in possible_assignments[i]:
                 for adj in subgraph.adjacencies(i):
                     match = False
-                    for vert in range(0, graph.n_vertices):
+                    for vert in range(0, graph.n_vertices()):
                         if adj in possible_assignments[adj] and graph.has_edge(j, vert):
                             match = True
                     if not match:
