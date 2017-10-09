@@ -9,3 +9,8 @@
 # vim buffer files
 *.swp
 *.swo
+
+# ignore pycache folder and all files within
+*/__pycache__
+*/__pycache__/*
+

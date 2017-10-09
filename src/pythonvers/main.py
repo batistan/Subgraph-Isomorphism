@@ -3,23 +3,40 @@
 import sys #args
 import getopt
 from graph import Graph
-from isomorphism import *
+from isomorphism import find_isomorphism
+import cProfile
 
-#C/C++ habits coming at me again
 def main(argv):
     """ Main function
     """
     argc = len(argv)
 
-
     interactive, debug = handle_args(argc, argv)
 
     if interactive:
+        print("Enter the graph as a space-separated adjacency list of the form\
+                node1 node2 [edge_weight]:")
         filename = sys.stdin
     else:
         filename = argv[1]
 
     graph = import_data(filename, debug)
+
+    if debug:
+        graph.print_graph()
+
+    if interactive:
+        print("Enter the subgraph using the same format:")
+        sub = sys.stdin
+    else:
+        sub = argv[2]
+
+    subgraph = import_data(sub, debug)
+
+    if debug:
+        subgraph.print_graph()
+
+    cProfile.runctx('find_isomorphism(graph, subgraph)', globals(), locals())
 
 def import_data(filename, debug):
     """ Takes graph adjacency list written in file fd
@@ -28,44 +45,36 @@ def import_data(filename, debug):
         Note that edge weights are all 0 unless otherwise specified.
     """
     if filename == sys.stdin:
-        fd = filename
+        fdesc = filename
     else:
         try:
-            fd = open(filename, 'r')
+            fdesc = open(filename, 'r')
         except IOError as err:
             sys.stderr.write("Error: Could not open file '%s'. Aborting.\n%s\n" % (filename, err))
             sys.exit(2)
 
     if debug:
-        print(fd)
+        print(fdesc)
 
     graph = Graph()
 
     if debug:
         print("Reading file")
-    for line in fd:
+    for line in fdesc:
         vals = line.split()
         if len(vals) == 3:
-            edge_weight = vals[2]
+            edge_weight = int(vals[2])
         elif len(vals) > 2:
             sys.stderr.write("Error reading file '%s'. Data should be in form \
-                    'node1 node2 [edge_weight]', but line was %s" % line)
+                    'node1 node2 [edge_weight]', but line was %s\n" % line)
             sys.exit(3)
         else:
             edge_weight = 0
 
-        graph.add_edge(vals[0], vals[1], edge_weight)
-
-    #current_line = fd.readline()
-    #while current_line != '':
-    #    current_line = fd.readline()
-    #    current_line.split()
-    #    graph.add_edge(current_line[0], current_line[1], current_line[2])
-
-    #    current_line = fd.readline()
+        graph.add_edge(int(vals[0]), int(vals[1]), edge_weight)
 
     if filename != sys.stdin:
-        fd.close()
+        fdesc.close()
 
     return graph
 
@@ -91,12 +100,17 @@ def handle_args(argc, argv):
     debug = True
     interactive = False
 
-    if argc == 1:
+    # arguments should be either 2 files or the two files and some args
+    # unless -i is specified in which case just the args
+    if argc < 2:
         usage(argv[0], True)
         sys.exit(1)
-    elif argc >= 2:
+    else:
         try:
-            opts, args = getopt.getopt(argv, "hid", ["help", "interactive", "debug"])
+            # using _ as a variable name is sort of the conventional way of saying
+            # "we don't need or use this variable but i'm assigning it because
+            # the method or api or whatever i'm using requires it"
+            _, args = getopt.getopt(argv, "hid", ["help", "interactive", "debug"])
         except getopt.GetoptError:
             # print usage info and quit
             usage(argv[0], True)
@@ -108,8 +122,10 @@ def handle_args(argc, argv):
                 sys.exit()
             elif arg in ("-i", "--interactive"):
                 interactive = True
+                args.remove(arg)
             elif arg in ("-d", "--debug"):
                 debug = True
+                args.remove(arg)
 
     return interactive, debug
 
