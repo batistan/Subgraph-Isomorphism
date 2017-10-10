@@ -14,6 +14,8 @@ def search(graph, subgraph, assignments, possible_assignments):
 
     # Make sure that every edge between assigned vertices in the subgraph is also an
     # edge in the graph.
+
+    # this loop calls graph.has_edge once for every edge in the subgraph
     for edge in subgraph.edges:
         if edge[0] < i and edge[1] < i:
             if not graph.has_edge(assignments[edge[0]], assignments[edge[1]]):
@@ -74,6 +76,12 @@ def update_possible_assignments(graph, subgraph, possible_assignments):
                 for adj in subgraph.adjacencies(i):
                     match = False
                     for vert in range(0, graph.n_vertices()):
+                        # graph.has_edge gets called once for every vertex in the graph
+                        # for every item in the subgraph's adjacencies
+                        # for every possible assignments
+                        # that is a huge number of calls to has_edge
+                        # which is in itself an O(n) operation
+                        # definitely room for improvement.
                         if adj in possible_assignments[adj] and graph.has_edge(j, vert):
                             match = True
                     if not match:
