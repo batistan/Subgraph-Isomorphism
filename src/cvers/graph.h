@@ -10,8 +10,9 @@ using std::pair;
 
 class Vertex{
 public:
+  Vertex (int label, bool visited);
   int label;
-  int visited;
+  bool visited;
 }
 
 class Graph{
@@ -33,3 +34,4 @@ public:
 private:
   void update_adjacencies();
 }
+#endif
