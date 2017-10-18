@@ -1,0 +1,28 @@
+main.cpp: In function ‘int main(int, char**)’:
+main.cpp:38:28: error: invalid conversion from ‘int’ to ‘char*’ [-fpermissive]
+     graph_filename = args[2];
+                      ~~~~~~^
+main.cpp:39:26: error: invalid conversion from ‘int’ to ‘char*’ [-fpermissive]
+     sub_filename = args[3];
+                    ~~~~~~^
+main.cpp:43:22: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     graph_filename = "stdin";
+                      ^~~~~~~
+main.cpp:44:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     sub_filename = "stdin";
+                    ^~~~~~~
+main.cpp: In function ‘Graph* import_data(const char*, int)’:
+main.cpp:110:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+       tempweight = "0";
+                    ^~~
+main.cpp: In function ‘int* handle_args(int, char**)’:
+main.cpp:206:19: error: invalid conversion from ‘int’ to ‘char*’ [-fpermissive]
+   returnargs[0] = interactive;
+                   ^~~~~~~~~~~
+main.cpp:207:19: error: invalid conversion from ‘int’ to ‘char*’ [-fpermissive]
+   returnargs[1] = debug;
+                   ^~~~~
+main.cpp:209:10: error: cannot convert ‘char**’ to ‘int*’ in return
+   return returnargs;
+          ^~~~~~~~~~
+make: *** [makefile:10: main.o] Error 1

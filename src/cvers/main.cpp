@@ -2,12 +2,17 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <string.h>
+#include <vector>
+#include <tuple>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include "graph.h"
 #include "isomorphism.h"
+
+using std::string;
 
 const char* program_name;
 
@@ -18,6 +23,9 @@ Graph *import_data(char *filename, int debug);
 int main(int argc, char **argv) {
 
   program_name = argv[0];
+  // TODO change to a tuple. this doesn't work
+  // tuple <int, int, char*, char*>
+  // possibly strings but keep in mind these will be used for fopen
   int *args = handle_args(argc, argv);
 
   int interactive = args[0];
@@ -58,7 +66,7 @@ Graph *import_data(const char *filename, const int debug) {
 
   else {
     fd = fopen(filename, "r");
-    if (fd == -1) {
+    if (fd == NULL) {
       fprintf(stderr, "Could not open file %s for reading.\n", filename);
       perror("Error calling fopen()");
       exit(errno);
@@ -67,20 +75,20 @@ Graph *import_data(const char *filename, const int debug) {
 
   char *line = NULL;
   size_t n = 0;
-  
-  char *tempa, *tempb, *tempweight;
 
-  vector < Vertex::vertex > vertices;
-  vector <tuple> edges;
+  vector < Vertex > vertices;
+  vector <tuple<int, int, int> > edges;
   vector < unordered_set<int> > adjacencies;
-  Graph g = Graph(vertices, edges, adjacencies);
+  Graph *g = (Graph *) malloc(sizeof(Graph));
+  (*g) = Graph(vertices, edges, adjacencies);
 
   if (debug) {
     printf("Reading file %s...\n", filename);
   }
 
+  char *tempa, *tempb, *tempweight;
   // getline returns -1 on failure to read a line (including EOF)
-  while (getline(&line, &n, '\n', fd) != -1) {
+  while (getline(&line, &n, fd) != -1) {
     tempa = strtok(line, " ");
     // strtok returns NULL if the token (space in this case) was not found in the str
     // otherwise return the string up to the token (exclusive)
@@ -102,16 +110,16 @@ Graph *import_data(const char *filename, const int debug) {
       tempweight = "0";
     }
 
-    atempa = atoi(tempa);
-    atempb = atoi(tempb);
-    atempweight = atoi(tempweight);
+    int atempa = atoi(tempa);
+    int atempb = atoi(tempb);
+    int atempweight = atoi(tempweight);
 
     printf("Edge is %d %d %d\n", atempa, atempb, atempweight);
-    g.add_edge(atempa, atempb, atempweight);
+    g->add_edge(atempa, atempb, atempweight);
   }
     
   if (fd != stdin) {
-    int stat = close(fd);
+    int stat = fclose(fd);
     if (stat != 0) {
       perror("Error closing file");
       // we never wrote to the file so we probably don't even need to check for errors in the first place
@@ -122,7 +130,7 @@ Graph *import_data(const char *filename, const int debug) {
 
   free(line);
 
-  return &g;
+  return g;
 }
 
 int *handle_args(int argc, char **argv) {
@@ -133,18 +141,15 @@ int *handle_args(int argc, char **argv) {
     { "interactive", 0, NULL, 'i'},
     { "debug", 0, NULL, 'd'},
     { NULL, 0, NULL, 0 }
-  }
+  };
 
-  int next_option;
-
-  const char* graph_filename = NULL;
-  const char* sub_filename = NULL;
   // we only need to save interactive and debug for now
-  int *returnargs = (int *) malloc(2*sizeof(int));
+  char **returnargs = (char **) malloc(2*sizeof(char *));
   int interactive = 0;
   // TODO change to 0 for final deployment
   int debug = 1;
 
+  int next_option;
   do {
     next_option = getopt_long(argc, argv, short_options,
                               long_options, NULL);
@@ -184,16 +189,16 @@ int *handle_args(int argc, char **argv) {
     // interactive was 0. free the memory it took up and reallocate enough for the two args
     // and the two filenames
     free(returnargs);
-    returnargs = (int *) malloc(4*sizeof(int));
-    returnargs[2] argv[opind];
-    returnargs[3] = argv[opind+1];
+    returnargs = (char **) malloc(4*sizeof(char *));
+    returnargs[2] = argv[optind];
+    returnargs[3] = argv[optind+1];
 
   }
 
   if (debug) {
     printf("Interactive set to %d. Debug is %d.\n", interactive, debug);
     if (!interactive) {
-      printf("Using file %s for graph and %s for subgraph.\n",argv[opind],argv[opind+1]);
+      printf("Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
     }
   }
 

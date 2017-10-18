@@ -1,16 +1,17 @@
-#include "graph.h"
 #include <algorithm> //Replace, remove
+#include <iostream>
+#include "graph.h"
 
 using std::remove;
 using std::get;
 using std::cout;
 
-Vertex::vertex(int label, bool visited) {
+Vertex::Vertex(int label, bool visited) {
   this->label = label;
   this->visited = visited;
 }
 
-Graph::Graph (vector< Vertex::vertex > vertices, vector<tuple> edges,
+Graph::Graph (vector< Vertex > vertices, vector<tuple<int, int, int> > edges,
   vector< unordered_set<int> > adjacencies){
 
   this->vertices = vertices;
@@ -19,11 +20,11 @@ Graph::Graph (vector< Vertex::vertex > vertices, vector<tuple> edges,
   update_adjacencies();
 }
 
-void Graph::add_vertex(Vertex::vertex vertex){
+void Graph::add_vertex(Vertex vertex){
   vertices.push_back(vertex);
 }
 
-void Graph::remove_vertex(Vertex::vertex vertex){
+void Graph::remove_vertex(Vertex vertex){
   vertices.erase(remove(vertices.begin(), vertices.end(), vertex), vertices.end());
   vector<int> remove_these;
 
