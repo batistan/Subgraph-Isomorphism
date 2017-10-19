@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <vector>
 #include <tuple>
+#include <getopt.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -16,7 +16,7 @@ using std::string;
 
 const char* program_name;
 
-int *handle_args(int argc, char **argv);
+char **handle_args(int argc, char **argv);
 void usage (FILE* stream, int exit_code);
 Graph *import_data(char *filename, int debug);
 
@@ -26,13 +26,14 @@ int main(int argc, char **argv) {
   // TODO change to a tuple. this doesn't work
   // tuple <int, int, char*, char*>
   // possibly strings but keep in mind these will be used for fopen
-  int *args = handle_args(argc, argv);
+  char **args = handle_args(argc, argv);
 
-  int interactive = args[0];
-  int debug = args[1];
+  char *interactive = args[0];
+  int debug = atoi(args[1]);
 
   char *graph_filename = NULL;
   char *sub_filename = NULL;
+  char filename_default[] = "stdin";
 
   if (!interactive) {
     graph_filename = args[2];
@@ -40,8 +41,8 @@ int main(int argc, char **argv) {
   }
 
   else {
-    graph_filename = "stdin";
-    sub_filename = "stdin";
+    graph_filename = filename_default;
+    sub_filename = filename_default;
   }
 
   if (debug) {
@@ -87,6 +88,7 @@ Graph *import_data(const char *filename, const int debug) {
   }
 
   char *tempa, *tempb, *tempweight;
+  char tempweight_default[] = "0";
   // getline returns -1 on failure to read a line (including EOF)
   while (getline(&line, &n, fd) != -1) {
     tempa = strtok(line, " ");
@@ -97,7 +99,7 @@ Graph *import_data(const char *filename, const int debug) {
           but line was %s\n", filename, line);
       exit(-1);
     }
-    
+
     tempb = strtok(line, " ");
     if (tempb == NULL) {
       fprintf(stderr, "Error parsing file %s. Adjacency list must be of form 'node1 node2 [edge_weight]',\
@@ -107,7 +109,7 @@ Graph *import_data(const char *filename, const int debug) {
 
     tempweight = strtok(line, " ");
     if (tempweight == NULL) {
-      tempweight = "0";
+      tempweight = tempweight_default;
     }
 
     int atempa = atoi(tempa);
@@ -117,7 +119,7 @@ Graph *import_data(const char *filename, const int debug) {
     printf("Edge is %d %d %d\n", atempa, atempb, atempweight);
     g->add_edge(atempa, atempb, atempweight);
   }
-    
+
   if (fd != stdin) {
     int stat = fclose(fd);
     if (stat != 0) {
@@ -133,7 +135,7 @@ Graph *import_data(const char *filename, const int debug) {
   return g;
 }
 
-int *handle_args(int argc, char **argv) {
+char **handle_args(int argc, char **argv) {
   // for getopt
   const char* const short_options = "hid";
   const struct option long_options[] = {
@@ -182,7 +184,7 @@ int *handle_args(int argc, char **argv) {
   while (next_option != -1);
 
   // now that we've gone through all the options, OPIND points to first
-  // nonoption argument. which is hopefully the first filename. unless 
+  // nonoption argument. which is hopefully the first filename. unless
   // interactive was specified, in which case yell at the user.
 
   if (!interactive) {
@@ -203,9 +205,9 @@ int *handle_args(int argc, char **argv) {
   }
 
   // put what we want to return in their places.
-  returnargs[0] = interactive;
-  returnargs[1] = debug;
-  
+  sprintf(returnargs[0],"%d",interactive);
+  sprintf(returnargs[1],"%d",debug);
+
   return returnargs;
 }
 

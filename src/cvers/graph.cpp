@@ -37,7 +37,7 @@ void Graph::remove_vertex(Vertex vertex){
   }
 
   for (i = 0; i < adjacencies.size(); i++){
-    if (adjacencies[i].find(vertex.label) != adjacencies.end()){
+    if ((adjacencies[i]).find(vertex.label) != adjacencies.end()){
       adjacencies.erase(adjacencies.begin() + i);
       i--; //ditto
     }
