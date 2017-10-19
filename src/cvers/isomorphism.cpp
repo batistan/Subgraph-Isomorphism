@@ -4,6 +4,8 @@
 #include "graph.h"
 #include "isomorphism.h"
 
+using std::get;
+
 bool search(Graph *graph, Graph *subgraph, vector < pair<int,int> > *assignments, vector < pair<int,int> > *possible_assignments) {
 
   // Uses DFS to find instance of subgraph within larger graph
@@ -24,8 +26,8 @@ bool search(Graph *graph, Graph *subgraph, vector < pair<int,int> > *assignments
 
   // this loop calls graph.has_edge once for every edge in the subgraph
   for ( ; edge != subgraph->edges.end(); edge++) {
-    if (std::get<0>(*edge) < i && std::get<1>(*edge) < i) {
-      if (!graph->has_edge(assignments[std::get<0>(*edge)].first, assignments[std::get<1>(*edge)].first)) {
+    if (get<0>(*edge) < i && get<1>(*edge) < i) {
+      if (!(graph->has_edge(assignments[get<0>(*edge)]).first, assignments[get<1>(*edge)].first)) {
         return false;
       }
     }
@@ -66,13 +68,14 @@ int find_isomorphism(Graph *graph, Graph *subgraph) {
     matches++;
     vector< pair<int,int> >::iterator node = assignments->begin();
     for(; node != assignments->end(); node++) {
-      graph->remove_vertex(Vertex(node[0], false));
+      pair<int, bool> vertex(node[0], false);
+      graph->remove_vertex(vertex);
     }
   }
 
   return matches;
 }
-    
+
 void update_possible_assignments(Graph *graph, Graph *subgraph, vector < pair<int,int> > *possible_assignments) {
 
   bool any_changes = true;
@@ -86,14 +89,14 @@ void update_possible_assignments(Graph *graph, Graph *subgraph, vector < pair<in
         vector < unordered_set<int> >::iterator adj;
         for (adj = subgraph->adjacencies.begin(); adj != subgraph->adjacencies.end(); adj++) {
           match = false;
-          vector < Vertex >::iterator vert;
+          vector < pair<int, bool> >::iterator vert;
           for (vert = graph->vertices.begin(); vert != graph->vertices.end(); vert++) {
             if (find(possible_assignments->begin(), possible_assignments->end(), *adj) == possible_assignments->end()) {
               if (graph->has_edge((*j).first, vert->label)) {
                 match = true;
               }
             }
-            
+
             if (!match) {
               possible_assignments[i].remove(*j);
               any_changes = true;
@@ -104,4 +107,3 @@ void update_possible_assignments(Graph *graph, Graph *subgraph, vector < pair<in
     }
   }
 }
-

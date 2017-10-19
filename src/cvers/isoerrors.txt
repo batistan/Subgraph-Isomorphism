@@ -1,330 +1,486 @@
 isomorphism.cpp: In function ‘bool search(Graph*, Graph*, std::vector<std::pair<int, int> >*, std::vector<std::pair<int, int> >*)’:
-isomorphism.cpp:28:60: error: ‘class std::vector<std::pair<int, int> >’ has no member named ‘first’
-       if (!graph->has_edge(assignments[std::get<0>(*edge)].first, assignments[std::get<1>(*edge)].first)) {
-                                                            ^~~~~
-isomorphism.cpp:28:99: error: ‘class std::vector<std::pair<int, int> >’ has no member named ‘first’
-       if (!graph->has_edge(assignments[std::get<0>(*edge)].first, assignments[std::get<1>(*edge)].first)) {
-                                                                                                   ^~~~~
-isomorphism.cpp:42:72: error: no matching function for call to ‘search(Graph*&, Graph*&, std::vector<std::pair<int, int> >*&, std::vector<std::pair<int, int> >&)’
+isomorphism.cpp:30:55: error: no matching function for call to ‘Graph::has_edge(std::vector<std::pair<int, int> >&)’
+       if (!(graph->has_edge(assignments[get<0>(*edge)]).first, assignments[get<1>(*edge)].first)) {
+                                                       ^
+In file included from isomorphism.cpp:4:0:
+graph.h:31:8: note: candidate: bool Graph::has_edge(int, int)
+   bool has_edge(int vert1, int vert2);
+        ^~~~~~~~
+graph.h:31:8: note:   candidate expects 2 arguments, 1 provided
+isomorphism.cpp:30:91: error: ‘class std::vector<std::pair<int, int> >’ has no member named ‘first’
+       if (!(graph->has_edge(assignments[get<0>(*edge)]).first, assignments[get<1>(*edge)].first)) {
+                                                                                           ^~~~~
+isomorphism.cpp:44:72: error: no matching function for call to ‘search(Graph*&, Graph*&, std::vector<std::pair<int, int> >*&, std::vector<std::pair<int, int> >&)’
        if (search(graph, subgraph, assignments, new_possible_assignments)) {
                                                                         ^
-isomorphism.cpp:7:6: note: candidate: bool search(Graph*, Graph*, std::vector<std::pair<int, int> >*, std::vector<std::pair<int, int> >*)
+isomorphism.cpp:9:6: note: candidate: bool search(Graph*, Graph*, std::vector<std::pair<int, int> >*, std::vector<std::pair<int, int> >*)
  bool search(Graph *graph, Graph *subgraph, vector < pair<int,int> > *assignments, vector < pair<int,int> > *possible_assignments) {
       ^~~~~~
-isomorphism.cpp:7:6: note:   no known conversion for argument 4 from ‘std::vector<std::pair<int, int> >’ to ‘std::vector<std::pair<int, int> >*’
-In file included from /usr/include/c++/7.2.0/algorithm:62:0,
+isomorphism.cpp:9:6: note:   no known conversion for argument 4 from ‘std::vector<std::pair<int, int> >’ to ‘std::vector<std::pair<int, int> >*’
+In file included from /usr/include/c++/6/algorithm:62:0,
                  from isomorphism.cpp:2:
-/usr/include/c++/7.2.0/bits/stl_algo.h:4179:5: note: candidate: template<class _FIter1, class _FIter2, class _BinaryPredicate> _FIter1 std::search(_FIter1, _FIter1, _FIter2, _FIter2, _BinaryPredicate)
+/usr/include/c++/6/bits/stl_algo.h:4064:5: note: candidate: template<class _FIter1, class _FIter2, class _BinaryPredicate> _FIter1 std::search(_FIter1, _FIter1, _FIter2, _FIter2, _BinaryPredicate)
      search(_ForwardIterator1 __first1, _ForwardIterator1 __last1,
      ^~~~~~
-/usr/include/c++/7.2.0/bits/stl_algo.h:4179:5: note:   template argument deduction/substitution failed:
-isomorphism.cpp:42:72: note:   deduced conflicting types for parameter ‘_FIter2’ (‘std::vector<std::pair<int, int> >*’ and ‘std::vector<std::pair<int, int> >’)
+/usr/include/c++/6/bits/stl_algo.h:4064:5: note:   template argument deduction/substitution failed:
+isomorphism.cpp:44:72: note:   deduced conflicting types for parameter ‘_FIter2’ (‘std::vector<std::pair<int, int> >*’ and ‘std::vector<std::pair<int, int> >’)
        if (search(graph, subgraph, assignments, new_possible_assignments)) {
                                                                         ^
-In file included from /usr/include/c++/7.2.0/algorithm:62:0,
+In file included from /usr/include/c++/6/algorithm:62:0,
                  from isomorphism.cpp:2:
-/usr/include/c++/7.2.0/bits/stl_algo.h:4139:5: note: candidate: template<class _FIter1, class _FIter2> _FIter1 std::search(_FIter1, _FIter1, _FIter2, _FIter2)
+/usr/include/c++/6/bits/stl_algo.h:4024:5: note: candidate: template<class _FIter1, class _FIter2> _FIter1 std::search(_FIter1, _FIter1, _FIter2, _FIter2)
      search(_ForwardIterator1 __first1, _ForwardIterator1 __last1,
      ^~~~~~
-/usr/include/c++/7.2.0/bits/stl_algo.h:4139:5: note:   template argument deduction/substitution failed:
-isomorphism.cpp:42:72: note:   deduced conflicting types for parameter ‘_FIter2’ (‘std::vector<std::pair<int, int> >*’ and ‘std::vector<std::pair<int, int> >’)
+/usr/include/c++/6/bits/stl_algo.h:4024:5: note:   template argument deduction/substitution failed:
+isomorphism.cpp:44:72: note:   deduced conflicting types for parameter ‘_FIter2’ (‘std::vector<std::pair<int, int> >*’ and ‘std::vector<std::pair<int, int> >’)
        if (search(graph, subgraph, assignments, new_possible_assignments)) {
                                                                         ^
 isomorphism.cpp: In function ‘int find_isomorphism(Graph*, Graph*)’:
-isomorphism.cpp:69:49: error: no matching function for call to ‘Vertex::Vertex(std::pair<int, int>&, bool)’
-       graph->remove_vertex(Vertex(node[0], false));
-                                                 ^
-In file included from isomorphism.cpp:4:0:
-graph.h:14:3: note: candidate: Vertex::Vertex(int, bool)
-   Vertex (int label, bool visited);
-   ^~~~~~
-graph.h:14:3: note:   no known conversion for argument 1 from ‘std::pair<int, int>’ to ‘int’
-graph.h:12:7: note: candidate: constexpr Vertex::Vertex(const Vertex&)
- class Vertex{
-       ^~~~~~
-graph.h:12:7: note:   candidate expects 1 argument, 2 provided
-graph.h:12:7: note: candidate: constexpr Vertex::Vertex(Vertex&&)
-graph.h:12:7: note:   candidate expects 1 argument, 2 provided
+isomorphism.cpp:71:44: error: no matching function for call to ‘std::pair<int, bool>::pair(std::pair<int, int>&, bool)’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:427:9: note: candidate: template<class ... _Args1, long unsigned int ..._Indexes1, class ... _Args2, long unsigned int ..._Indexes2> std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>)
+         pair(tuple<_Args1...>&, tuple<_Args2...>&,
+         ^~~~
+/usr/include/c++/6/bits/stl_pair.h:427:9: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   ‘std::pair<int, int>’ is not derived from ‘std::tuple<_Elements ...>’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:360:9: note: candidate: template<class ... _Args1, class ... _Args2> std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>)
+         pair(piecewise_construct_t, tuple<_Args1...>, tuple<_Args2...>);
+         ^~~~
+/usr/include/c++/6/bits/stl_pair.h:360:9: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   mismatched types ‘std::tuple<_Elements ...>’ and ‘bool’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:355:21: note: candidate: template<class _U1, class _U2, typename std::enable_if<(std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_MoveConstructiblePair<_U1, _U2>() && (! std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_ImplicitlyMoveConvertiblePair<_U1, _U2>())), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(std::pair<_U1, _U2>&&)
+  explicit constexpr pair(pair<_U1, _U2>&& __p)
+                     ^~~~
+/usr/include/c++/6/bits/stl_pair.h:355:21: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   candidate expects 1 argument, 2 provided
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:345:12: note: candidate: template<class _U1, class _U2, typename std::enable_if<(std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_MoveConstructiblePair<_U1, _U2>() && std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_ImplicitlyMoveConvertiblePair<_U1, _U2>()), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(std::pair<_U1, _U2>&&)
+  constexpr pair(pair<_U1, _U2>&& __p)
+            ^~~~
+/usr/include/c++/6/bits/stl_pair.h:345:12: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   candidate expects 1 argument, 2 provided
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:335:21: note: candidate: template<class _U1, class _U2, typename std::enable_if<(_MoveConstructiblePair<_U1, _U2>() && (! _ImplicitlyMoveConvertiblePair<_U1, _U2>())), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(_U1&&, _U2&&)
+  explicit constexpr pair(_U1&& __x, _U2&& __y)
+                     ^~~~
+/usr/include/c++/6/bits/stl_pair.h:335:21: note:   template argument deduction/substitution failed:
+/usr/include/c++/6/bits/stl_pair.h:334:38: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+                          bool>::type=false>
+                                      ^~~~~
+/usr/include/c++/6/bits/stl_pair.h:334:38: note: invalid template non-type parameter
+/usr/include/c++/6/bits/stl_pair.h:326:12: note: candidate: template<class _U1, class _U2, typename std::enable_if<(_MoveConstructiblePair<_U1, _U2>() && _ImplicitlyMoveConvertiblePair<_U1, _U2>()), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(_U1&&, _U2&&)
+  constexpr pair(_U1&& __x, _U2&& __y)
+            ^~~~
+/usr/include/c++/6/bits/stl_pair.h:326:12: note:   template argument deduction/substitution failed:
+/usr/include/c++/6/bits/stl_pair.h:325:38: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+                          bool>::type=true>
+                                      ^~~~
+/usr/include/c++/6/bits/stl_pair.h:325:38: note: invalid template non-type parameter
+/usr/include/c++/6/bits/stl_pair.h:317:17: note: candidate: template<class _U2, typename std::enable_if<_CopyMovePair<false, int, _U2>(), bool>::type <anonymous> > std::pair<_T1, _T2>::pair(const _T1&, _U2&&)
+        explicit pair(const _T1& __x, _U2&& __y)
+                 ^~~~
+/usr/include/c++/6/bits/stl_pair.h:317:17: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   cannot convert ‘node.__gnu_cxx::__normal_iterator<_Iterator, _Container>::operator[]<std::pair<int, int>*, std::vector<std::pair<int, int> > >(0l)’ (type ‘std::pair<int, int>’) to type ‘const int&’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:310:18: note: candidate: template<class _U2, typename std::enable_if<_CopyMovePair<true, int, _U2>(), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(const _T1&, _U2&&)
+        constexpr pair(const _T1& __x, _U2&& __y)
+                  ^~~~
+/usr/include/c++/6/bits/stl_pair.h:310:18: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   cannot convert ‘node.__gnu_cxx::__normal_iterator<_Iterator, _Container>::operator[]<std::pair<int, int>*, std::vector<std::pair<int, int> > >(0l)’ (type ‘std::pair<int, int>’) to type ‘const int&’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:303:27: note: candidate: template<class _U1, typename std::enable_if<_MoveCopyPair<false, _U1, bool>(), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(_U1&&, const _T2&)
+        explicit constexpr pair(_U1&& __x, const _T2& __y)
+                           ^~~~
+/usr/include/c++/6/bits/stl_pair.h:303:27: note:   template argument deduction/substitution failed:
+/usr/include/c++/6/bits/stl_pair.h:302:38: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+                          bool>::type=false>
+                                      ^~~~~
+/usr/include/c++/6/bits/stl_pair.h:302:38: note: invalid template non-type parameter
+/usr/include/c++/6/bits/stl_pair.h:296:18: note: candidate: template<class _U1, typename std::enable_if<_MoveCopyPair<true, _U1, bool>(), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(_U1&&, const _T2&)
+        constexpr pair(_U1&& __x, const _T2& __y)
+                  ^~~~
+/usr/include/c++/6/bits/stl_pair.h:296:18: note:   template argument deduction/substitution failed:
+/usr/include/c++/6/bits/stl_pair.h:295:38: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+                          bool>::type=true>
+                                      ^~~~
+/usr/include/c++/6/bits/stl_pair.h:295:38: note: invalid template non-type parameter
+/usr/include/c++/6/bits/stl_pair.h:289:17: note: candidate: constexpr std::pair<_T1, _T2>::pair(std::pair<_T1, _T2>&&) [with _T1 = int; _T2 = bool]
+       constexpr pair(pair&&) = default;
+                 ^~~~
+/usr/include/c++/6/bits/stl_pair.h:289:17: note:   candidate expects 1 argument, 2 provided
+/usr/include/c++/6/bits/stl_pair.h:288:17: note: candidate: constexpr std::pair<_T1, _T2>::pair(const std::pair<_T1, _T2>&) [with _T1 = int; _T2 = bool]
+       constexpr pair(const pair&) = default;
+                 ^~~~
+/usr/include/c++/6/bits/stl_pair.h:288:17: note:   candidate expects 1 argument, 2 provided
+/usr/include/c++/6/bits/stl_pair.h:285:21: note: candidate: template<class _U1, class _U2, typename std::enable_if<(std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_ConstructiblePair<_U1, _U2>() && (! std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_ImplicitlyConvertiblePair<_U1, _U2>())), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(const std::pair<_U1, _U2>&)
+  explicit constexpr pair(const pair<_U1, _U2>& __p)
+                     ^~~~
+/usr/include/c++/6/bits/stl_pair.h:285:21: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   candidate expects 1 argument, 2 provided
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:276:19: note: candidate: template<class _U1, class _U2, typename std::enable_if<(std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_ConstructiblePair<_U1, _U2>() && std::_PCC<((! std::is_same<int, _U1>::value) || (! std::is_same<bool, _U2>::value)), int, bool>::_ImplicitlyConvertiblePair<_U1, _U2>()), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(const std::pair<_U1, _U2>&)
+         constexpr pair(const pair<_U1, _U2>& __p)
+                   ^~~~
+/usr/include/c++/6/bits/stl_pair.h:276:19: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   candidate expects 1 argument, 2 provided
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:254:26: note: candidate: template<class _U1, class _U2, typename std::enable_if<(_ConstructiblePair<_U1, _U2>() && (! _ImplicitlyConvertiblePair<_U1, _U2>())), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(const _T1&, const _T2&)
+       explicit constexpr pair(const _T1& __a, const _T2& __b)
+                          ^~~~
+/usr/include/c++/6/bits/stl_pair.h:254:26: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   cannot convert ‘node.__gnu_cxx::__normal_iterator<_Iterator, _Container>::operator[]<std::pair<int, int>*, std::vector<std::pair<int, int> > >(0l)’ (type ‘std::pair<int, int>’) to type ‘const int&’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:245:17: note: candidate: template<class _U1, class _U2, typename std::enable_if<(_ConstructiblePair<_U1, _U2>() && _ImplicitlyConvertiblePair<_U1, _U2>()), bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair(const _T1&, const _T2&)
+       constexpr pair(const _T1& __a, const _T2& __b)
+                 ^~~~
+/usr/include/c++/6/bits/stl_pair.h:245:17: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   cannot convert ‘node.__gnu_cxx::__normal_iterator<_Iterator, _Container>::operator[]<std::pair<int, int>*, std::vector<std::pair<int, int> > >(0l)’ (type ‘std::pair<int, int>’) to type ‘const int&’
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:227:26: note: candidate: template<class _U1, class _U2, typename std::enable_if<std::__and_<std::is_default_constructible<_Tp>, std::is_default_constructible<_U2>, std::__not_<std::__and_<std::__is_implicitly_default_constructible<_U1>, std::__is_implicitly_default_constructible<_U2> > > >::value, bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair()
+       explicit constexpr pair()
+                          ^~~~
+/usr/include/c++/6/bits/stl_pair.h:227:26: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   candidate expects 0 arguments, 2 provided
+       pair<int, bool> vertex(node[0], false);
+                                            ^
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
+                 from isomorphism.cpp:1:
+/usr/include/c++/6/bits/stl_pair.h:214:26: note: candidate: template<class _U1, class _U2, typename std::enable_if<std::__and_<std::__is_implicitly_default_constructible<_U1>, std::__is_implicitly_default_constructible<_U2> >::value, bool>::type <anonymous> > constexpr std::pair<_T1, _T2>::pair()
+       _GLIBCXX_CONSTEXPR pair()
+                          ^~~~
+/usr/include/c++/6/bits/stl_pair.h:214:26: note:   template argument deduction/substitution failed:
+isomorphism.cpp:71:44: note:   candidate expects 0 arguments, 2 provided
+       pair<int, bool> vertex(node[0], false);
+                                            ^
 isomorphism.cpp: In function ‘void update_possible_assignments(Graph*, Graph*, std::vector<std::pair<int, int> >*)’:
-isomorphism.cpp:98:39: error: ‘class std::vector<std::pair<int, int> >’ has no member named ‘remove’; did you mean ‘resize’?
+isomorphism.cpp:95:53: error: ‘struct std::pair<int, bool>’ has no member named ‘label’
+               if (graph->has_edge((*j).first, vert->label)) {
+                                                     ^~~~~
+isomorphism.cpp:101:39: error: ‘class std::vector<std::pair<int, int> >’ has no member named ‘remove’; did you mean ‘resize’?
                possible_assignments[i].remove(*j);
                                        ^~~~~~
-                                       resize
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_equals_val<_Value>::operator()(_Iterator) [with _Iterator = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Value = const std::unordered_set<int>]’:
-/usr/include/c++/7.2.0/bits/stl_algo.h:120:14:   required from ‘_RandomAccessIterator std::__find_if(_RandomAccessIterator, _RandomAccessIterator, _Predicate, std::random_access_iterator_tag) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Predicate = __gnu_cxx::__ops::_Iter_equals_val<const std::unordered_set<int> >]’
-/usr/include/c++/7.2.0/bits/stl_algo.h:161:23:   required from ‘_Iterator std::__find_if(_Iterator, _Iterator, _Predicate) [with _Iterator = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Predicate = __gnu_cxx::__ops::_Iter_equals_val<const std::unordered_set<int> >]’
-/usr/include/c++/7.2.0/bits/stl_algo.h:3907:28:   required from ‘_IIter std::find(_IIter, _IIter, const _Tp&) [with _IIter = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Tp = std::unordered_set<int>]’
-isomorphism.cpp:91:86:   required from here
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: error: no match for ‘operator==’ (operand types are ‘std::pair<int, int>’ and ‘const std::unordered_set<int>’)
+/usr/include/c++/6/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_equals_val<_Value>::operator()(_Iterator) [with _Iterator = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Value = const std::unordered_set<int>]’:
+/usr/include/c++/6/bits/stl_algo.h:120:14:   required from ‘_RandomAccessIterator std::__find_if(_RandomAccessIterator, _RandomAccessIterator, _Predicate, std::random_access_iterator_tag) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Predicate = __gnu_cxx::__ops::_Iter_equals_val<const std::unordered_set<int> >]’
+/usr/include/c++/6/bits/stl_algo.h:161:23:   required from ‘_Iterator std::__find_if(_Iterator, _Iterator, _Predicate) [with _Iterator = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Predicate = __gnu_cxx::__ops::_Iter_equals_val<const std::unordered_set<int> >]’
+/usr/include/c++/6/bits/stl_algo.h:3792:28:   required from ‘_IIter std::find(_IIter, _IIter, const _Tp&) [with _IIter = __gnu_cxx::__normal_iterator<std::pair<int, int>*, std::vector<std::pair<int, int> > >; _Tp = std::unordered_set<int>]’
+isomorphism.cpp:94:86:   required from here
+/usr/include/c++/6/bits/predefined_ops.h:199:17: error: no match for ‘operator==’ (operand types are ‘std::pair<int, int>’ and ‘const std::unordered_set<int>’)
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:67:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_iterator.h:859:5: note: candidate: template<class _IteratorL, class _IteratorR, class _Container> bool __gnu_cxx::operator==(const __gnu_cxx::__normal_iterator<_IteratorL, _Container>&, const __gnu_cxx::__normal_iterator<_IteratorR, _Container>&)
+/usr/include/c++/6/bits/stl_iterator.h:856:5: note: candidate: template<class _IteratorL, class _IteratorR, class _Container> bool __gnu_cxx::operator==(const __gnu_cxx::__normal_iterator<_IteratorL, _Container>&, const __gnu_cxx::__normal_iterator<_IteratorR, _Container>&)
      operator==(const __normal_iterator<_IteratorL, _Container>& __lhs,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_iterator.h:859:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_iterator.h:856:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_IteratorL, _Container>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_IteratorL, _Container>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:67:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_iterator.h:866:5: note: candidate: template<class _Iterator, class _Container> bool __gnu_cxx::operator==(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&)
+/usr/include/c++/6/bits/stl_iterator.h:863:5: note: candidate: template<class _Iterator, class _Container> bool __gnu_cxx::operator==(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&)
      operator==(const __normal_iterator<_Iterator, _Container>& __lhs,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_iterator.h:866:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_iterator.h:863:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Container>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Container>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/x86_64-pc-linux-gnu/bits/c++allocator.h:33:0,
-                 from /usr/include/c++/7.2.0/bits/allocator.h:46,
-                 from /usr/include/c++/7.2.0/vector:61,
+In file included from /usr/include/x86_64-linux-gnu/c++/6/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/6/bits/allocator.h:46,
+                 from /usr/include/c++/6/vector:61,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/ext/new_allocator.h:155:5: note: candidate: template<class _Tp> bool __gnu_cxx::operator==(const __gnu_cxx::new_allocator<_Tp>&, const __gnu_cxx::new_allocator<_Tp>&)
+/usr/include/c++/6/ext/new_allocator.h:139:5: note: candidate: template<class _Tp> bool __gnu_cxx::operator==(const __gnu_cxx::new_allocator<_Tp>&, const __gnu_cxx::new_allocator<_Tp>&)
      operator==(const new_allocator<_Tp>&, const new_allocator<_Tp>&)
      ^~~~~~~~
-/usr/include/c++/7.2.0/ext/new_allocator.h:155:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/ext/new_allocator.h:139:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const __gnu_cxx::new_allocator<_Tp>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const __gnu_cxx::new_allocator<_Tp>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/unordered_set:48:0,
+In file included from /usr/include/c++/6/unordered_set:48:0,
                  from graph.h:4,
                  from isomorphism.cpp:4:
-/usr/include/c++/7.2.0/bits/unordered_set.h:1547:5: note: candidate: template<class _Value, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>&, const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>&)
+/usr/include/c++/6/bits/unordered_set.h:1423:5: note: candidate: template<class _Value, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>&, const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>&)
      operator==(const unordered_multiset<_Value, _Hash, _Pred, _Alloc>& __x,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/unordered_set.h:1547:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/unordered_set.h:1423:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::unordered_multiset<_Value, _Hash, _Pred, _Alloc>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/unordered_set:48:0,
+In file included from /usr/include/c++/6/unordered_set:48:0,
                  from graph.h:4,
                  from isomorphism.cpp:4:
-/usr/include/c++/7.2.0/bits/unordered_set.h:1535:5: note: candidate: template<class _Value, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_set<_Value, _Hash, _Pred, _Alloc>&, const std::unordered_set<_Value, _Hash, _Pred, _Alloc>&)
+/usr/include/c++/6/bits/unordered_set.h:1411:5: note: candidate: template<class _Value, class _Hash, class _Pred, class _Alloc> bool std::operator==(const std::unordered_set<_Value, _Hash, _Pred, _Alloc>&, const std::unordered_set<_Value, _Hash, _Pred, _Alloc>&)
      operator==(const unordered_set<_Value, _Hash, _Pred, _Alloc>& __x,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/unordered_set.h:1535:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/unordered_set.h:1411:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::unordered_set<_Value, _Hash, _Pred, _Alloc>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::unordered_set<_Value, _Hash, _Pred, _Alloc>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
 In file included from isomorphism.cpp:3:0:
-/usr/include/c++/7.2.0/tuple:1397:5: note: candidate: template<class ... _TElements, class ... _UElements> constexpr bool std::operator==(const std::tuple<_Tps ...>&, const std::tuple<_Elements ...>&)
+/usr/include/c++/6/tuple:1341:5: note: candidate: template<class ... _TElements, class ... _UElements> constexpr bool std::operator==(const std::tuple<_Elements ...>&, const std::tuple<_Elements ...>&)
      operator==(const tuple<_TElements...>& __t,
      ^~~~~~~~
-/usr/include/c++/7.2.0/tuple:1397:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/tuple:1341:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::tuple<_Tps ...>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::tuple<_Elements ...>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/tuple:39:0,
+In file included from /usr/include/c++/6/tuple:39:0,
                  from isomorphism.cpp:3:
-/usr/include/c++/7.2.0/array:252:5: note: candidate: template<class _Tp, long unsigned int _Nm> bool std::operator==(const std::array<_Tp, _Nm>&, const std::array<_Tp, _Nm>&)
+/usr/include/c++/6/array:241:5: note: candidate: template<class _Tp, long unsigned int _Nm> bool std::operator==(const std::array<_Tp, _Nm>&, const std::array<_Tp, _Nm>&)
      operator==(const array<_Tp, _Nm>& __one, const array<_Tp, _Nm>& __two)
      ^~~~~~~~
-/usr/include/c++/7.2.0/array:252:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/array:241:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::array<_Tp, _Nm>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::array<_Tp, _Nm>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/string:52:0,
-                 from /usr/include/c++/7.2.0/stdexcept:39,
-                 from /usr/include/c++/7.2.0/array:39,
-                 from /usr/include/c++/7.2.0/tuple:39,
+In file included from /usr/include/c++/6/string:52:0,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
                  from isomorphism.cpp:3:
-/usr/include/c++/7.2.0/bits/basic_string.h:5841:5: note: candidate: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*)
+/usr/include/c++/6/bits/basic_string.h:5099:5: note: candidate: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*)
      operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/basic_string.h:5841:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/basic_string.h:5099:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/string:52:0,
-                 from /usr/include/c++/7.2.0/stdexcept:39,
-                 from /usr/include/c++/7.2.0/array:39,
-                 from /usr/include/c++/7.2.0/tuple:39,
+In file included from /usr/include/c++/6/string:52:0,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
                  from isomorphism.cpp:3:
-/usr/include/c++/7.2.0/bits/basic_string.h:5829:5: note: candidate: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const _CharT*, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/6/bits/basic_string.h:5087:5: note: candidate: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const _CharT*, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&)
      operator==(const _CharT* __lhs,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/basic_string.h:5829:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/basic_string.h:5087:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   mismatched types ‘const _CharT*’ and ‘std::pair<int, int>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   mismatched types ‘const _CharT*’ and ‘std::pair<int, int>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/string:52:0,
-                 from /usr/include/c++/7.2.0/stdexcept:39,
-                 from /usr/include/c++/7.2.0/array:39,
-                 from /usr/include/c++/7.2.0/tuple:39,
+In file included from /usr/include/c++/6/string:52:0,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
                  from isomorphism.cpp:3:
-/usr/include/c++/7.2.0/bits/basic_string.h:5815:5: note: candidate: template<class _CharT> typename __gnu_cxx::__enable_if<std::__is_char<_Tp>::__value, bool>::__type std::operator==(const std::__cxx11::basic_string<_CharT>&, const std::__cxx11::basic_string<_CharT>&)
+/usr/include/c++/6/bits/basic_string.h:5073:5: note: candidate: template<class _CharT> typename __gnu_cxx::__enable_if<std::__is_char<_Tp>::__value, bool>::__type std::operator==(const std::__cxx11::basic_string<_CharT>&, const std::__cxx11::basic_string<_CharT>&)
      operator==(const basic_string<_CharT>& __lhs,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/basic_string.h:5815:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/basic_string.h:5073:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::__cxx11::basic_string<_CharT>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::__cxx11::basic_string<_CharT>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/string:52:0,
-                 from /usr/include/c++/7.2.0/stdexcept:39,
-                 from /usr/include/c++/7.2.0/array:39,
-                 from /usr/include/c++/7.2.0/tuple:39,
+In file included from /usr/include/c++/6/string:52:0,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
                  from isomorphism.cpp:3:
-/usr/include/c++/7.2.0/bits/basic_string.h:5807:5: note: candidate: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&)
+/usr/include/c++/6/bits/basic_string.h:5065:5: note: candidate: template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&)
      operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/basic_string.h:5807:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/basic_string.h:5065:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/char_traits.h:40:0,
-                 from /usr/include/c++/7.2.0/string:40,
-                 from /usr/include/c++/7.2.0/stdexcept:39,
-                 from /usr/include/c++/7.2.0/array:39,
-                 from /usr/include/c++/7.2.0/tuple:39,
+In file included from /usr/include/c++/6/bits/char_traits.h:40:0,
+                 from /usr/include/c++/6/string:40,
+                 from /usr/include/c++/6/stdexcept:39,
+                 from /usr/include/c++/6/array:39,
+                 from /usr/include/c++/6/tuple:39,
                  from isomorphism.cpp:3:
-/usr/include/c++/7.2.0/bits/postypes.h:216:5: note: candidate: template<class _StateT> bool std::operator==(const std::fpos<_StateT>&, const std::fpos<_StateT>&)
+/usr/include/c++/6/bits/postypes.h:216:5: note: candidate: template<class _StateT> bool std::operator==(const std::fpos<_StateT>&, const std::fpos<_StateT>&)
      operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/postypes.h:216:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/postypes.h:216:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::fpos<_StateT>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::fpos<_StateT>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/vector:64:0,
+In file included from /usr/include/c++/6/vector:64:0,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_vector.h:1596:5: note: candidate: template<class _Tp, class _Alloc> bool std::operator==(const std::vector<_Tp, _Alloc>&, const std::vector<_Tp, _Alloc>&)
+/usr/include/c++/6/bits/stl_vector.h:1509:5: note: candidate: template<class _Tp, class _Alloc> bool std::operator==(const std::vector<_Tp, _Alloc>&, const std::vector<_Tp, _Alloc>&)
      operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_vector.h:1596:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_vector.h:1509:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::vector<_Tp, _Alloc>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::vector<_Tp, _Alloc>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/vector:61:0,
+In file included from /usr/include/c++/6/vector:61:0,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/allocator.h:152:5: note: candidate: template<class _Tp> bool std::operator==(const std::allocator<_Tp1>&, const std::allocator<_Tp1>&)
+/usr/include/c++/6/bits/allocator.h:152:5: note: candidate: template<class _Tp> bool std::operator==(const std::allocator<_Tp1>&, const std::allocator<_Tp1>&)
      operator==(const allocator<_Tp>&, const allocator<_Tp>&)
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/allocator.h:152:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/allocator.h:152:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::allocator<_Tp1>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::allocator<_Tp1>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/vector:61:0,
+In file included from /usr/include/c++/6/vector:61:0,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/allocator.h:146:5: note: candidate: template<class _T1, class _T2> bool std::operator==(const std::allocator<_Tp1>&, const std::allocator<_T2>&)
+/usr/include/c++/6/bits/allocator.h:146:5: note: candidate: template<class _T1, class _T2> bool std::operator==(const std::allocator<_Tp1>&, const std::allocator<_T2>&)
      operator==(const allocator<_T1>&, const allocator<_T2>&)
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/allocator.h:146:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/allocator.h:146:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::allocator<_Tp1>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::allocator<_Tp1>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:67:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_iterator.h:1124:5: note: candidate: template<class _Iterator> bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&)
+/usr/include/c++/6/bits/stl_iterator.h:1119:5: note: candidate: template<class _Iterator> bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&)
      operator==(const move_iterator<_Iterator>& __x,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_iterator.h:1124:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_iterator.h:1119:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::move_iterator<_IteratorL>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:67:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_iterator.h:1118:5: note: candidate: template<class _IteratorL, class _IteratorR> bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorR>&)
+/usr/include/c++/6/bits/stl_iterator.h:1113:5: note: candidate: template<class _IteratorL, class _IteratorR> bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorR>&)
      operator==(const move_iterator<_IteratorL>& __x,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_iterator.h:1118:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_iterator.h:1113:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::move_iterator<_IteratorL>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:67:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_iterator.h:337:5: note: candidate: template<class _IteratorL, class _IteratorR> bool std::operator==(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_IteratorR>&)
+/usr/include/c++/6/bits/stl_iterator.h:349:5: note: candidate: template<class _IteratorL, class _IteratorR> bool std::operator==(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_IteratorR>&)
      operator==(const reverse_iterator<_IteratorL>& __x,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_iterator.h:337:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_iterator.h:349:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:67:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_iterator.h:299:5: note: candidate: template<class _Iterator> bool std::operator==(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_Iterator>&)
+/usr/include/c++/6/bits/stl_iterator.h:292:5: note: candidate: template<class _Iterator> bool std::operator==(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_Iterator>&)
      operator==(const reverse_iterator<_Iterator>& __x,
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_iterator.h:299:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_iterator.h:292:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘std::pair<int, int>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:64:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+In file included from /usr/include/c++/6/bits/stl_algobase.h:64:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/stl_pair.h:443:5: note: candidate: template<class _T1, class _T2> constexpr bool std::operator==(const std::pair<_T1, _T2>&, const std::pair<_T1, _T2>&)
+/usr/include/c++/6/bits/stl_pair.h:435:5: note: candidate: template<class _T1, class _T2> constexpr bool std::operator==(const std::pair<_T1, _T2>&, const std::pair<_T1, _T2>&)
      operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
      ^~~~~~~~
-/usr/include/c++/7.2.0/bits/stl_pair.h:443:5: note:   template argument deduction/substitution failed:
-In file included from /usr/include/c++/7.2.0/bits/stl_algobase.h:71:0,
-                 from /usr/include/c++/7.2.0/vector:60,
+/usr/include/c++/6/bits/stl_pair.h:435:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/6/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/6/vector:60,
                  from isomorphism.cpp:1:
-/usr/include/c++/7.2.0/bits/predefined_ops.h:241:17: note:   ‘const std::unordered_set<int>’ is not derived from ‘const std::pair<_T1, _T2>’
+/usr/include/c++/6/bits/predefined_ops.h:199:17: note:   ‘const std::unordered_set<int>’ is not derived from ‘const std::pair<_T1, _T2>’
   { return *__it == _M_value; }
            ~~~~~~^~~~~~~~~~~
-make: *** [makefile:16: isomorphism.o] Error 1
+make: *** [isomorphism.o] Error 1
