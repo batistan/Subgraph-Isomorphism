@@ -77,7 +77,7 @@ Graph *import_data(const char *filename, const int debug) {
   char *line = NULL;
   size_t n = 0;
 
-  vector < Vertex > vertices;
+  vector < pair<int,bool> > vertices;
   vector <tuple<int, int, int> > edges;
   vector < unordered_set<int> > adjacencies;
   Graph *g = (Graph *) malloc(sizeof(Graph));

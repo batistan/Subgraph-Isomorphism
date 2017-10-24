@@ -27,7 +27,7 @@ bool search(Graph *graph, Graph *subgraph, vector < pair<int,int> > *assignments
   // this loop calls graph.has_edge once for every edge in the subgraph
   for ( ; edge != subgraph->edges.end(); edge++) {
     if (get<0>(*edge) < i && get<1>(*edge) < i) {
-      if (!(graph->has_edge(assignments[get<0>(*edge)]).first, assignments[get<1>(*edge)].first)) {
+      if (!(graph->has_edge(assignments[get<0>(*edge)], assignments[get<1>(*edge)]))) {
         return false;
       }
     }
@@ -41,7 +41,7 @@ bool search(Graph *graph, Graph *subgraph, vector < pair<int,int> > *assignments
       // TODO hope this is a deep copy.
       vector< pair<int,int> > new_possible_assignments = *possible_assignments;
       new_possible_assignments.push_back(*j);
-      if (search(graph, subgraph, assignments, new_possible_assignments)) {
+      if (search(graph, subgraph, assignments, &new_possible_assignments)) {
         return true;
       }
 
@@ -58,16 +58,16 @@ bool search(Graph *graph, Graph *subgraph, vector < pair<int,int> > *assignments
 
 int find_isomorphism(Graph *graph, Graph *subgraph) {
 
-  vector < pair<int,int> > *assignments;
-  vector < pair<int,int> > *possible_assignments;
+  vector < pair<int,int> > assignments;
+  vector < pair<int,int> > possible_assignments;
 
   int matches = 0;
 
-  if (search(graph, subgraph, assignments, possible_assignments)) {
+  if (search(graph, subgraph, &assignments, &possible_assignments)) {
     printf("Match found\n");
     matches++;
-    vector< pair<int,int> >::iterator node = assignments->begin();
-    for(; node != assignments->end(); node++) {
+    vector< pair<int,int> >::iterator node = assignments.begin();
+    for(; node != assignments.end(); node++) {
       pair<int, bool> vertex(node[0], false);
       graph->remove_vertex(vertex);
     }
