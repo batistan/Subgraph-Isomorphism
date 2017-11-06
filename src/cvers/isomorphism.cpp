@@ -2,7 +2,7 @@
 #include <pair>
 #include <unordered_set>
 #include "graph.h"
-
+#define THREADS 4
 vector < pair<int,int> > find_isomorphism (Graph &sub, Graph &graph) {
 
   vector <vector <bool> > possible_assignments = create_possible_assignments(sub, graph);
@@ -12,11 +12,14 @@ vector < pair<int,int> > find_isomorphism (Graph &sub, Graph &graph) {
   // then... do stuff
 
   ssize_t i, j, pa_n = possible_assignments.size();
-
+int k;
   for (i = 0; i < pa_n; i++) {
     for (j = 0; j < pa_n; j++) {
       if (possible_assignments[i][j]) {
-        refine_possible_assignments(sub, graph, possible_assignments);
+		  #pragma omp parallel for num_threads(THREADS) ordered
+		  for(k=0;k<THREADS;k++){
+		  refine_possible_assignments(sub, graph, possible_assignments);
+		  }
       }
     }
   }
@@ -34,14 +37,18 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   ssize_t i, j;
   ssize_t s_n = sub.vertices.size();
   ssize_t g_n = graph.vertices.size();
-  for (i = 0; i < s_n; i++) {
+  int id=omp_get_thread_num()
+  
+  #pragma omp ordered
+  {
+  for (i = id*s_n/THREADS; i < (id+1)*s_n/THREADS; i++) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
         possible_assignments[i][j] = true;
       }
     }
   }
-
+  }
   return possible_assignments;
 }
 
