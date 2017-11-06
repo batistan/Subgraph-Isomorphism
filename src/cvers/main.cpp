@@ -18,7 +18,7 @@ const char* program_name;
 
 char **handle_args(int argc, char **argv);
 void usage (FILE* stream, int exit_code);
-Graph *import_data(char *filename, int debug);
+Graph import_data(char *filename, int debug);
 
 int main(int argc, char **argv) {
 
@@ -50,15 +50,18 @@ int main(int argc, char **argv) {
     printf("Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
   }
 
-  // TODO: implement import_data
 
-  Graph *graph = import_data(graph_filename, debug);
-  Graph *subgraph = import_data(sub_filename, debug);
+  Graph graph = import_data(graph_filename, debug);
+  Graph subgraph = import_data(sub_filename, debug);
+
+  int matches = 0;
+  // TODO: multiple instances of isomorphism
+  // find_isomorphism(subgraph, graph);
 
   return 0;
 }
 
-Graph *import_data(const char *filename, const int debug) {
+Graph import_data(const char *filename, const int debug) {
 
   FILE *fd;
   if (strcmp(filename, "stdin") == 0) {
@@ -77,11 +80,7 @@ Graph *import_data(const char *filename, const int debug) {
   char *line = NULL;
   size_t n = 0;
 
-  vector < pair<int,bool> > vertices;
-  vector <tuple<int, int, int> > edges;
-  vector < unordered_set<int> > adjacencies;
-  Graph *g = (Graph *) malloc(sizeof(Graph));
-  (*g) = Graph(vertices, edges, adjacencies);
+  Graph g = Graph();
 
   if (debug) {
     printf("Reading file %s...\n", filename);
@@ -117,7 +116,7 @@ Graph *import_data(const char *filename, const int debug) {
     int atempweight = atoi(tempweight);
 
     printf("Edge is %d %d %d\n", atempa, atempb, atempweight);
-    g->add_edge(atempa, atempb, atempweight);
+    g.add_edge(atempa, atempb, atempweight);
   }
 
   if (fd != stdin) {

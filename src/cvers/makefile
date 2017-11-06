@@ -6,13 +6,13 @@ TGT=main
 all: main.o graph.o isomorphism.o 
 	$(CC) -g -o $(TGT) main.o graph.o isomorphism.o $(CFLAGS) $(LDFLAGS)
 
-main.o:
+main.o: main.cpp
 	$(CC) -c main.cpp
 
-graph.o:
+graph.o: graph.cpp graph.h
 	$(CC) -c graph.cpp
 
-isomorphism.o:
+isomorphism.o: isomorphism.cpp isomorphism.h
 	$(CC) -c isomorphism.cpp
 
 clean:
