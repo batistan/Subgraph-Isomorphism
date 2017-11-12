@@ -37,18 +37,15 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   ssize_t i, j;
   ssize_t s_n = sub.vertices.size();
   ssize_t g_n = graph.vertices.size();
-  int id=omp_get_thread_num()
   
-  #pragma omp ordered
-  {
-  for (i = id*s_n/THREADS; i < (id+1)*s_n/THREADS; i++) {
+  for (i = 0 i < s_n; i++) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
         possible_assignments[i][j] = true;
       }
     }
   }
-  }
+  
   return possible_assignments;
 }
 
@@ -56,8 +53,11 @@ void refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
-
-  for (i = 0; i < pa_n; i++) {
+  int id=omp_get_thread_num()
+  
+  #pragma omp ordered
+  {
+  for (i = id*pa_n/THREADS;; i < (id+1)*pa_n/THREADS;pa_n; i++) {
     for (j = 0; j < pa_n && j_valid; j++) {
       if (possible_assignments[i][j]) {
         // check if all of i's neighbors have a possible assignment to a neighbor of j
@@ -90,6 +90,7 @@ void refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
         }
       }
     }
+  }
   }
 }
 

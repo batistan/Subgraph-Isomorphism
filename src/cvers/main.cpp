@@ -11,7 +11,7 @@
 #include <errno.h>
 #include "graph.h"
 #include "isomorphism.h"
-
+#include <unordered_set>
 using std::string;
 
 const char* program_name;
