@@ -116,6 +116,8 @@ Graph import_data(const char *filename, const int debug) {
     int atempweight = atoi(tempweight);
 
     printf("Edge is %d %d %d\n", atempa, atempb, atempweight);
+    // this will also add the vertices if they don't exist
+    // add_vertex is called from within add_edge if no vertex with the given value exists
     g.add_edge(atempa, atempb, atempweight);
   }
 

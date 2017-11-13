@@ -105,6 +105,7 @@ bool Graph::has_edge(int vert1, int vert2){
 }
 
 int Graph::get_index(int value) {
+  // this works????
   if (vertex_indices.find(value) != vertex_indices.end()) {
     return vertex_indices[value];
   }
