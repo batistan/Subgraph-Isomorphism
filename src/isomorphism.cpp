@@ -104,8 +104,26 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
       goto five;
     }
 
-    return &assignments;
   }
+
+  // 4
+  four:
+  if (depth < pa_n) {
+    goto six;
+  }
+
+  else {
+    // isomorphism found. add it
+    for (int i = 0; i < pa_n; i++) {
+      for (int j = 0; j < pb_n; j++) {
+        if (possible_assignments[i][j]) {
+          assignments.push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
+        }
+      }
+    }
+  }
+        
+  return &assignments;
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
