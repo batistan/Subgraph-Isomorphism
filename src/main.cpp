@@ -211,7 +211,7 @@ string *handle_args(int argc, char **argv) {
   //sprintf(returnargs[0],"%d",interactive);
   returnargs[0] = std::to_string(interactive);
   //sprintf(returnargs[1],"%d",debug);
-  returnargs[0] = std::to_string(debug);
+  returnargs[1] = std::to_string(debug);
 
   return returnargs;
 }
