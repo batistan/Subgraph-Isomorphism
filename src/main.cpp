@@ -16,7 +16,7 @@ using std::string;
 
 const char* program_name;
 
-char **handle_args(int argc, char **argv);
+string *handle_args(int argc, char **argv);
 void usage (FILE* stream, int exit_code);
 Graph import_data(const char *filename, const int debug);
 
@@ -39,8 +39,8 @@ int main(int argc, char **argv) {
   }
 
   else {
-    graph_filename = filename_default;
-    sub_filename = filename_default;
+    const char *graph_filename = filename_default;
+    const char *sub_filename = filename_default;
   }
 
   if (debug) {
