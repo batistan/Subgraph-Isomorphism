@@ -206,8 +206,11 @@ char **handle_args(int argc, char **argv) {
   }
 
   // put what we want to return in their places.
-  sprintf(returnargs[0],"%d",interactive);
-  sprintf(returnargs[1],"%d",debug);
+  //sprintf(returnargs[0],"%d",interactive);
+  returnargs[0] = std::to_string(interactive).c_str();
+  //sprintf(returnargs[1],"%d",debug);
+  returnargs[0] = std::to_string(debug).c_str();
+
 
   return returnargs;
 }
