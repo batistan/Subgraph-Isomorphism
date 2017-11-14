@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
   char filename_default[] = "stdin";
 
   if (!interactive) {
-    const char graph_filename = args[2].c_str();
-    const char sub_filename = args[3].c_str();
+    const char *graph_filename = args[2].c_str();
+    const char *sub_filename = args[3].c_str();
   }
 
   else {
