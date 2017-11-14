@@ -195,8 +195,8 @@ string *handle_args(int argc, char **argv) {
     // and the two filenames
     free(returnargs);
     returnargs = (string *) malloc(4*sizeof(string));
-    returnargs[2] = to_string(argv[optind]);
-    returnargs[3] = to_string(argv[optind+1]);
+    returnargs[2] = std::to_string(argv[optind]);
+    returnargs[3] = std::to_string(argv[optind+1]);
 
   }
 
