@@ -26,18 +26,16 @@ int main(int argc, char **argv) {
   // TODO change to a tuple. this doesn't work
   // tuple <int, int, char*, char*>
   // possibly strings but keep in mind these will be used for fopen
-  char **args = handle_args(argc, argv);
+  string *args = handle_args(argc, argv);
 
-  char *interactive = args[0];
-  int debug = atoi(args[1]);
+  int interactive = atoi(args[0].c_str());
+  int debug = atoi(args[1].c_str());
 
-  char *graph_filename = NULL;
-  char *sub_filename = NULL;
   char filename_default[] = "stdin";
 
   if (!interactive) {
-    graph_filename = args[2];
-    sub_filename = args[3];
+    const char graph_filename = args[2].c_str();
+    const char sub_filename = args[3].c_str();
   }
 
   else {
@@ -136,7 +134,7 @@ Graph import_data(const char *filename, const int debug) {
   return g;
 }
 
-char **handle_args(int argc, char **argv) {
+string *handle_args(int argc, char **argv) {
   // for getopt
   const char* const short_options = "hid";
   const struct option long_options[] = {
@@ -147,7 +145,7 @@ char **handle_args(int argc, char **argv) {
   };
 
   // we only need to save interactive and debug for now
-  char **returnargs = (char **) malloc(2*sizeof(char *));
+  string *returnargs = (string *) malloc(2*sizeof(string));
   int interactive = 0;
   // TODO change to 0 for final deployment
   int debug = 1;
@@ -192,9 +190,9 @@ char **handle_args(int argc, char **argv) {
     // interactive was 0. free the memory it took up and reallocate enough for the two args
     // and the two filenames
     free(returnargs);
-    returnargs = (char **) malloc(4*sizeof(char *));
-    returnargs[2] = argv[optind];
-    returnargs[3] = argv[optind+1];
+    returnargs = (string *) malloc(4*sizeof(string));
+    returnargs[2] = to_string(argv[optind]);
+    returnargs[3] = to_string(argv[optind+1]);
 
   }
 
@@ -207,10 +205,9 @@ char **handle_args(int argc, char **argv) {
 
   // put what we want to return in their places.
   //sprintf(returnargs[0],"%d",interactive);
-  returnargs[0] = std::to_string(interactive).c_str();
+  returnargs[0] = std::to_string(interactive);
   //sprintf(returnargs[1],"%d",debug);
-  returnargs[0] = std::to_string(debug).c_str();
-
+  returnargs[0] = std::to_string(debug);
 
   return returnargs;
 }
