@@ -18,7 +18,7 @@ const char* program_name;
 
 char **handle_args(int argc, char **argv);
 void usage (FILE* stream, int exit_code);
-Graph import_data(char *filename, int debug);
+Graph import_data(const char *filename, const int debug);
 
 int main(int argc, char **argv) {
 
@@ -80,7 +80,7 @@ Graph import_data(const char *filename, const int debug) {
   char *line = NULL;
   size_t n = 0;
 
-  Graph g = Graph();
+  Graph g;
 
   if (debug) {
     printf("Reading file %s...\n", filename);
