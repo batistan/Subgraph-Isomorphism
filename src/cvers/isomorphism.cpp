@@ -1,8 +1,15 @@
 #include <vector>
-#include <pair>
+#include <utility>
 #include <unordered_set>
 #include "graph.h"
+#include <omp.h> //For omp_get_thread_num
 #define THREADS 4
+
+//Function prototypes
+vector < vector<bool> > create_possible_assignments(Graph, Graph);
+vector < pair<int,int> > find_isomorphism (Graph, Graph);
+void refine_possible_assignments(Graph, Graph, vector < vector<bool> >);
+
 vector < pair<int,int> > find_isomorphism (Graph &sub, Graph &graph) {
 
   vector <vector <bool> > possible_assignments = create_possible_assignments(sub, graph);
@@ -37,15 +44,15 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   ssize_t i, j;
   ssize_t s_n = sub.vertices.size();
   ssize_t g_n = graph.vertices.size();
-  
-  for (i = 0 i < s_n; i++) {
+
+  for (i = 0; i < s_n; i++) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
         possible_assignments[i][j] = true;
       }
     }
   }
-  
+
   return possible_assignments;
 }
 
@@ -53,11 +60,11 @@ void refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
-  int id=omp_get_thread_num()
-  
+  int id=omp_get_thread_num();
+
   #pragma omp ordered
   {
-  for (i = id*pa_n/THREADS;; i < (id+1)*pa_n/THREADS;pa_n; i++) {
+  for (i = id*pa_n/THREADS; i < (id+1)*pa_n/THREADS; i++) {
     for (j = 0; j < pa_n && j_valid; j++) {
       if (possible_assignments[i][j]) {
         // check if all of i's neighbors have a possible assignment to a neighbor of j
@@ -72,7 +79,7 @@ void refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
           bool has_corresponding_neighbor = false;
           for (k = 0; k < pa_n; k++) {
             if (possible_assignments[sub.get_index(n_i)][k]) {
-              // for each possible assignment from i's neighbor to graph, check if it is neighbor of j 
+              // for each possible assignment from i's neighbor to graph, check if it is neighbor of j
               if (graph.has_edge(graph.get_value(j), graph.get_value(k))) {
                 // if so, then check the next neighbor
                 has_corresponding_neighbor = true;
@@ -93,4 +100,3 @@ void refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   }
   }
 }
-
