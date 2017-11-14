@@ -33,7 +33,11 @@ int main(int argc, char **argv) {
 
   char filename_default[] = "stdin";
 
-  if (!interactive) {
+  const char *graph_filename = (!interactive) ? args[2].c_str()
+                                              : filename_default;
+  const char *sub_filename = (!interactive) ? args[3].c_str()
+                                              : filename_default;
+  /*if (!interactive) {
     const char *graph_filename = args[2].c_str();
     const char *sub_filename = args[3].c_str();
   }
@@ -41,7 +45,7 @@ int main(int argc, char **argv) {
   else {
     const char *graph_filename = filename_default;
     const char *sub_filename = filename_default;
-  }
+  }*/
 
   if (debug) {
     printf("inter = %d, debug = %d\n", interactive, debug);
