@@ -1,15 +1,16 @@
 #include <vector>
-#include <pair>
+#include <utility>
 #include <unordered_set>
+#include <algorithm> //for std::find
 #include "isomorphism.h"
-#include "graph.h"
+using std::find;
 
 vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
 
   // assignments_tree[i] specifies the possible_assignments at depth i
-  vector <vector<vector<bool> > > assignments_tree;
+  vector <vector <vector <bool> > > assignments_tree;
   // generate M0
-  vector <vector <bool> > possible_assignments = create_possible_assignments(sub, graph);
+  vector < vector<bool> > possible_assignments = create_possible_assignments(sub, graph);
   // return the address of this vector, or null if no isomorphism was found
   vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
 
@@ -36,13 +37,13 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   // 2
   // if there is no j such that possible_assignments[d][j] == true and f[j] == false goto 7
   two:
-  if (find(possible_assignments[depth].begin(), 
+  if (find(possible_assignments[depth].begin(),
         possible_assignments[depth].end(), true) != possible_assignments[depth].end()
-      && find(columns_used.begin(), columns_used.end(), false) != columns_used.end()) {
+      && find(column_depth.begin(), column_depth.end(), false) != column_depth.end()) {
     // there exists such a j
     assignments_tree.push_back(possible_assignments);
     if (depth == 0) {
-      k = columns_depth[depth];
+      k = column_depth[depth];
     }
 
     else {
@@ -71,7 +72,8 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   if(!refine_possible_assignments(sub, graph, possible_assignments)) {
     // 5
     five:
-    int r = k+1;
+    int r;
+    r = k+1;
     for (; r < pb_n; r++) {
       if (possible_assignments[depth][j] && !columns_used[j]) {
         possible_assignments = assignments_tree[depth];
@@ -80,29 +82,30 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
     }
     goto seven;
 
-    // 6 
+    // 6
     six:
-    columns_depth[depth] = k;
+    column_depth[depth] = k;
     columns_used[depth] = true;
     depth++;
     goto two;
-    
+
     // 7
     seven:
-    if (d == 1) {
+    if (depth == 1) {
       return NULL;
     }
 
     else {
       columns_used[depth] = false;
-      d--;
+      depth--;
       possible_assignments = assignments_tree[depth];
-      k = columns_depth[depth];
+      k = column_depth[depth];
       // TODO goto 5
       goto five;
     }
 
-  return &assignments;
+    return &assignments;
+  }
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
@@ -153,7 +156,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
             bool has_corresponding_neighbor = false;
             for (k = 0; k < pb_n; k++) {
               if (possible_assignments[sub.get_index(*(n_i))][k]) {
-                // for each possible assignment from i's neighbor to graph, check if it is neighbor of j 
+                // for each possible assignment from i's neighbor to graph, check if it is neighbor of j
                 if (graph.has_edge(graph.get_value(j), graph.get_value(k))) {
                   // if so, then check the next neighbor
                   has_corresponding_neighbor = true;
@@ -175,7 +178,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
       // we never found a 1 in this row, so there's no point in continuing
       // there's at least one vertex in subgraph that cannot be mapped to any
-      // vertex in the search graph, so we know that 
+      // vertex in the search graph, so we know that
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
         return false;
@@ -186,4 +189,3 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   // M was successfully refined without creating any rows with all 0s. return true.
   return true;
 }
-
