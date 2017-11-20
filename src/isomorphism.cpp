@@ -4,10 +4,6 @@
 #include <algorithm> //for std::find
 #include "isomorphism.h"
 
-
-//all for debugging as follows:
-#include <iostream>
-
 using std::find;
 
 vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
@@ -139,7 +135,6 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
   // to j in search graph
-  printf("Creating possible assignments. Line 132\n");
   vector < vector<bool> > possible_assignments (sub.vertices.size(),
     vector<bool>(graph.vertices.size(), false));
 
@@ -160,24 +155,18 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
 }
 
 bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool> > &possible_assignments) {
-  printf("Refining possible assignments\n");
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
   ssize_t pb_n = possible_assignments[0].size();
   bool changes_made = true;
 
   while (changes_made) {
-    printf("Made it to the while loop for refine_possible_assignments\n");
     changes_made = false;
     for (i = 0; i < pa_n; i++) {
       // check if this row contains no 1s
       bool no_one = true;
-      printf("About to start the for loop: pb_n is %d\n", pb_n);
       for (j = 0; j < pb_n; j++) {
-        printf("For loop started");
-        std::cout << "Possible assignment print time: " << possible_assignments[i][j] << std::endl;
         if (possible_assignments[i][j]) {
-          printf("Possible assignment. no_one is now false\n");
           no_one = false;
           // check if all of i's neighbors have a possible assignment to a neighbor of j
           // iterate through all neighbors of i
@@ -215,13 +204,13 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       // vertex in the search graph, so we know that
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
-        printf("Line 202, ismoprhism. Mapping is missing. Should return false.\n");
+        printf("Expecting no iso\n");
         return false;
       }
     }
   }
 
   // M was successfully refined without creating any rows with all 0s. return true.
-  printf("Line 209, isomorphism. Should return true\n");
+  printf("Expecting iso and seg fault\n");
   return true;
 }
