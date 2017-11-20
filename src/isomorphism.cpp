@@ -132,11 +132,11 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
-  // possible_assignments[i][j] == true iff a possible assignment exists from i in sub
+  // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
   // to j in search graph
   printf("Creating possible assignments. Line 132\n");
-  vector < vector<bool> > possible_assignments = vector< vector<bool> >(sub.vertices.size(),
-                                                 vector<bool>(false,graph.vertices.size()));
+  vector < vector<bool> > possible_assignments (sub.vertices.size(),
+    vector<bool>(graph.vertices.size(), false));
 
   // at first, every vertex in search graph with rank >= i is a possible assignments
   // this will be refined later
