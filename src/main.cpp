@@ -58,8 +58,7 @@ int main(int argc, char **argv) {
 
   int matches = 0;
   // TODO: multiple instances of isomorphism
-  // 
-  find_isomorphism(subgraph, graph);
+  vector < pair<int,int> > *result = find_isomorphism(subgraph, graph);
   printf("Made it to after find_isomorphism");
   return 0;
 }

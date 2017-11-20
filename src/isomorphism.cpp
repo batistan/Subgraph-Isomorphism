@@ -17,13 +17,18 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   // generate M0
   vector < vector<bool> > possible_assignments = create_possible_assignments(sub, graph);
   // return the address of this vector, or null if no isomorphism was found
-  vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
+
+  //This doesn't work, assignments is out of scope. Throw it on the heap.
+  //vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
+
+  vector <pair<int, int> > *assignments = new vector <pair<int, int> >;
+
 
   // columns_used[i] = true iff column i in M has been used at current stage of computation
-  vector <bool> columns_used = vector<bool>(false,possible_assignments[0].size());
+  vector <bool> columns_used (possible_assignments[0].size(), false);
 
   // column_depth[d] = k if column k was used at depth d
-  vector<int> column_depth = vector<int>(0,possible_assignments.size());
+  vector<int> column_depth (possible_assignments.size(), 0);
 
   ssize_t i, j, k, pa_n = possible_assignments.size(), pb_n = possible_assignments[0].size();
 
@@ -122,13 +127,13 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
     for (int i = 0; i < pa_n; i++) {
       for (int j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
-          assignments.push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
+          (*assignments).push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
         }
       }
     }
   }
 
-  return &assignments;
+  return assignments;
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
@@ -147,7 +152,6 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
         possible_assignments[i][j] = true;
-        printf("Possible assignment found\n");
       }
     }
   }
@@ -197,11 +201,11 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
             // if this neighbor has no corresponding neighbor, then j is an invalid match.
             // move on to the next possible assignment
-            if (!has_corresponding_neighbor) {
-              possible_assignments[i][j] = 0;
-              changes_made = true;
-              break;
-            }
+              if (!has_corresponding_neighbor) {
+                possible_assignments[i][j] = 0;
+                changes_made = true;
+                break;
+              }
           }
         }
       }
