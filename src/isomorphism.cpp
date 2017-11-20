@@ -3,6 +3,11 @@
 #include <unordered_set>
 #include <algorithm> //for std::find
 #include "isomorphism.h"
+
+
+//all for debugging as follows:
+#include <iostream>
+
 using std::find;
 
 vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
@@ -12,13 +17,18 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   // generate M0
   vector < vector<bool> > possible_assignments = create_possible_assignments(sub, graph);
   // return the address of this vector, or null if no isomorphism was found
-  vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
+
+  //This doesn't work, assignments is out of scope. Throw it on the heap.
+  //vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
+
+  vector <pair<int, int> > *assignments = new vector <pair<int, int> >;
+
 
   // columns_used[i] = true iff column i in M has been used at current stage of computation
-  vector <bool> columns_used = vector<bool>(false,possible_assignments[0].size());
+  vector <bool> columns_used (possible_assignments[0].size(), false);
 
   // column_depth[d] = k if column k was used at depth d
-  vector<int> column_depth = vector<int>(0,possible_assignments.size());
+  vector<int> column_depth (possible_assignments.size(), 0);
 
   ssize_t i, j, k, pa_n = possible_assignments.size(), pb_n = possible_assignments[0].size();
 
@@ -117,20 +127,21 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
     for (int i = 0; i < pa_n; i++) {
       for (int j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
-          assignments.push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
+          (*assignments).push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
         }
       }
     }
   }
-        
-  return &assignments;
+
+  return assignments;
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
-  // possible_assignments[i][j] == true iff a possible assignment exists from i in sub
+  // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
   // to j in search graph
-  vector < vector<bool> > possible_assignments = vector< vector<bool> >(sub.vertices.size(),
-                                                 vector<bool>(false,graph.vertices.size()));
+  printf("Creating possible assignments. Line 132\n");
+  vector < vector<bool> > possible_assignments (sub.vertices.size(),
+    vector<bool>(graph.vertices.size(), false));
 
   // at first, every vertex in search graph with rank >= i is a possible assignments
   // this will be refined later
@@ -149,19 +160,24 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
 }
 
 bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool> > &possible_assignments) {
-
+  printf("Refining possible assignments\n");
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
   ssize_t pb_n = possible_assignments[0].size();
   bool changes_made = true;
 
   while (changes_made) {
+    printf("Made it to the while loop for refine_possible_assignments\n");
     changes_made = false;
     for (i = 0; i < pa_n; i++) {
       // check if this row contains no 1s
       bool no_one = true;
+      printf("About to start the for loop: pb_n is %d\n", pb_n);
       for (j = 0; j < pb_n; j++) {
+        printf("For loop started");
+        std::cout << "Possible assignment print time: " << possible_assignments[i][j] << std::endl;
         if (possible_assignments[i][j]) {
+          printf("Possible assignment. no_one is now false\n");
           no_one = false;
           // check if all of i's neighbors have a possible assignment to a neighbor of j
           // iterate through all neighbors of i
@@ -185,11 +201,11 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
             // if this neighbor has no corresponding neighbor, then j is an invalid match.
             // move on to the next possible assignment
-            if (!has_corresponding_neighbor) {
-              possible_assignments[i][j] = 0;
-              changes_made = true;
-              break;
-            }
+              if (!has_corresponding_neighbor) {
+                possible_assignments[i][j] = 0;
+                changes_made = true;
+                break;
+              }
           }
         }
       }
@@ -199,11 +215,13 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       // vertex in the search graph, so we know that
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
+        printf("Line 202, ismoprhism. Mapping is missing. Should return false.\n");
         return false;
       }
     }
   }
 
   // M was successfully refined without creating any rows with all 0s. return true.
+  printf("Line 209, isomorphism. Should return true\n");
   return true;
 }
