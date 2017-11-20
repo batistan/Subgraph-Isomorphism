@@ -122,13 +122,14 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
       }
     }
   }
-        
+
   return &assignments;
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   // possible_assignments[i][j] == true iff a possible assignment exists from i in sub
   // to j in search graph
+  printf("Creating possible assignments. Line 132\n");
   vector < vector<bool> > possible_assignments = vector< vector<bool> >(sub.vertices.size(),
                                                  vector<bool>(false,graph.vertices.size()));
 
@@ -141,6 +142,7 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
         possible_assignments[i][j] = true;
+        printf("Possible assignment found\n");
       }
     }
   }
@@ -149,7 +151,7 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
 }
 
 bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool> > &possible_assignments) {
-
+  printf("Refining possible assignments\n");
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
   ssize_t pb_n = possible_assignments[0].size();
@@ -162,6 +164,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       bool no_one = true;
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
+          printf("Possible assignment. no_one is now false\n");
           no_one = false;
           // check if all of i's neighbors have a possible assignment to a neighbor of j
           // iterate through all neighbors of i
@@ -199,11 +202,13 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       // vertex in the search graph, so we know that
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
+        printf("Line 202, ismoprhism. Mapping is missing. Should return false.\n");
         return false;
       }
     }
   }
 
   // M was successfully refined without creating any rows with all 0s. return true.
+  printf("Line 209, isomorphism. Should return true\n");
   return true;
 }
