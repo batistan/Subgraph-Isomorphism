@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,setspace,indentfirst,graphicx,float}
+\usepackage{fancyhdr} % for header
+
+\doublespacing{}
+
+\fancyhf{}
+\pagestyle{fancy}
+
+\lhead{N Batista, M Inciong, F Truncale}
+\chead{\thepage}
+\rhead{Fall 2017}
+\renewcommand{\headrulewidth}{0pt} % remove the horizontal line along the header
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{titlepage}
+  \vspace*{\fill} % i copied this off stackexchange so no i don't know what that asterisk does.
+  \begin{center}
+    {\Huge Milestone Report --- Subgraph Isomorphism}\\[0.4cm]
+    {\huge by Nelson Batista, Max Inciong, Francesca Truncale}\\[0.5cm]
+    {\huge Senior Project II}\\[0.4cm]
+    {\huge Professor Jianting Zhang}\\[0.4cm]
+    {\LARGE Fall 2017}
+  \end{center}
+  \vspace*{\fill}
+\end{titlepage}
+
+\pagenumbering{roman}
+%table of contents
+\tableofcontents
+
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\addcontentsline{toc}{section}{Introduction}
+\section*{Introduction}
+
+The goal of this project is to understand and optimize an algorithm for solving the NP-complete problem of subgraph isomorphism. An isomorphism between two graphs is a mapping from the vertices of one graph, say $G$, to another graph, say $H$, such that any two vertices which are adjacent in $G$ are mapped to vertices which are adjacent in $H$. The subgraph isomorphism problem, in turn, is the problem of determining whether an isomorphism exists between a graph $G$ and any of the subgraphs of a larger search graph, $H$. The issue that makes the subgraph isomorphism problem so difficult is cycling through the main graph and expanding each node within the graph and checking if each of the generated subgraphs formed from each node is isomorphic to the control graph.
+
+\end{document}
+
