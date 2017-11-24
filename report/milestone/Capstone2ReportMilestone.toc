@@ -8,4 +8,4 @@
 \contentsline {subsection}{\numberline {3.2}Initial C++ Implementation}{2}
 \contentsline {subsection}{\numberline {3.3}Improved C++ Implementation}{2}
 \contentsline {subsection}{\numberline {3.4}Optimizations through OpenMP}{2}
-\contentsline {section}{\numberline {4}Bibliography}{2}
+\contentsline {section}{\numberline {4}Bibliography}{3}

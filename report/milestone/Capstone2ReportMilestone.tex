@@ -68,6 +68,25 @@ The goal of our project was to take this algorithm and improve its performance. 
   \subsection{Optimizations through OpenMP}
 
   % TODO more sections
+  % TODO rewrite all this
+  % TODO put it into the sections
+Process
+We wanted to understand the algorithm starting from pseudocode. First we gathered pseudocode to determine the algorithm for subgraph isomorphism. From there, we wanted to transcribe it into python, and then into C++ and from there parallelize it using threads. After using the python implementation, we decided to utilize something known as the Ullman algorithm for our C++ implementation. We have also since changed our plan to utilize CUDA and GPGPU to utilizing OpenMP
+
+Graph Class
+The graph class that we ended up using is an unweighted directed graph. This means that when searching for isomorphisms, we have to take into consideration the direction of the nodes rather than simply the connections.within each graph. The graphs are unweighted, which means the isomorphism function does not take into account the values contained within each of the nodes. 
+
+Python Implementation
+
+Ullman Algorithm
+
+C++ Implementation
+
+OpenMP
+OpenMP utilizes a computer’s core in order to do separate work in parallel. We intend to place it where the bottlenecks are. The default number of cores for plenty of computers is four cores. We intend to place the parallelisms where there tend to be plenty of iterations. This means that theoretically, the program should run approximately 4 times faster than without the parallel processes. However, we have to take into consideration the overhead necessary to run OpenMP in the first place. It is more likely that it will take approximately 3 to 3.5 times faster given that the bottlenecks are completely parallelized. The most important place to place the OpenMP is in the refine\_possible\_assignments functions. This function is where the majority of the work goes, and goes through the most iterations. Ideally, we want to  balance the loads equally so that each core in the computer does an equal amount of work so as to maximize the efficiency of the program. However, it should be enough to simply parallelize every iterative process, but that would not be efficient enough. Ideally we would further parallelize in nodes that have plenty of potential assignments. This way the loads are balanced and more work is done in the areas that require more work
+
+Performance
+The python program was very inefficient but it was necessary for us to understand what we had to do for a C implementation. It took us between 13 and 16 seconds to determine if isomorphisms existed within our graphs and data.
   \section{Bibliography}
   % TODO use bibtex or something idk i haven't written an actual citation in years
 \end{document}
