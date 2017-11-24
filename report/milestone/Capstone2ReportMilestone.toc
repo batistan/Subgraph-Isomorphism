@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Introduction}{1}
+\contentsline {section}{\numberline {2}Ullmann Algorithm}{2}
+\contentsline {subsection}{\numberline {2.1}Naive Approach}{2}
+\contentsline {subsection}{\numberline {2.2}``Refine M'' Procedure}{2}
+\contentsline {subsection}{\numberline {2.3}Full Algorithm}{2}
+\contentsline {section}{\numberline {3}Implementation of the Algorithm}{2}
+\contentsline {subsection}{\numberline {3.1}Python Implementation and Performance}{2}
+\contentsline {subsection}{\numberline {3.2}Initial C++ Implementation}{2}
+\contentsline {subsection}{\numberline {3.3}Improved C++ Implementation}{2}
+\contentsline {subsection}{\numberline {3.4}Optimizations through OpenMP}{2}
+\contentsline {section}{\numberline {4}Bibliography}{2}

@@ -21,7 +21,7 @@
 \begin{titlepage}
   \vspace*{\fill} % i copied this off stackexchange so no i don't know what that asterisk does.
   \begin{center}
-    {\Huge Milestone Report --- Subgraph Isomorphism}\\[0.4cm]
+    {\Huge Milestone Report --- Optimization of Subgraph Isomorphism Algorithm}\\[0.4cm]
     {\huge by Nelson Batista, Max Inciong, Francesca Truncale}\\[0.5cm]
     {\huge Senior Project II}\\[0.4cm]
     {\huge Professor Jianting Zhang}\\[0.4cm]
@@ -39,10 +39,36 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\addcontentsline{toc}{section}{Introduction}
-\section*{Introduction}
+%\addcontentsline{toc}{section}{Introduction}
+\section{Introduction}
 
-The goal of this project is to understand and optimize an algorithm for solving the NP-complete problem of subgraph isomorphism. An isomorphism between two graphs is a mapping from the vertices of one graph, say $G$, to another graph, say $H$, such that any two vertices which are adjacent in $G$ are mapped to vertices which are adjacent in $H$. The subgraph isomorphism problem, in turn, is the problem of determining whether an isomorphism exists between a graph $G$ and any of the subgraphs of a larger search graph, $H$. The issue that makes the subgraph isomorphism problem so difficult is cycling through the main graph and expanding each node within the graph and checking if each of the generated subgraphs formed from each node is isomorphic to the control graph.
+The goal of this project is to understand and optimize an algorithm for solving the NP-complete problem of subgraph isomorphism. An \textit{isomorphism} between two graphs is a mapping from the vertices of one graph, say $G$, to another graph, say $H$, such that any two vertices which are adjacent in $G$ are mapped to vertices which are adjacent in $H$. The subgraph isomorphism problem, in turn, is the problem of determining whether an isomorphism exists between a graph $G$ and any of the subgraphs of a larger search graph, $H$. The issue that makes the subgraph isomorphism problem so difficult to solve for a particular pair of graphs is cycling through the main graph and expanding each node within the graph and checking if each of the generated subgraphs formed from each node is isomorphic to the control graph.
 
+Fortunately, many attempts exist to solve the subgraph isomorphism problem. Among the earliest of these is the famous \textit{Ullmann Algorithm}, proposed by Julian R. Ullmann in his 1976 paper, \textit{An Algorithm for Subgraph Isomorphism}. He first describes a basic, naive approach to finding a mapping from the vertices of a graph to a subgraph of a larger graph. He goes on to define a ``refine'' procedure to dramatically reduce the number of possible mappings that must be checked. These will be covered in greater detail in the next section.
+
+The goal of our project was to take this algorithm and improve its performance. Subgraph isomorphism is an expensive problem to solve, and finding multiple possible isomorphisms from one graph to subgraphs of another is even more expensive, so even slight improvements in the algorithm's performance is likely to lead to large performance improvements in any large-scale program which needs to use it often.
+
+%\addcontentsline{toc}{section}{Ullmann Algorithm}
+\section{Ullmann Algorithm}
+
+  %\addcontentsline{toc}{subsection}{Naive Approach}
+  \subsection{Naive Approach}
+
+  \subsection{``Refine M'' Procedure}
+
+  \subsection{Full Algorithm}
+
+\section{Implementation of the Algorithm}
+  \subsection{Python Implementation and Performance}
+
+  \subsection{Initial C++ Implementation}
+
+  \subsection{Improved C++ Implementation}
+
+  \subsection{Optimizations through OpenMP}
+
+  % TODO more sections
+  \section{Bibliography}
+  % TODO use bibtex or something idk i haven't written an actual citation in years
 \end{document}
 
