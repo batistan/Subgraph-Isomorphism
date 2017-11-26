@@ -1,9 +1,12 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{mathtools,setspace,indentfirst,graphicx,float}
+\usepackage{mathtools,setspace,indentfirst,graphicx,float,url}
 \usepackage{fancyhdr} % for header
 \usepackage{listings}
+\usepackage[english]{babel}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{sources.bib}
 
 \doublespacing{}
 
@@ -63,30 +66,15 @@ The goal of our project was to take this algorithm and improve its performance. 
 \section{Implementation of the Algorithm}
 
   \subsection{Python Implementation and Performance}
-  Essentially, the Python implementation was the more naive approach to the Ullman Algorithm.
-
-
+  The 
 
   \begin{lstlisting}[language=Python]
   def find_isomorphism(graph, subgraph):
 
       assignments = []
       possible_assignments = [[True]*graph.n_vertices() for i in range(subgraph.n_vertices())]
-      # TODO remove subgraph instance from graph and run this again with the modified graph
-      matches = 0
       if search(graph, subgraph, assignments, possible_assignments):
-          #print(assignments)
-          print("Match found")
-          #return True
-         # something like this
-          matches += 1
-          for node in assignments:
-              graph.remove_vertex(node)
-         #     optionally put the removed nodes into a new graph and tack that onto a list
-         #     idk why max wants that but that's how i'd do it
-          matches += find_isomorphism(graph, subgraph)
-         #
-      print(matches, " matches found")
+          return True
       return matches
   \end{lstlisting}
 
@@ -110,10 +98,10 @@ The goal of our project was to take this algorithm and improve its performance. 
          return ({vert1, vert2} in self.adjacencies) #if adjacent, there's an edge
 
     \end{lstlisting}
-    \caption{This is some has_edge code man}
+    \caption{Code for the \texttt{has\_edge} function of our graph class}
   \end{figure}
 
-  This method calls the built-in \texttt{in} function of Python lists, and has a runtime complexity of O(n) (see the table at \url{https://wiki.python.org/moin/TimeComplexity}).
+  This method calls the built-in \texttt{in} function of Python lists, and has a runtime complexity of O(n).\cite{bigopy}
 
 
   \subsection{Initial C++ Implementation}
@@ -143,7 +131,8 @@ We wanted to understand the algorithm starting from pseudocode. First we gathere
 Graph Class
 The graph class that we ended up using is an unweighted directed graph. This means that when searching for isomorphisms, we have to take into consideration the direction of the nodes rather than simply the connections.within each graph. The graphs are unweighted, which means the isomorphism function does not take into account the values contained within each of the nodes.
 
-  \section{Bibliography}
+  \printbibliography[heading=bibintoc,
+                     title={References}]
   % TODO use bibtex or something idk i haven't written an actual citation in years
 
 \end{document}

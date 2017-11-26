@@ -1,15 +1,35 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {english}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Introduction}{1}
-\contentsline {section}{\numberline {2}Ullmann Algorithm}{2}
-\contentsline {subsection}{\numberline {2.1}Naive Approach}{2}
-\contentsline {subsection}{\numberline {2.2}``Refine M'' Procedure}{2}
-\contentsline {subsection}{\numberline {2.3}Full Algorithm}{2}
-\contentsline {section}{\numberline {3}Implementation of the Algorithm}{2}
-\contentsline {subsection}{\numberline {3.1}Python Implementation and Performance}{2}
-\contentsline {subsection}{\numberline {3.2}Initial C++ Implementation}{2}
-\contentsline {subsection}{\numberline {3.3}Improved C++ Implementation}{2}
-\contentsline {subsection}{\numberline {3.4}Optimizations through OpenMP}{2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Ullmann Algorithm}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1}Naive Approach}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2}``Refine M'' Procedure}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3}Full Algorithm}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Implementation of the Algorithm}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1}Python Implementation and Performance}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2}Initial C++ Implementation}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3}Improved C++ Implementation}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Optimizations through OpenMP}{3}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.5}Difficulties}{3}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Performance}{3}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1}Python Implementation}{3}
-\contentsline {subsection}{\numberline {4.2}C++ Implementation}{3}
-\contentsline {section}{\numberline {5}Bibliography}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2}C++ Implementation}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5}Bibliography}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{References}{4}
