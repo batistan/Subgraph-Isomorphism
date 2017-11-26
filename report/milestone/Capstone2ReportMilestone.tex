@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{mathtools,setspace,indentfirst,graphicx,float}
 \usepackage{fancyhdr} % for header
+\usepackage{listings}
 
 \doublespacing{}
 
@@ -60,7 +61,60 @@ The goal of our project was to take this algorithm and improve its performance. 
   \subsection{Full Algorithm}
 
 \section{Implementation of the Algorithm}
+
   \subsection{Python Implementation and Performance}
+  Essentially, the Python implementation was the more naive approach to the Ullman Algorithm.
+
+
+
+  \begin{lstlisting}[language=Python]
+  def find_isomorphism(graph, subgraph):
+
+      assignments = []
+      possible_assignments = [[True]*graph.n_vertices() for i in range(subgraph.n_vertices())]
+      # TODO remove subgraph instance from graph and run this again with the modified graph
+      matches = 0
+      if search(graph, subgraph, assignments, possible_assignments):
+          #print(assignments)
+          print("Match found")
+          #return True
+         # something like this
+          matches += 1
+          for node in assignments:
+              graph.remove_vertex(node)
+         #     optionally put the removed nodes into a new graph and tack that onto a list
+         #     idk why max wants that but that's how i'd do it
+          matches += find_isomorphism(graph, subgraph)
+         #
+      print(matches, " matches found")
+      return matches
+  \end{lstlisting}
+
+  The main function is \texttt{find\_isomorphism}, which is depicted above. The function \texttt{search} is a modified Depth First Search, which is used to find the instance of a subgraph within a larger graph.
+
+
+  The \texttt{search} function runs  the \texttt{update\_possible\_assignments} function. This particular function has been the subject of refining over the course of the project. At the time of the python implementation, it was the most significant bottleneck.
+
+
+  This was partially due to the usage of the \texttt{has\_edge} method of the graph class, shown below.
+
+
+  %TODO: Actually make that caption useful
+  \begin{figure}[H]
+    \centering
+
+    \begin{lstlisting}[language=Python]
+    def has_edge(self, vert1, vert2):
+         """ Checks if edge conecting vert1 and vert2 is in the graph
+         """
+         return ({vert1, vert2} in self.adjacencies) #if adjacent, there's an edge
+
+    \end{lstlisting}
+    \caption{This is some has_edge code man}
+  \end{figure}
+
+  This method calls the built-in \texttt{in} function of Python lists, and has a runtime complexity of O(n) (see the table at \url{https://wiki.python.org/moin/TimeComplexity}).
+
 
   \subsection{Initial C++ Implementation}
 
@@ -87,9 +141,9 @@ Process
 We wanted to understand the algorithm starting from pseudocode. First we gathered pseudocode to determine the algorithm for subgraph isomorphism. From there, we wanted to transcribe it into python, and then into C++ and from there parallelize it using threads. After using the python implementation, we decided to utilize something known as the Ullman algorithm for our C++ implementation. We have also since changed our plan to utilize CUDA and GPGPU to utilizing OpenMP
 
 Graph Class
-The graph class that we ended up using is an unweighted directed graph. This means that when searching for isomorphisms, we have to take into consideration the direction of the nodes rather than simply the connections.within each graph. The graphs are unweighted, which means the isomorphism function does not take into account the values contained within each of the nodes. 
+The graph class that we ended up using is an unweighted directed graph. This means that when searching for isomorphisms, we have to take into consideration the direction of the nodes rather than simply the connections.within each graph. The graphs are unweighted, which means the isomorphism function does not take into account the values contained within each of the nodes.
 
   \section{Bibliography}
   % TODO use bibtex or something idk i haven't written an actual citation in years
-\end{document}
 
+\end{document}
