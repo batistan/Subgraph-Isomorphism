@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{mathtools,setspace,indentfirst,graphicx,float,url}
+\usepackage{mathtools,setspace,indentfirst,graphicx,float,url,color}
 \usepackage{fancyhdr} % for header
 \usepackage{listings}
 \usepackage[english]{babel}
@@ -17,6 +17,17 @@
 \chead{\thepage}
 \rhead{Fall 2017}
 \renewcommand{\headrulewidth}{0pt} % remove the horizontal line along the header
+
+\lstset{%
+  basicstyle=\ttfamily,
+  captionpos=b,
+  frame=tb,
+  tabsize=2,
+  showstringspaces=false,
+  commentstyle=\color[RGB]{24,135,64},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red}
+}
 
 \begin{document}
 
@@ -65,14 +76,15 @@ The goal of our project was to take this algorithm and improve its performance. 
 
 \section{Implementation of the Algorithm}
 
-  \subsection{Python Implementation and Performance}
+  \subsection{Python Implementation}
   The 
 
-  \begin{lstlisting}[language=Python]
+  \begin{lstlisting}[language=Python,caption={Function used to determine whether an isomorphism exists.}]
   def find_isomorphism(graph, subgraph):
 
       assignments = []
-      possible_assignments = [[True]*graph.n_vertices() for i in range(subgraph.n_vertices())]
+      possible_assignments = [[True]*graph.n_vertices() \
+                    for i in range(subgraph.n_vertices())]
       if search(graph, subgraph, assignments, possible_assignments):
           return True
       return matches
@@ -87,22 +99,16 @@ The goal of our project was to take this algorithm and improve its performance. 
   This was partially due to the usage of the \texttt{has\_edge} method of the graph class, shown below.
 
 
-  %TODO: Actually make that caption useful
-  \begin{figure}[H]
-    \centering
+  \begin{lstlisting}[language=Python,caption={Code for the \texttt{has\_edge} method of our graph class.}]
+  def has_edge(self, vert1, vert2):
+       """ Checks if edge conecting vert1 and vert2 is in the graph
+       """
+       #if adjacent, there's an edge
+       return ({vert1, vert2} in self.adjacencies) 
 
-    \begin{lstlisting}[language=Python]
-    def has_edge(self, vert1, vert2):
-         """ Checks if edge conecting vert1 and vert2 is in the graph
-         """
-         return ({vert1, vert2} in self.adjacencies) #if adjacent, there's an edge
+  \end{lstlisting}
 
-    \end{lstlisting}
-    \caption{Code for the \texttt{has\_edge} function of our graph class}
-  \end{figure}
-
-  This method calls the built-in \texttt{in} function of Python lists, and has a runtime complexity of O(n).\cite{bigopy}
-
+  This method calls the built-in \texttt{in} function of Python lists, which has a runtime complexity of O(n).\cite{bigopy} Thus, the \texttt{has\_edge} method of the Python implementation is O(n).
 
   \subsection{Initial C++ Implementation}
 
@@ -125,6 +131,7 @@ The goal of our project was to take this algorithm and improve its performance. 
   % TODO more sections
   % TODO rewrite all this
   % TODO put it into the sections
+
 Process
 We wanted to understand the algorithm starting from pseudocode. First we gathered pseudocode to determine the algorithm for subgraph isomorphism. From there, we wanted to transcribe it into python, and then into C++ and from there parallelize it using threads. After using the python implementation, we decided to utilize something known as the Ullman algorithm for our C++ implementation. We have also since changed our plan to utilize CUDA and GPGPU to utilizing OpenMP
 

@@ -1,15 +1,15 @@
 [1] Config.pm:302> INFO - This is Biber 2.8
 [2] Config.pm:305> INFO - Logfile is 'Capstone2ReportMilestone.blg'
-[109] biber:313> INFO - === Sun Nov 26, 2017, 14:36:49
-[143] Biber.pm:361> INFO - Reading 'Capstone2ReportMilestone.bcf'
-[314] Biber.pm:847> INFO - Found 1 citekeys in bib section 0
-[352] Biber.pm:3971> INFO - Processing section 0
-[376] Biber.pm:4144> INFO - Looking for bibtex format file 'sources.bib' for section 0
-[377] bibtex.pm:1449> INFO - Decoding LaTeX character macros into UTF-8
-[387] bibtex.pm:1305> INFO - Found BibTeX data source 'sources.bib'
-[415] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[416] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[416] Biber.pm:3799> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[416] Biber.pm:3805> INFO - No sort tailoring available for locale 'en-US'
-[428] bbl.pm:613> INFO - Writing 'Capstone2ReportMilestone.bbl' with encoding 'UTF-8'
-[430] bbl.pm:716> INFO - Output to Capstone2ReportMilestone.bbl
+[108] biber:313> INFO - === Sun Nov 26, 2017, 14:54:03
+[139] Biber.pm:361> INFO - Reading 'Capstone2ReportMilestone.bcf'
+[290] Biber.pm:847> INFO - Found 1 citekeys in bib section 0
+[323] Biber.pm:3971> INFO - Processing section 0
+[345] Biber.pm:4144> INFO - Looking for bibtex format file 'sources.bib' for section 0
+[346] bibtex.pm:1449> INFO - Decoding LaTeX character macros into UTF-8
+[355] bibtex.pm:1305> INFO - Found BibTeX data source 'sources.bib'
+[380] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[380] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[380] Biber.pm:3799> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[381] Biber.pm:3805> INFO - No sort tailoring available for locale 'en-US'
+[392] bbl.pm:613> INFO - Writing 'Capstone2ReportMilestone.bbl' with encoding 'UTF-8'
+[393] bbl.pm:716> INFO - Output to Capstone2ReportMilestone.bbl
