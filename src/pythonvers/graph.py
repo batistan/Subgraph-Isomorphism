@@ -69,7 +69,8 @@ class Graph:
     def has_edge(self, vert1, vert2):
         """ Checks if edge conecting vert1 and vert2 is in the graph
         """
-        return ({vert1, vert2} in self.adjacencies) #if adjacent, there's an edge
+        #if adjacent, there's an edge
+        return ({vert1, vert2} in self.adjacencies) 
 
     # for debugging
     def print_graph(self):

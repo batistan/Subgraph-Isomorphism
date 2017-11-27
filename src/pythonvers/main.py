@@ -50,7 +50,8 @@ def import_data(filename, debug):
         try:
             fdesc = open(filename, 'r')
         except IOError as err:
-            sys.stderr.write("Error: Could not open file '%s'. Aborting.\n%s\n" % (filename, err))
+            sys.stderr.write("Error: Could not open file '%s'. Aborting.\n%s\n" \
+                    % (filename, err))
             sys.exit(2)
 
     if debug:
@@ -83,7 +84,8 @@ def usage(name, err):
     """
     usg = """usage: %s [FILE] [OPTION]
     Options and arguments:
-    FILE:               Space-separated file containing graph adjacency list. If edge weights are not specified, all weights will be assumed 0.
+    FILE:               Space-separated file containing graph adjacency list. \
+            If edge weights are not specified, all weights will be assumed 0.
     -h, --help:         Print this help message and exit.
     -i, --interactive:  Get space-separated graph adjacency list from stdin.
     -d, --debug:        Print debugging information.\n"""

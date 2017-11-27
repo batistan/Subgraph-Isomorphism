@@ -79,7 +79,27 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
 \section{Ullmann Algorithm}
 
+  The paper begins, as many do, with a definition of terms that will be used throughout. We have repeated them here for the sake of clarity later on. We begin by noting that the algorithm models the search for a possible mapping by having all possible mappings as nodes on a tree, on which a depth-first search is performed to find a solution.
+
+  The subgraph isomorphism problem is defined as the problem of finding all isomorphisms between a graph $G_\alpha = (V_\alpha, E_\alpha)$ and subgraphs of another graph $G_\beta = (V_\beta, E_\beta)$, with $(V_\alpha, E_\alpha)$ and $(V_\beta, E_\beta)$ being the set of vertices and edges of $G_\alpha$ and $G_\beta$, respectively. The number of vertices and edges of $G_\alpha$ and $G_\beta$, respectively, are $(p_\alpha, q_\alpha)$ and $(p_\beta, q_\beta)$.
+
+  The \textit{adjacency matrix} for graph $G_\alpha$, $[a_{ij}]$, is defined by:
+
+  \[ a_{ij} = \begin{cases}
+                1 & \textrm{ if } i \neq j \textrm{ and } i,j \textrm{ share an edge} \\
+                0 & \textrm{ otherwise} 
+  \end{cases}
+  \]
+
+  The adjacency matrix for graph $G_\beta$, $[b_{ij}]$, is defined equivalently.
+
+  Notably, we have the $p_\alpha \times p_\beta$ matrix $M$, which is a binary matrix of assignments (mappings) from $V_\alpha$ to $V_\beta$. That is, if $m_{ij}$ is 1, then vertex $i$ in graph $G_\alpha$ could possibly be mapped to vertex $j$ in $G_\beta$. Otherwise $m_{ij}$ is 0. M has a few interesting properties as a result, which will soon be apparent. 
+
+  Finally, we come to $d$, which is simply algorithm's current depth in the search tree. The algorithm starts at $d = 0$, and terminates when $d = p_\alpha$. The matrix $M$ at a particular depth $d$ is denoted as $M_d$, with solutions to the working instance of the subgraph isomorphism problem being the set of assignments from $V_\alpha$ to $V_\beta$, contained within matrices $M_{p_\alpha}$.
+
   \subsection{Naive Approach}
+
+  In the most basic algorithm
 
   \subsection{``Refine M'' Procedure}
 
@@ -141,6 +161,8 @@ The goal of this project is to understand and optimize an algorithm for solving 
   % TODO rewrite all this
   % TODO put it into the sections
 
+\section{Conclusion}
+
 Process
 We wanted to understand the algorithm starting from pseudocode. First we gathered pseudocode to determine the algorithm for subgraph isomorphism. From there, we wanted to transcribe it into python, and then into C++ and from there parallelize it using threads. After using the python implementation, we decided to utilize something known as the Ullman algorithm for our C++ implementation. We have also since changed our plan to utilize CUDA and GPGPU to utilizing OpenMP
 
@@ -150,8 +172,11 @@ The graph class that we ended up using is an unweighted directed graph. This mea
 \section{Appendix}
   \subsection{Python Code}
     \subsubsection{Graph Class}
+      \lstinputlisting[language=Python,caption={Python graph class.}]{../../src/pythonvers/graph.py}
     \subsubsection{Subgraph Isomorphism Algorithm}
+      \lstinputlisting[language=Python,caption={Python algorithm to find isomorphism.}]{../../src/pythonvers/isomorphism.py}
     \subsubsection{Main}
+      \lstinputlisting[language=Python,caption={Python main function to process arguments and run the ismorphism algorithm.}]{../../src/pythonvers/main.py}
 
   \subsection{C++ Code}
     \subsubsection{Graph Class}
@@ -162,7 +187,6 @@ The graph class that we ended up using is an unweighted directed graph. This mea
     \subsubsection{Graph Class}
     \subsubsection{Subgraph Isomorphism Algorithm}
     \subsubsection{Main}
-
 
   \printbibliography[heading=bibintoc,
                      title={References}]
