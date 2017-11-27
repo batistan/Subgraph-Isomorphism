@@ -19,6 +19,50 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{pyiso}{online}{}
+      \name{author}{1}{}{%
+        {{hash=99852a091cc56672ae5f41ee1f7fb559}{%
+           family={Cato},
+           familyi={C\bibinitperiod},
+           given={Vaughn},
+           giveni={V\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=8c58b4aafa02dd7365062a5dc3178281}{%
+           family={Eliopoulos},
+           familyi={E\bibinitperiod},
+           given={Spiros},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{99852a091cc56672ae5f41ee1f7fb559}
+      \strng{fullhash}{99852a091cc56672ae5f41ee1f7fb559}
+      \strng{bibnamehash}{99852a091cc56672ae5f41ee1f7fb559}
+      \strng{authorbibnamehash}{99852a091cc56672ae5f41ee1f7fb559}
+      \strng{authornamehash}{99852a091cc56672ae5f41ee1f7fb559}
+      \strng{authorfullhash}{99852a091cc56672ae5f41ee1f7fb559}
+      \strng{editorbibnamehash}{8c58b4aafa02dd7365062a5dc3178281}
+      \strng{editornamehash}{8c58b4aafa02dd7365062a5dc3178281}
+      \strng{editorfullhash}{8c58b4aafa02dd7365062a5dc3178281}
+      \field{sortinit}{C}
+      \field{sortinithash}{095692fd22cc3c74d7fe223d02314dbd}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{24}
+      \field{month}{11}
+      \field{title}{How to partially compare two graphs}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2017}
+      \field{year}{2012}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://stackoverflow.com/a/13537776
+      \endverb
+      \verb{url}
+      \verb https://stackoverflow.com/a/13537776
+      \endverb
+    \endentry
     \entry{fbgraph}{article}{}
       \name{author}{2}{}{%
         {{hash=c48ebf5bba212ed9f95f1e6200537465}{%

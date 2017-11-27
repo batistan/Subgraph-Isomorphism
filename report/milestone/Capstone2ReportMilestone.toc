@@ -12,7 +12,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Ullmann Algorithm}{2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1}Naive Approach}{3}
+\contentsline {subsection}{\numberline {2.1}Naive Approach}{2}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2}``Refine M'' Procedure}{3}
 \defcounter {refsection}{0}\relax 
@@ -26,34 +26,34 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3}Improved C++ Implementation}{4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Optimizations through OpenMP}{4}
+\contentsline {subsection}{\numberline {3.4}Optimizations through OpenMP}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.5}Difficulties}{4}
+\contentsline {subsection}{\numberline {3.5}Difficulties}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Performance}{4}
+\contentsline {section}{\numberline {4}Performance}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}Python Implementation}{4}
+\contentsline {subsection}{\numberline {4.1}Python Implementation}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}C++ Implementation}{5}
+\contentsline {subsection}{\numberline {4.2}C++ Implementation}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Conclusion}{5}
+\contentsline {section}{\numberline {5}Conclusion}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6}Appendix}{5}
+\contentsline {section}{\numberline {6}Appendix}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {6.1}Python Code}{5}
+\contentsline {subsection}{\numberline {6.1}Python Code}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {6.1.1}Graph Class}{5}
+\contentsline {subsubsection}{\numberline {6.1.1}Graph Class}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {6.1.2}Subgraph Isomorphism Algorithm}{7}
+\contentsline {subsubsection}{\numberline {6.1.2}Subgraph Isomorphism Algorithm}{9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {6.1.3}Main}{10}
+\contentsline {subsubsection}{\numberline {6.1.3}Main}{11}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {6.2}C++ Code}{14}
+\contentsline {subsection}{\numberline {6.2}C++ Code}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {6.2.1}Graph Class}{14}
+\contentsline {subsubsection}{\numberline {6.2.1}Graph Class}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {6.2.2}Subgraph Isomorphism Algorithm}{18}
+\contentsline {subsubsection}{\numberline {6.2.2}Subgraph Isomorphism Algorithm}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {6.2.3}Main}{25}
+\contentsline {subsubsection}{\numberline {6.2.3}Main}{26}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{32}
+\contentsline {section}{References}{33}
