@@ -106,7 +106,6 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
       depth--;
       possible_assignments = assignments_tree[depth];
       k = column_depth[depth];
-      // TODO goto 5
       goto five;
     }
 
@@ -123,7 +122,8 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
     for (int i = 0; i < pa_n; i++) {
       for (int j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
-          (*assignments).push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
+          (*assignments).push_back(pair<int, int>(sub.get_value(i), 
+                                                  graph.get_value(j)));
         }
       }
     }
@@ -133,12 +133,14 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
-  // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
+  // possible_assignments[i][j] == true iff a possible assignment 
+  // exists from i in sub
   // to j in search graph
   vector < vector<bool> > possible_assignments (sub.vertices.size(),
     vector<bool>(graph.vertices.size(), false));
 
-  // at first, every vertex in search graph with rank >= i is a possible assignments
+  // at first, every vertex in search graph with rank >= i 
+  // is a possible assignments
   // this will be refined later
   ssize_t i, j;
   ssize_t s_n = sub.vertices.size();
@@ -154,7 +156,8 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   return possible_assignments;
 }
 
-bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool> > &possible_assignments) {
+bool refine_possible_assignments(Graph &sub, Graph &graph, 
+    vector < vector<bool> > &possible_assignments) {
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
   ssize_t pb_n = possible_assignments[0].size();
@@ -168,7 +171,8 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
           no_one = false;
-          // check if all of i's neighbors have a possible assignment to a neighbor of j
+          // check if all of i's neighbors have a possible assignment 
+          // to a neighbor of j
           // iterate through all neighbors of i
           unordered_set<int> neighbors_i = sub.neighbors(sub.get_value(i));
           unordered_set<int>::iterator n_i = neighbors_i.begin();
@@ -179,7 +183,8 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
             bool has_corresponding_neighbor = false;
             for (k = 0; k < pb_n; k++) {
               if (possible_assignments[sub.get_index(*(n_i))][k]) {
-                // for each possible assignment from i's neighbor to graph, check if it is neighbor of j
+                // for each possible assignment from i's neighbor to graph,
+                // check if it is neighbor of j
                 if (graph.has_edge(graph.get_value(j), graph.get_value(k))) {
                   // if so, then check the next neighbor
                   has_corresponding_neighbor = true;
@@ -188,7 +193,8 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
               }
             }
 
-            // if this neighbor has no corresponding neighbor, then j is an invalid match.
+            // if this neighbor has no corresponding neighbor, 
+            // then j is an invalid match.
             // move on to the next possible assignment
               if (!has_corresponding_neighbor) {
                 possible_assignments[i][j] = 0;
@@ -204,13 +210,11 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       // vertex in the search graph, so we know that
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
-        printf("Expecting no iso\n");
         return false;
       }
     }
   }
 
   // M was successfully refined without creating any rows with all 0s. return true.
-  printf("Expecting iso and seg fault\n");
   return true;
 }

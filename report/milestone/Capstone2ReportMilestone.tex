@@ -130,7 +130,7 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \begin{lstlisting}[language=Python,caption={Code for the \texttt{has\_edge} method of our graph class.}]
   def has_edge(self, vert1, vert2):
-       """ Checks if edge conecting vert1 and vert2 is in the graph
+       """ Checks if edge connecting vert1 and vert2 is in the graph
        """
        #if adjacent, there's an edge
        return ({vert1, vert2} in self.adjacencies) 
@@ -141,12 +141,13 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \subsection{Initial C++ Implementation}
 
+  The initial C++ implementation was based entirely on the Python implementation. Indeed, it represented our best attempt to ``translate'' the Python code to C++. As one might imagine, it was riddled with compilation errors. That said, we did manage to get it to run, and analysis indicated it performed little better than the Python equivalent. We suspected this was because it retained the same 
+
   \subsection{Improved C++ Implementation}
 
   \subsection{Optimizations through OpenMP}
   OpenMP utilizes the multiple cores of a computer's processor in order implement multithreading to run related tasks in parallel. We intend to use it where the bottlenecks in our algorithm are to improve the algorithm's performance. The default number of cores for many computers is four. We intend to place the parallelisms where there tend to be a large number iterations, specifically in loops. This means that, theoretically, the program should run four times faster than without multithreading, using our earlier assumption of four processor cores allotted to the algorithm. It is more likely that it will be approximately 3 to 3.5 times faster, since we may not be able to completely parallelize the bottlenecks as intended. Additionally, using OpenMP, as is the case with any parallelization method, comes with a certain amount of overhead in separating the work to be done. There is also the issue of load balancing: making sure that each thread is performing approximately the same amount of computation so that no thread is idling. 
   
-  % TODO the second half of this paragraph needs some refinement
   The most important place to place the OpenMP is in the \texttt{refine\_possible\_assignments} function. This function is where the majority of the algorithm's computation takes place, as it has several layers of nested loops, each iterating through vectors which may be very large, depending on the sizes of the graphs being examined. Ideally, we want to balance the loads such that each processor core does an equal amount of work, so as to maximize the amount of parallelization done. However, while we may simply parallelize every iterative process, that might not be efficient enough. Ideally, we would further parallelize in nodes of the search tree which have many possible assignments.
 
   \subsection{Difficulties}
@@ -155,6 +156,14 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \subsection{Python Implementation}
   The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took us between 13 and 16 seconds to determine if an isomorphism existed between a specified graph a subgraph of the Facebook graph specified earlier. 
+
+  We used the Python \texttt{cProfile} library to measure the performance of our Python implementation. The documentation is available at \url{https://docs.python.org/3.5/library/profile.html}. A typical run of the \texttt{find\_isomorphism} function timed by \texttt{cProfile} produces the following output:
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{images/perf}
+    \caption{Sample run of the Python implementation of subgraph isomorphism.}
+  \end{figure}
 
   \subsection{C++ Implementation}
 
