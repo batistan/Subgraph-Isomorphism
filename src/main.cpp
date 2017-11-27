@@ -23,9 +23,6 @@ Graph import_data(const char *filename, const int debug);
 int main(int argc, char **argv) {
 
   program_name = argv[0];
-  // TODO change to a tuple. this doesn't work
-  // tuple <int, int, char*, char*>
-  // possibly strings but keep in mind these will be used for fopen
   string *args = handle_args(argc, argv);
 
   int interactive = atoi(args[0].c_str());
@@ -37,16 +34,6 @@ int main(int argc, char **argv) {
                                               : filename_default;
   const char *sub_filename = (!interactive) ? args[3].c_str()
                                               : filename_default;
-  /*if (!interactive) {
-    const char *graph_filename = args[2].c_str();
-    const char *sub_filename = args[3].c_str();
-  }
-
-  else {
-    const char *graph_filename = filename_default;
-    const char *sub_filename = filename_default;
-  }*/
-
   if (debug) {
     printf("inter = %d, debug = %d\n", interactive, debug);
     printf("Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
@@ -57,7 +44,6 @@ int main(int argc, char **argv) {
   Graph subgraph = import_data(sub_filename, debug);
 
   int matches = 0;
-  // TODO: multiple instances of isomorphism
   vector < pair<int,int> > *result = find_isomorphism(subgraph, graph);
   printf("Made it to after find_isomorphism");
   return 0;
@@ -96,14 +82,15 @@ Graph import_data(const char *filename, const int debug) {
     // strtok returns NULL if the token (space in this case) was not found in the str
     // otherwise return the string up to the token (exclusive)
     if (tempa == NULL) {
-      fprintf(stderr, "Error parsing file %s. Adjacency list must be of form 'node1 node2 [edge_weight]',\
-          but line was %s\n", filename, line);
+      fprintf(stderr, "Error parsing file %s. Adjacency list must be of form \
+            'node1 node2 [edge_weight]', but line was %s\n", filename, line);
       exit(-1);
     }
 
     tempb = strtok(line, " ");
     if (tempb == NULL) {
-      fprintf(stderr, "Error parsing file %s. Adjacency list must be of form 'node1 node2 [edge_weight]',\
+      fprintf(stderr, "Error parsing file %s. \
+          Adjacency list must be of form 'node1 node2 [edge_weight]',\
           but line was %s\n", filename, line);
       exit(-1);
     }
@@ -117,9 +104,9 @@ Graph import_data(const char *filename, const int debug) {
     int atempb = atoi(tempb);
     int atempweight = atoi(tempweight);
 
-    //printf("Edge is %d %d %d\n", atempa, atempb, atempweight);
     // this will also add the vertices if they don't exist
-    // add_vertex is called from within add_edge if no vertex with the given value exists
+    // add_vertex is called from within add_edge if no vertex 
+    // with the given value exists
     g.add_edge(atempa, atempb, atempweight);
   }
 
@@ -127,7 +114,8 @@ Graph import_data(const char *filename, const int debug) {
     int stat = fclose(fd);
     if (stat != 0) {
       perror("Error closing file");
-      // we never wrote to the file so we probably don't even need to check for errors in the first place
+      // we never wrote to the file 
+      // so we probably don't even need to check for errors in the first place
       // but just kill the program if there's an error closing it
       exit(errno);
     }
@@ -181,6 +169,7 @@ string *handle_args(int argc, char **argv) {
         break;
 
       default: // something went very wrong if we got here
+        free(returnargs);
         abort();
     }
   }
@@ -191,7 +180,8 @@ string *handle_args(int argc, char **argv) {
   // interactive was specified, in which case yell at the user.
 
   if (!interactive) {
-    // interactive was 0. free the memory it took up and reallocate enough for the two args
+    // interactive was 0. 
+    // free the memory it took up and reallocate enough for the two args
     // and the two filenames
     free(returnargs);
     returnargs = (string *) malloc(4*sizeof(string));
@@ -203,14 +193,13 @@ string *handle_args(int argc, char **argv) {
   if (debug) {
     printf("Interactive set to %d. Debug is %d.\n", interactive, debug);
     if (!interactive) {
-      printf("Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
+      printf("Using file %s for graph and %s for subgraph.\n",
+          argv[optind],argv[optind+1]);
     }
   }
 
   // put what we want to return in their places.
-  //sprintf(returnargs[0],"%d",interactive);
   returnargs[0] = std::to_string(interactive);
-  //sprintf(returnargs[1],"%d",debug);
   returnargs[1] = std::to_string(debug);
 
   return returnargs;
@@ -220,7 +209,8 @@ void usage (FILE* stream, int exit_code) {
   fprintf(stream, "usage: %s [FILE] [OPTION]\n", program_name);
   fprintf(stream,
     "Options and arguments:\n"
-    "FILE:               Space-separated file containing graph adjacency list. If edge weights are not specified, all weights will be assumed 0.\n"
+    "FILE:               Space-separated file containing graph adjacency list. \
+              If edge weights are not specified, all weights will be assumed 0.\n"
     "-h, --help:         Print this help message and exit.\n"
     "-i, --interactive:  Get space-separated graph adjacency list from stdin.\n"
     "-d, --debug:        Print debugging information.\n");

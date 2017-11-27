@@ -154,20 +154,12 @@ The goal of this project is to understand and optimize an algorithm for solving 
 \section{Performance}
 
   \subsection{Python Implementation}
-  The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took us between 13 and 16 seconds to determine if an isomorphism existed between a specified graph a subgraph of the Facebook graph specified earlier.
+  The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took us between 13 and 16 seconds to determine if an isomorphism existed between a specified graph a subgraph of the Facebook graph specified earlier. 
 
   \subsection{C++ Implementation}
-  % TODO more sections
-  % TODO rewrite all this
-  % TODO put it into the sections
 
 \section{Conclusion}
-
-Process
-We wanted to understand the algorithm starting from pseudocode. First we gathered pseudocode to determine the algorithm for subgraph isomorphism. From there, we wanted to transcribe it into python, and then into C++ and from there parallelize it using threads. After using the python implementation, we decided to utilize something known as the Ullman algorithm for our C++ implementation. We have also since changed our plan to utilize CUDA and GPGPU to utilizing OpenMP
-
-Graph Class
-The graph class that we ended up using is an unweighted directed graph. This means that when searching for isomorphisms, we have to take into consideration the direction of the nodes rather than simply the connections.within each graph. The graphs are unweighted, which means the isomorphism function does not take into account the values contained within each of the nodes.
+  Over the coming two weeks, we should have completed the OpenMP parallelizations and thoroughly tested the performance of the resulting program.
 
 \section{Appendix}
   \subsection{Python Code}
@@ -180,16 +172,13 @@ The graph class that we ended up using is an unweighted directed graph. This mea
 
   \subsection{C++ Code}
     \subsubsection{Graph Class}
+      \lstinputlisting[language=C++,caption={C++ graph class.}]{../../src/graph.cpp}
     \subsubsection{Subgraph Isomorphism Algorithm}
+      \lstinputlisting[language=C++,caption={C++ algorithm to find isomorphism.}]{../../src/isomorphism.cpp}
     \subsubsection{Main}
-
-  \subsection{C++ Code with OpenMP}
-    \subsubsection{Graph Class}
-    \subsubsection{Subgraph Isomorphism Algorithm}
-    \subsubsection{Main}
+      \lstinputlisting[language=C++,caption={C++ main function to process arguments and run the ismorphism algorithm.}]{../../src/main.cpp}
 
   \printbibliography[heading=bibintoc,
                      title={References}]
-  % TODO use bibtex or something idk i haven't written an actual citation in years
 
 \end{document}

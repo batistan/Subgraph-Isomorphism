@@ -19,23 +19,6 @@ struct CompareFirst
     int val_;
 };
 
-// Vertex::Vertex(int label, bool visited) {
-//   this->label = label;
-//   this->visited = visited;
-// }
-
-// edges[i][j] = weight of edge connecting i and j
-// 0 if no such edge
-// TODO please never use this constructor.
-//Graph::Graph (vector< pair<int, int>  > vertices, vector<vector<int> > edges,
-//  vector< unordered_set<int> > adjacencies){
-//
-//  this->vertices = vertices;
-//  this->edges = edges;
-//  this->adjacencies = adjacencies;
-//  update_adjacencies();
-//}
-
 Graph::Graph () {
   this->vertices = vector<pair<int, int> >();
   this->edges = vector<vector<int> >();
@@ -57,18 +40,6 @@ void Graph::add_vertex(pair<int, int> vertex){
 
 void Graph::add_edge(int source, int dest, int weight){
   // weight should be non-zero
-  //if (find_if(vertices.begin(),vertices.end(), CompareFirst(source)) == vertices.end()) {
-  //  pair<int, bool>  vsrc(source, false);
-  //  vertices.push_back(vsrc);
-  //}
-
-  //if (find_if(vertices.begin(),vertices.end(), CompareFirst(dest)) == vertices.end()) {
-  //  pair<int, bool> vdest(dest, false);
-  //  vertices.push_back(vdest);
-  //}
-
-  //tuple<int, int, int> new_edge (source, dest, weight);
-  //edges.push_back(new_edge);
 
   if (this->get_index(source) < 0) {
     this->add_vertex(pair<int, int>(source, 0));
@@ -86,7 +57,6 @@ void Graph::add_edge(int source, int dest, int weight){
   // somewhere
   edges[this->get_index(source)][this->get_index(dest)] = weight;
   edges[this->get_index(dest)][this->get_index(source)] = weight;
-  // TODO: get adjacency set of source and dest (or create them if not in graph)
   // add dest/source to that set
   // once again, consider directed graphs
   this->add_neighbor(source, dest);
@@ -94,18 +64,12 @@ void Graph::add_edge(int source, int dest, int weight){
 }
 
 bool Graph::has_edge(int vert1, int vert2){
-  //unordered_set<int> edge ( {vert1, vert2} );
-  //if (find(adjacencies.begin(), adjacencies.end(), edge) == adjacencies.end())
-  //  return false;
-
-  //return true;
   // just got this bad boy down to O(1)
   // you're welcome
   return (edges[vert1][vert2] != 0);
 }
 
 int Graph::get_index(int value) {
-  // this works????
   if (vertex_indices.find(value) != vertex_indices.end()) {
     return vertex_indices[value];
   }
@@ -130,19 +94,12 @@ void Graph::add_neighbor (int vert, int neighbor) {
   this->neighbors(vert).insert(this->vertices[this->get_index(neighbor)].first);
 }
 
-// basically obselete now
-//void Graph::update_adjacencies() {
-//  for (size_t i = 0; i < edges.size(); i++){
-//    unordered_set<int> edge ({get<0>(edges[i]), get<1>(edges[i])});
-//    adjacencies.push_back(edge);
-//  }
-//}
-
-// void Graph::print_graph() {
-//   cout << "Begin graph" << std::endl;
-//   cout << "-------------------------------\n";
-//   cout << "Vertices: " << vertices << std::endl;
-//   cout << "Edges: " << edges << std::endl;
-//   cout << "-------------------------------\n";
-//   cout << "End graph" << std::endl;
-// }
+// for debugging
+void Graph::print_graph() {
+  cout << "Begin graph" << std::endl;
+  cout << "-------------------------------\n";
+  cout << "Vertices: " << vertices << std::endl;
+  cout << "Edges: " << edges << std::endl;
+  cout << "-------------------------------\n";
+  cout << "End graph" << std::endl;
+}
