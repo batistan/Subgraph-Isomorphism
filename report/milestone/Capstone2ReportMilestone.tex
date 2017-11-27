@@ -105,19 +105,15 @@ The goal of this project is to understand and optimize an algorithm for solving 
   \end{cases}
   \]
 
-  Each step of the computation consists of setting all but one of the values of one of the rows of $M$ to 0, and then checking whether exactly one 1 exists in each row.
-  We also have a $p_\beta$-bit binary vector $\vec{F}$. $\vec{F}_i$ is 1 if column $i$ of matrix $M$ has been used so far in the computation. We also have vector $\vec{H}$, with $\vec{H}_d = k$ if column $k$ of matrix $M$ was used at depth $d$, and 0 otherwise.
-  In the most basic algorithm, the entire tree is searched, including branches which cannot possibly contain a solution at any depth. The algorithm is below:
-  
-  \begin{enumerate}
-    \item $M=M_0$, $d=0$, $H_0 = 0$, set all $F_i$ to 0.
-
-    \item
-  \end{enumerate}
+  Each step of the computation consists of setting all but one of the values of one of the rows of $M$ to 0, and then checking whether exactly one 1 exists in each row. If it does, we have found an isomorphism, since each vertex of $G_\alpha$ has been mapped to exactly one vertex of $G_\beta$. If it does not, then we continue onto another row of $M$ and check again. If we have reached the point where we cannot perform the operation on a row of $M$ without violating the condition that each \textit{column} of $M$ contains at most a single 1 (a vertex of $G_\beta$ cannot be mapped from multiple vertices of $G_\alpha$), then we backtrack to a previous version of $M$ and try to change the column that we set to 1 in the current row. After exhausting all columns, we conclude there cannot be an isomorphism, since at least one vertex of $G_\alpha$ cannot be mapped to any vertex of $G_\beta$.\cite{ullmann}
 
   \subsection{``Refine M'' Procedure}
 
-  \subsection{Full Algorithm}
+  In the most basic algorithm, the entire tree is searched, including branches which cannot possibly contain a solution at any depth. This is a large number of $M$ matrices to evaluate, so Ullmann introduces a ``refine M'' procedure to reduce the number that must be checked by eliminating nodes of the tree which cannot contain a solution.
+
+  The procedure is actually quite simple. We iterate through each 1 $m_{ij}$ in $M$ and check whether, for each neighbor of the vertex in $G_\alpha$ corresponding to $i$, there exists at least one possible assignment from it to a neighbor of the vertex in $G_\beta$ corresponding to $j$. If this condition does not hold, the 1 is changed to a 0. Since doing so may render other 1s invalid, we repeat the refine procedure on the modified $M$ until running the procedure does not change it any further, indicating that the refinements do not produce any new invalid 1s. This obviously involves several layers of nested loops, adding considerable overhead to the overall algorithm. However, this overhead is very little considering the number of possibilities that are subsequently eliminated, making it a very worthwhile operation to perform regardless.
+
+  This refine M procedure is run both on the initial $M$ as well as each of $M_d$, greatly reducing how many iterations we must perform to see that a particular mapping is invalid.
 
 \section{Implementation of the Algorithm}
 
@@ -169,9 +165,9 @@ The full source code for all versions can be found in the appendix.
   
   The most important place to place the OpenMP is in the \texttt{refine\_possible\_assignments} function. This function is where the majority of the algorithm's computation takes place, as it has several layers of nested loops, each iterating through vectors which may be very large, depending on the sizes of the graphs being examined. Ideally, we want to balance the loads such that each processor core does an equal amount of work, so as to maximize the amount of parallelization done. However, while we may simply parallelize every iterative process, that might not be efficient enough. Ideally, we would further parallelize in nodes of the search tree which have many possible assignments.
 
-  \subsection{Difficulties}
-
 \section{Performance}
+
+  Since the OpenMP optimizations are still in progress, we do not yet have performance information for the OpenMP version of our project.
 
   \subsection{Python Implementation}
   The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took between 13 and 16 seconds to determine if an isomorphism existed between a specified graph a subgraph of the Facebook graph specified earlier. 
@@ -185,6 +181,13 @@ The full source code for all versions can be found in the appendix.
   \end{figure}
 
   \subsection{C++ Implementation}
+  The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs orders of magnitude more quickly than the Python implementation; running in much less than a second where the Python implementation took over ten. We timed it using the Linux \texttt{time} utility, which takes a command as an argument, runs the command, and reports the amount of time taken for the command to complete. In our case, we run \texttt{time ./main}, adding the appropriate arguments, and \texttt{time} reports the time the program took to run and exit. While this adds a bit more overhead than the Python version (we time the entire program rather than a single function call), it is clear this makes little difference, given the huge improvement over the Python version.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{images/cperf}
+    \caption{Timed sample run of the C++ implementation of subgraph isomorphism.}
+  \end{figure}
 
 \section{Conclusion}
   Over the coming two weeks, we should have completed the OpenMP parallelizations and thoroughly tested the performance of the resulting program.

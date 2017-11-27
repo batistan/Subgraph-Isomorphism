@@ -1,17 +1,17 @@
 [1] Config.pm:302> INFO - This is Biber 2.8
 [2] Config.pm:305> INFO - Logfile is 'Capstone2ReportMilestone.blg'
-[105] biber:313> INFO - === Mon Nov 27, 2017, 12:34:53
-[136] Biber.pm:361> INFO - Reading 'Capstone2ReportMilestone.bcf'
-[289] Biber.pm:847> INFO - Found 4 citekeys in bib section 0
-[322] Biber.pm:3971> INFO - Processing section 0
-[344] Biber.pm:4144> INFO - Looking for bibtex format file 'sources.bib' for section 0
-[345] bibtex.pm:1449> INFO - Decoding LaTeX character macros into UTF-8
-[355] bibtex.pm:1305> INFO - Found BibTeX data source 'sources.bib'
-[366] Utils.pm:169> WARN - month field 'January' in entry 'ullmann' is not an integer - this will probably not sort properly.
-[423] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[423] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[423] Biber.pm:3799> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[424] Biber.pm:3805> INFO - No sort tailoring available for locale 'en-US'
-[443] bbl.pm:613> INFO - Writing 'Capstone2ReportMilestone.bbl' with encoding 'UTF-8'
-[448] bbl.pm:716> INFO - Output to Capstone2ReportMilestone.bbl
-[448] Biber.pm:110> INFO - WARNINGS: 1
+[119] biber:313> INFO - === Mon Nov 27, 2017, 14:40:05
+[275] Biber.pm:361> INFO - Reading 'Capstone2ReportMilestone.bcf'
+[459] Biber.pm:847> INFO - Found 4 citekeys in bib section 0
+[497] Biber.pm:3971> INFO - Processing section 0
+[540] Biber.pm:4144> INFO - Looking for bibtex format file 'sources.bib' for section 0
+[541] bibtex.pm:1449> INFO - Decoding LaTeX character macros into UTF-8
+[568] bibtex.pm:1305> INFO - Found BibTeX data source 'sources.bib'
+[580] Utils.pm:169> WARN - month field 'January' in entry 'ullmann' is not an integer - this will probably not sort properly.
+[654] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[654] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[654] Biber.pm:3799> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[654] Biber.pm:3805> INFO - No sort tailoring available for locale 'en-US'
+[721] bbl.pm:613> INFO - Writing 'Capstone2ReportMilestone.bbl' with encoding 'UTF-8'
+[726] bbl.pm:716> INFO - Output to Capstone2ReportMilestone.bbl
+[727] Biber.pm:110> INFO - WARNINGS: 1
