@@ -95,11 +95,11 @@ void Graph::add_neighbor (int vert, int neighbor) {
 }
 
 // for debugging
-void Graph::print_graph() {
-  cout << "Begin graph" << std::endl;
-  cout << "-------------------------------\n";
-  cout << "Vertices: " << vertices << std::endl;
-  cout << "Edges: " << edges << std::endl;
-  cout << "-------------------------------\n";
-  cout << "End graph" << std::endl;
-}
+// void Graph::print_graph() {
+//   cout << "Begin graph" << std::endl;
+//   cout << "-------------------------------\n";
+//   cout << "Vertices: " << vertices << std::endl;
+//   cout << "Edges: " << edges << std::endl;
+//   cout << "-------------------------------\n";
+//   cout << "End graph" << std::endl;
+// }

@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-Wall -std=c++11
-LDFLAGS=
+LDFLAGS= -fopenmp
 TGT=main
 
-all: main.o graph.o isomorphism.o 
+all: main.o graph.o isomorphism.o
 	$(CC) -g -o $(TGT) main.o graph.o isomorphism.o $(CFLAGS) $(LDFLAGS)
 
 main.o: main.cpp
