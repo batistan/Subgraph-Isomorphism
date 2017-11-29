@@ -150,18 +150,19 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   int id;
   #pragma omp parallel num_threads(THREADS)
   {
-      printf("We're in thread %d\n", id);
-		  id = omp_get_thread_num();
+	  
+		  
 		  #pragma omp for
-		  {
 		  for (i = 0; i < s_n; i++) {
+			  id = omp_get_thread_num();
+		       printf("We're in thread %d\n", id);
 			for (j = 0; j < g_n; j++) {
 			  if (graph.vertices[j].second >= sub.vertices[i].second) {
 				possible_assignments[i][j] = true;
 			  }
 			}
 		  }
-		  }
+		  
 	  }
   }
   return possible_assignments;
@@ -177,7 +178,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   {
   
   while (changes_made) {
-	id = omp_get_thread_num();
+	
     changes_made = false;
 	#pragma omp for
     for (i = 0; i < pa_n; i++) {
