@@ -3,6 +3,9 @@
 #include <unordered_set>
 #include <algorithm> //for std::find
 #include "isomorphism.h"
+#include "omp.h"
+
+int THREADS = omp_get_max_threads();
 
 using std::find;
 
@@ -135,22 +138,32 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
   // to j in search graph
+  printf("create_possible_assignments entered\n");
   vector < vector<bool> > possible_assignments (sub.vertices.size(),
-    vector<bool>(graph.vertices.size(), false));
+  vector<bool>(graph.vertices.size(), false));
 
   // at first, every vertex in search graph with rank >= i is a possible assignments
   // this will be refined later
   ssize_t i, j;
   ssize_t s_n = sub.vertices.size();
   ssize_t g_n = graph.vertices.size();
-  for (i = 0; i < s_n; i++) {
-    for (j = 0; j < g_n; j++) {
-      if (graph.vertices[j].second >= sub.vertices[i].second) {
-        possible_assignments[i][j] = true;
-      }
-    }
+  int id;
+  #pragma omp parallel num_threads(THREADS)
+  {
+      printf("We're in thread %d\n", id);
+		  id = omp_get_thread_num();
+		  #pragma omp for
+		  {
+		  for (i = 0; i < s_n; i++) {
+			for (j = 0; j < g_n; j++) {
+			  if (graph.vertices[j].second >= sub.vertices[i].second) {
+				possible_assignments[i][j] = true;
+			  }
+			}
+		  }
+		  }
+	  }
   }
-
   return possible_assignments;
 }
 
@@ -159,9 +172,14 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   ssize_t pa_n = possible_assignments.size();
   ssize_t pb_n = possible_assignments[0].size();
   bool changes_made = true;
-
+  int id;
+  #pragma omp parallel num_threads(THREADS)
+  {
+  
   while (changes_made) {
+	id = omp_get_thread_num();
     changes_made = false;
+	#pragma omp for
     for (i = 0; i < pa_n; i++) {
       // check if this row contains no 1s
       bool no_one = true;
@@ -209,7 +227,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       }
     }
   }
-
+  }
   // M was successfully refined without creating any rows with all 0s. return true.
   printf("Expecting iso and seg fault\n");
   return true;

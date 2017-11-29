@@ -6,6 +6,8 @@ FILE=Capstone2ReportMilestone
 # so just one pass is fine
 $(FILE).pdf: $(FILE).tex
 	pdflatex $(FILE).tex
+	biber $(FILE)
+	pdflatex $(FILE).tex
 	pdflatex $(FILE).tex
 
 clean:
