@@ -176,10 +176,11 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   while (changes_made) {
 	
     changes_made = false;
-	#pragma omp parallel for collapse(2)
+	#pragma omp parallel for
     for (i = 0; i < pa_n; i++) {
       // check if this row contains no 1s
       bool no_one = true;
+	  #pragma omp parallel for
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
           no_one = false;
