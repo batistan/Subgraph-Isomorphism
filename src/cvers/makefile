@@ -4,16 +4,16 @@ LDFLAGS=
 TGT=main
 
 all: main.o graph.o isomorphism.o 
-	$(CC) -g -o $(TGT) main.o graph.o isomorphism.o $(CFLAGS) $(LDFLAGS)
+	$(CC) -o $(TGT) main.o graph.o isomorphism.o $(LDFLAGS)
 
 main.o: main.cpp
-	$(CC) -c main.cpp
+	$(CC) $(CFLAGS) -c main.cpp
 
 graph.o: graph.cpp graph.h
-	$(CC) -c graph.cpp
+	$(CC) $(CFLAGS) -c graph.cpp
 
 isomorphism.o: isomorphism.cpp isomorphism.h
-	$(CC) -c isomorphism.cpp
+	$(CC) $(CFLAGS) -c isomorphism.cpp
 
 clean:
 	rm *.o
