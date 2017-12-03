@@ -75,6 +75,7 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
     }
   }
 
+
   if(!refine_possible_assignments(sub, graph, possible_assignments)) {
     // 5
     five:
