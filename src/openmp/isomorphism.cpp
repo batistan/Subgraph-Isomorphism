@@ -46,7 +46,10 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   // 2
   // if there is no j such that possible_assignments[d][j] == true and f[j] == false goto 7
   two:
-  if (find(possible_assignments[depth].begin(),
+  if (depth >= possible_assignments.size())
+    goto seven;
+
+  else if (find(possible_assignments[depth].begin(),
         possible_assignments[depth].end(), true) != possible_assignments[depth].end()
       && find(column_depth.begin(), column_depth.end(), false) != column_depth.end()) {
     // there exists such a j
