@@ -150,7 +150,6 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
   int id;
   #pragma omp parallel num_threads(THREADS)
   {
-		  #pragma omp parallel for collapse(2)
 		  for (i = 0; i < s_n; i++) {
 			for (j = 0; j < g_n; j++) {
 			  if (graph.vertices[j].second >= sub.vertices[i].second) {
@@ -158,8 +157,8 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
 			  }
 			}
 		  }
-		  
-	  
+
+
   }
   return possible_assignments;
 }
@@ -168,21 +167,21 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   ssize_t i, j;
   ssize_t pa_n = possible_assignments.size();
   ssize_t pb_n = possible_assignments[0].size();
-  bool changes_made = true;
+  volatile bool changes_made = true;
   int id;
   // check if this row contains no 1s
-  bool no_one = false;
+  volatile bool no_one = false;
   #pragma omp parallel num_threads(THREADS)
   {
-  
-  while (changes_made) {
-	
-    if (no_one) {
-      continue;
-    }
+
+for (;changes_made && !no_one;){
+  // while (changes_made) {
+  //
+  //   if (no_one) {
+  //     continue;
+  //   }
 
     changes_made = false;
-	#pragma omp parallel for
     for (i = 0; i < pa_n; i++) {
     // we never found a 1 in this row, so there's no point in continuing
     // there's at least one vertex in subgraph that cannot be mapped to any
@@ -193,7 +192,6 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
         continue;
       }
       no_one = true;
-	  #pragma omp parallel for
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
           no_one = false;
@@ -235,6 +233,5 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
     return false;
   }
   // M was successfully refined without creating any rows with all 0s. return true.
-  printf("Expecting iso and seg fault\n");
   return true;
 }

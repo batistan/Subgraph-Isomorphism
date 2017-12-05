@@ -212,6 +212,5 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   }
 
   // M was successfully refined without creating any rows with all 0s. return true.
-  printf("Expecting iso and seg fault\n");
   return true;
 }
