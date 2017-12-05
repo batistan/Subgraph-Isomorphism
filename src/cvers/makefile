@@ -15,6 +15,12 @@ graph.o: graph.cpp graph.h
 isomorphism.o: isomorphism.cpp isomorphism.h
 	$(CC) $(CFLAGS) -c isomorphism.cpp
 
+debug: main.cpp graph.cpp graph.h isomorphism.cpp isomorphism.h
+	$(CC) $(CFLAGS) -c -g graph.cpp
+	$(CC) $(CFLAGS) -c -g isomorphism.cpp
+	$(CC) $(CFLAGS) -c -g main.cpp
+	$(CC) -o $(TGT) main.o graph.o isomorphism.o $(LDFLAGS)
+
 clean:
 	rm *.o
 

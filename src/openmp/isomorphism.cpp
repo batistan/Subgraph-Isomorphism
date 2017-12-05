@@ -170,16 +170,16 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   ssize_t pb_n = possible_assignments[0].size();
   bool changes_made = true;
   int id;
+  // check if this row contains no 1s
+  bool no_one = false;
   #pragma omp parallel num_threads(THREADS)
   {
   
-  while (changes_made) {
+  while (changes_made && !no_one) {
 	
     changes_made = false;
 	#pragma omp parallel for
-    for (i = 0; i < pa_n; i++) {
-      // check if this row contains no 1s
-      bool no_one = true;
+    for (i = 0; i < pa_n && !no_one; i++) {
 	  #pragma omp parallel for
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
@@ -221,10 +221,18 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
         printf("Expecting no iso\n");
-        return false;
+        break;
       }
     }
+
+    if (no_one) {
+      break;
+    }
   }
+  }
+
+  if (no_one) {
+    return false;
   }
   // M was successfully refined without creating any rows with all 0s. return true.
   printf("Expecting iso and seg fault\n");

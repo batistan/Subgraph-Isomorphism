@@ -13,7 +13,7 @@ graph.o: graph.cpp graph.h
 	$(CC) $(CFLAGS) -c graph.cpp
 
 isomorphism.o: isomorphism.cpp isomorphism.h
-	$(CC) $(CFLAGS) -c isomorphism.cpp
+	$(CC) $(CFLAGS) $(LDFLAGS) -c isomorphism.cpp
 
 clean:
 	rm *.o
