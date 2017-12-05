@@ -175,11 +175,24 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
   #pragma omp parallel num_threads(THREADS)
   {
   
-  while (changes_made && !no_one) {
+  while (changes_made) {
 	
+    if (no_one) {
+      continue;
+    }
+
     changes_made = false;
 	#pragma omp parallel for
-    for (i = 0; i < pa_n && !no_one; i++) {
+    for (i = 0; i < pa_n; i++) {
+    // we never found a 1 in this row, so there's no point in continuing
+    // there's at least one vertex in subgraph that cannot be mapped to any
+    // vertex in the search graph, so we know that
+    // possible_assignments cannot specify any isomorphism
+      if (no_one) {
+        printf("Expecting no iso\n");
+        continue;
+      }
+      no_one = true;
 	  #pragma omp parallel for
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
@@ -204,29 +217,16 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
               }
             }
 
-            // if this neighbor has no corresponding neighbor, then j is an invalid match.
-            // move on to the next possible assignment
-              if (!has_corresponding_neighbor) {
-                possible_assignments[i][j] = 0;
-                changes_made = true;
-                break;
-              }
+          // if this neighbor has no corresponding neighbor, then j is an invalid match.
+          // move on to the next possible assignment
+            if (!has_corresponding_neighbor) {
+              possible_assignments[i][j] = 0;
+              changes_made = true;
+              break;
+            }
           }
         }
       }
-
-      // we never found a 1 in this row, so there's no point in continuing
-      // there's at least one vertex in subgraph that cannot be mapped to any
-      // vertex in the search graph, so we know that
-      // possible_assignments cannot specify any isomorphism
-      if (no_one) {
-        printf("Expecting no iso\n");
-        break;
-      }
-    }
-
-    if (no_one) {
-      break;
     }
   }
   }
