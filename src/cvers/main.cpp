@@ -23,9 +23,7 @@ Graph import_data(const char *filename, const int debug);
 int main(int argc, char **argv) {
 
   program_name = argv[0];
-  // TODO change to a tuple. this doesn't work
-  // tuple <int, int, char*, char*>
-  // possibly strings but keep in mind these will be used for fopen
+
   string *args = handle_args(argc, argv);
 
   int interactive = atoi(args[0].c_str());
