@@ -65,11 +65,16 @@ void Graph::add_vertex(pair<int, int> vertex){
 
 void Graph::add_edge(int source, int dest, int weight){
 
-  if (this->get_index(source) < 0) {
+  //wish this one worked
+  //if (this->get_index(source) < 0) {
+  auto it = find(this->vertices.begin(), this->vertices.end(), pair<int,int>(source,0));
+  if (it == this->vertices.end()){
     this->add_vertex(pair<int, int>(source, 0));
   }
 
-  if (this->get_index(dest) < 0) {
+  //if (this->get_index(dest) < 0) {
+  it = find(this->vertices.begin(), this->vertices.end(), pair<int,int>(dest,0));
+  if (it == this->vertices.end()){
     this->add_vertex(pair<int, int>(dest, 0));
   }
   // increase vertex degree
