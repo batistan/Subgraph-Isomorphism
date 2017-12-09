@@ -54,12 +54,41 @@ int main(int argc, char **argv) {
 
 
   Graph graph = import_data(graph_filename, debug);
+
+  if (debug) {
+    printf("Successfully imported graph from file %s.\n",
+        graph_filename);
+  }
+
   Graph subgraph = import_data(sub_filename, debug);
 
-  int matches = 0;
-  // TODO: multiple instances of isomorphism
-  vector < pair<int,int> > *result = find_isomorphism(subgraph, graph);
-  printf("Made it to after find_isomorphism");
+  if (debug) {
+    printf("Successfully imported subgraph from file %s.\n",
+        sub_filename);
+  }
+
+  if (debug) {
+    printf("Running find_isomorphism....\n");
+  }
+
+  vector<int> isomorphism = find_isomorphism(subgraph, graph);
+  
+  if (debug){
+    printf("find_isomorphism terminated.\n");
+  }
+
+  if (isomorphism.size() == 0) {
+    printf("No isomorphism found.\n");
+  }
+
+  else{
+    printf("Isomorphism found! Assignments are:\n");
+    size_t num_assignments = isomorphism.size();
+    for (size_t i = 0; i < num_assignments; i++) {
+      printf("Vertex %lu maps to vertex %d\n", i, isomorphism[i]);
+    }
+  }
+    
   return 0;
 }
 

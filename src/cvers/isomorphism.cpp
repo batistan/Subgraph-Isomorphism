@@ -6,7 +6,12 @@
 
 using std::find;
 
-vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
+vector < int > find_isomorphism (Graph &sub, Graph &graph) {
+  // takes graph and subgraph
+  // returns a vector of assignments
+  // v[i] = j, vertex i in subgraph can be assigned to vertex
+  // j in the search graph
+  // if no isomorphism exists, returns an empty vector
 
   // assignments_tree[i] specifies the possible_assignments at depth i
   vector <vector <vector <bool> > > assignments_tree;
@@ -14,21 +19,19 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   vector < vector<bool> > possible_assignments = create_possible_assignments(sub, graph);
   // return the address of this vector, or null if no isomorphism was found
 
-  //This doesn't work, assignments is out of scope. Throw it on the heap.
-  //vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
-
-  vector <pair<int, int> > *assignments = new vector <pair<int, int> >;
-
-
+  
   // columns_used[i] = true iff column i in M has been used at current stage of computation
   vector <bool> columns_used (possible_assignments[0].size(), false);
 
   // column_depth[d] = k if column k was used at depth d
   vector<int> column_depth (possible_assignments.size(), 0);
 
-  ssize_t i, j, k, pa_n = possible_assignments.size(), pb_n = possible_assignments[0].size();
+  size_t j, k, pa_n = possible_assignments.size(), pb_n = possible_assignments[0].size();
 
-  int depth = 0;
+  // return vector
+  vector < int > assignments = vector <int>(pa_n);
+
+  size_t depth = 0;
   columns_used[depth] = 0;
 
   // refine the possible assignments using the initial set of possible assignments
@@ -36,7 +39,7 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   if (!refine_possible_assignments(sub, graph, possible_assignments)) {
     // if refine_possible_assignments returns false, then there is no possible isomorphism
     // so we can just stop here.
-    return NULL;
+    return vector<int>(0);
   }
 
   // check if there's a j such that possible_assignments[d][j] = 1 and f[j] = 0
@@ -82,7 +85,7 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   if(!refine_possible_assignments(sub, graph, possible_assignments)) {
     // 5
     five:
-    int r;
+    size_t r;
     r = k+1;
     for (; r < pb_n; r++) {
       if (possible_assignments[depth][j] && !columns_used[j]) {
@@ -102,7 +105,8 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
     // 7
     seven:
     if (depth == 1) {
-      return NULL;
+      // return empty vector
+      return vector<int>(0);
     }
 
     else {
@@ -110,7 +114,6 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
       depth--;
       possible_assignments = assignments_tree[depth];
       k = column_depth[depth];
-      // TODO goto 5
       goto five;
     }
 
@@ -123,11 +126,11 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
   }
 
   else {
-    // isomorphism found. add it
-    for (int i = 0; i < pa_n; i++) {
-      for (int j = 0; j < pb_n; j++) {
+    // isomorphism found.
+    for (size_t i = 0; i < pa_n; i++) {
+      for (size_t j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
-          (*assignments).push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
+          assignments[i] = j;
         }
       }
     }
@@ -137,16 +140,17 @@ vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
-  // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
+  // possible_assignments[i][j] == true iff a possible assignment exists from i in sub
   // to j in search graph
   vector < vector<bool> > possible_assignments (sub.vertices.size(),
     vector<bool>(graph.vertices.size(), false));
 
-  // at first, every vertex in search graph with rank >= i is a possible assignments
+  // at first, every vertex in search graph with rank >= i is a possible assignment
   // this will be refined later
-  ssize_t i, j;
-  ssize_t s_n = sub.vertices.size();
-  ssize_t g_n = graph.vertices.size();
+  // see refine_possible_assignments
+  size_t i, j;
+  size_t s_n = sub.vertices.size();
+  size_t g_n = graph.vertices.size();
   for (i = 0; i < s_n; i++) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
@@ -159,9 +163,9 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
 }
 
 bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool> > &possible_assignments) {
-  ssize_t i, j;
-  ssize_t pa_n = possible_assignments.size();
-  ssize_t pb_n = possible_assignments[0].size();
+  size_t i, j;
+  size_t pa_n = possible_assignments.size();
+  size_t pb_n = possible_assignments[0].size();
   bool changes_made = true;
 
   while (changes_made) {
@@ -179,7 +183,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
           for (; n_i != neighbors_i.end(); n_i++) {
             // for each neighbor of i, iterate through all its possible assignments
-            ssize_t k;
+            size_t k;
             bool has_corresponding_neighbor = false;
             for (k = 0; k < pb_n; k++) {
               if (possible_assignments[sub.get_index(*(n_i))][k]) {
