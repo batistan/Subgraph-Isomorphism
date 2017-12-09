@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <iostream> //debugging
 #include <vector>
 #include <tuple>
 #include <getopt.h>
@@ -16,11 +17,12 @@
 #include "graph.h"
 #include "isomorphism.h"
 #include <unordered_set>
+#include <cstring>
 using std::string;
 
 const char* program_name;
 
-string *handle_args(int argc, char **argv);
+vector<string> handle_args(int argc, char **argv);
 void usage (FILE* stream, int exit_code);
 Graph import_data(const char *filename, const int debug);
 
@@ -28,7 +30,7 @@ int main(int argc, char **argv) {
 
   program_name = argv[0];
 
-  string *args = handle_args(argc, argv);
+  vector<string> args = handle_args(argc, argv);
 
   int interactive = atoi(args[0].c_str());
   int debug = atoi(args[1].c_str());
@@ -65,7 +67,7 @@ int main(int argc, char **argv) {
   }
 
   vector<int> isomorphism = find_isomorphism(subgraph, graph);
-  
+
   if (debug){
     fprintf(stderr, "find_isomorphism terminated.\n");
   }
@@ -81,7 +83,7 @@ int main(int argc, char **argv) {
       printf("Vertex %lu maps to vertex %d\n", i, isomorphism[i]);
     }
   }
-    
+
   return 0;
 }
 
@@ -164,7 +166,7 @@ Graph import_data(const char *filename, const int debug) {
   return g;
 }
 
-string *handle_args(int argc, char **argv) {
+vector<string> handle_args(int argc, char **argv) {
   // for getopt
   const char* const short_options = "hid";
   const struct option long_options[] = {
@@ -175,13 +177,14 @@ string *handle_args(int argc, char **argv) {
   };
 
   // we only need to save interactive and debug for now
-  string *returnargs = (string *) malloc(2*sizeof(string));
+  vector<string> returnargs;
+  returnargs.resize(4);
   int interactive = 0;
   // TODO change to 0 for final deployment
   int debug = 1;
 
   if (argc < 2) {
-    free(returnargs);
+    //free(returnargs);
     usage(stderr, 1);
   }
 
@@ -191,7 +194,7 @@ string *handle_args(int argc, char **argv) {
                               long_options, NULL);
     switch(next_option) {
       case 'h':
-        free(returnargs);
+        //free(returnargs);
         usage(stdout, 0);
         // calling usage quits the program anyway but whatever
         // we'll put a break here anyway
@@ -206,7 +209,7 @@ string *handle_args(int argc, char **argv) {
         break;
 
       case '?': // invalid option
-        free(returnargs);
+        //free(returnargs);
         usage(stderr, 1);
         break;
 
@@ -226,8 +229,8 @@ string *handle_args(int argc, char **argv) {
   if (!interactive) {
     // interactive was 0. free the memory it took up and reallocate enough for the two args
     // and the two filenames
-    free(returnargs);
-    returnargs = (string *) malloc(4*sizeof(string));
+    //free(returnargs);
+    //returnargs = (string *) malloc(4*sizeof(string));
     returnargs[2] = string(argv[optind]);
     returnargs[3] = string(argv[optind+1]);
 

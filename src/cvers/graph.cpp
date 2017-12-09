@@ -48,12 +48,12 @@ void Graph::add_vertex(pair<int, int> vertex){
   this->vertices.push_back(vertex);
   // add mappings
   //vertex_indices[vertex.first] = vertices.size()-1;
-  fprintf(stderr,"Trying to add mapping %d => %d...", vertex.first,vertices.size()-1);
+  fprintf(stderr,"Trying to add mapping %d => %d...", vertex.first,int(vertices.size()-1));
   this->vertex_indices.insert(pair<int, int>(vertex.first, vertices.size()-1));
   fprintf(stderr," done.\n");
 
   //vertex_vals[vertices.size()-1] = vertex.first;
-  fprintf(stderr,"Trying to add mapping %d => %d...", vertices.size()-1, vertex.first);
+  fprintf(stderr,"Trying to add mapping %d => %d...", int(vertices.size()-1), vertex.first);
   this->vertex_vals.insert(pair<int, int>(vertices.size()-1, vertex.first));
   fprintf(stderr," done.\n");
 
