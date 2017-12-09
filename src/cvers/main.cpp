@@ -37,15 +37,6 @@ int main(int argc, char **argv) {
                                               : filename_default;
   const char *sub_filename = (!interactive) ? args[3].c_str()
                                               : filename_default;
-  /*if (!interactive) {
-    const char *graph_filename = args[2].c_str();
-    const char *sub_filename = args[3].c_str();
-  }
-
-  else {
-    const char *graph_filename = filename_default;
-    const char *sub_filename = filename_default;
-  }*/
 
   if (debug) {
     printf("inter = %d, debug = %d\n", interactive, debug);
@@ -183,12 +174,18 @@ string *handle_args(int argc, char **argv) {
   // TODO change to 0 for final deployment
   int debug = 1;
 
+  if (argc < 2) {
+    free(returnargs);
+    usage(stderr, 1);
+  }
+
   int next_option;
   do {
     next_option = getopt_long(argc, argv, short_options,
                               long_options, NULL);
     switch(next_option) {
       case 'h':
+        free(returnargs);
         usage(stdout, 0);
         // calling usage quits the program anyway but whatever
         // we'll put a break here anyway
@@ -203,6 +200,7 @@ string *handle_args(int argc, char **argv) {
         break;
 
       case '?': // invalid option
+        free(returnargs);
         usage(stderr, 1);
         break;
 
