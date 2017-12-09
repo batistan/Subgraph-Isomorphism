@@ -161,7 +161,7 @@ Graph import_data(const char *filename, const int debug) {
     }
   }
 
-  free(line);
+  // don't free line since it's null now
 
   return g;
 }
