@@ -1,3 +1,7 @@
+// use stderr to print debug info since stderr is unbuffered
+// i.e. anything sent to stderr will be printed immediately
+// instead of put into a buffer and printed when the buffer
+// gets flushed
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -37,33 +41,33 @@ int main(int argc, char **argv) {
                                               : filename_default;
 
   if (debug) {
-    printf("inter = %d, debug = %d\n", interactive, debug);
-    printf("Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
+    fprintf(stderr, "inter = %d, debug = %d\n", interactive, debug);
+    fprintf(stderr, "Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
   }
 
 
   Graph graph = import_data(graph_filename, debug);
 
   if (debug) {
-    printf("Successfully imported graph from file %s.\n",
+    fprintf(stderr, "Successfully imported graph from file %s.\n",
         graph_filename);
   }
 
   Graph subgraph = import_data(sub_filename, debug);
 
   if (debug) {
-    printf("Successfully imported subgraph from file %s.\n",
+    fprintf(stderr, "Successfully imported subgraph from file %s.\n",
         sub_filename);
   }
 
   if (debug) {
-    printf("Running find_isomorphism....\n");
+    fprintf(stderr, "Running find_isomorphism....\n");
   }
 
   vector<int> isomorphism = find_isomorphism(subgraph, graph);
   
   if (debug){
-    printf("find_isomorphism terminated.\n");
+    fprintf(stderr, "find_isomorphism terminated.\n");
   }
 
   if (isomorphism.size() == 0) {
@@ -103,13 +107,15 @@ Graph import_data(const char *filename, const int debug) {
   Graph g;
 
   if (debug) {
-    printf("Reading file %s...\n", filename);
+    fprintf(stderr, "Reading file %s...\n", filename);
   }
 
   char *tempa, *tempb, *tempweight;
   char tempweight_default[] = "0";
+  ssize_t bytes_read;
   // getline returns -1 on failure to read a line (including EOF)
-  while (getline(&line, &n, fd) != -1) {
+  bytes_read = getline(&line, &n, fd);
+  while (bytes_read != -1) {
     tempa = strtok(line, " ");
     // strtok returns NULL if the token (space in this case) was not found in the str
     // otherwise return the string up to the token (exclusive)
@@ -119,14 +125,15 @@ Graph import_data(const char *filename, const int debug) {
       exit(-1);
     }
 
-    tempb = strtok(line, " ");
+    // if arg is null after a call to strtok, it'll keep reading after the position of the last token
+    tempb = strtok(NULL, " ");
     if (tempb == NULL) {
       fprintf(stderr, "Error parsing file %s. Adjacency list must be of form 'node1 node2 [edge_weight]',\
           but line was %s\n", filename, line);
       exit(-1);
     }
 
-    tempweight = strtok(line, " ");
+    tempweight = strtok(NULL, " ");
     if (tempweight == NULL) {
       tempweight = tempweight_default;
     }
@@ -139,6 +146,7 @@ Graph import_data(const char *filename, const int debug) {
     // this will also add the vertices if they don't exist
     // add_vertex is called from within add_edge if no vertex with the given value exists
     g.add_edge(atempa, atempb, atempweight);
+    bytes_read = getline(&line, &n, fd);
   }
 
   if (fd != stdin) {
@@ -220,15 +228,15 @@ string *handle_args(int argc, char **argv) {
     // and the two filenames
     free(returnargs);
     returnargs = (string *) malloc(4*sizeof(string));
-    returnargs[2] = argv[optind];
-    returnargs[3] = argv[optind+1];
+    returnargs[2] = string(argv[optind]);
+    returnargs[3] = string(argv[optind+1]);
 
   }
 
   if (debug) {
-    printf("Interactive set to %d. Debug is %d.\n", interactive, debug);
+    fprintf(stderr,"Interactive set to %d. Debug is %d.\n", interactive, debug);
     if (!interactive) {
-      printf("Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
+      fprintf(stderr,"Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
     }
   }
 

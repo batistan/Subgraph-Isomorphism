@@ -45,37 +45,32 @@ Graph::Graph () {
 }
 
 void Graph::add_vertex(pair<int, int> vertex){
-  vertices.push_back(vertex);
+  this->vertices.push_back(vertex);
   // add mappings
-  vertex_indices[vertex.first] = vertices.size()-1;
-  vertex_vals[vertices.size()-1] = vertex.first;
+  //vertex_indices[vertex.first] = vertices.size()-1;
+  fprintf(stderr,"Trying to add mapping %d => %d...", vertex.first,vertices.size()-1);
+  this->vertex_indices.insert(pair<int, int>(vertex.first, vertices.size()-1));
+  fprintf(stderr," done.\n");
+
+  //vertex_vals[vertices.size()-1] = vertex.first;
+  fprintf(stderr,"Trying to add mapping %d => %d...", vertices.size()-1, vertex.first);
+  this->vertex_vals.insert(pair<int, int>(vertices.size()-1, vertex.first));
+  fprintf(stderr," done.\n");
+
   // add row with edges.size()+1 zeros
-  edges.push_back(vector<int>(edges.size()+1,0));
+  this->edges.push_back(vector<int>(edges.size()+1,0));
   // add a set for its neighbors
-  adjacencies.push_back(unordered_set<int>());
+  this->adjacencies.push_back(unordered_set<int>());
 }
 
 void Graph::add_edge(int source, int dest, int weight){
-  // weight should be non-zero
-  //if (find_if(vertices.begin(),vertices.end(), CompareFirst(source)) == vertices.end()) {
-  //  pair<int, bool>  vsrc(source, false);
-  //  vertices.push_back(vsrc);
-  //}
-
-  //if (find_if(vertices.begin(),vertices.end(), CompareFirst(dest)) == vertices.end()) {
-  //  pair<int, bool> vdest(dest, false);
-  //  vertices.push_back(vdest);
-  //}
-
-  //tuple<int, int, int> new_edge (source, dest, weight);
-  //edges.push_back(new_edge);
 
   if (this->get_index(source) < 0) {
     this->add_vertex(pair<int, int>(source, 0));
   }
 
-  if (get_index(dest) < 0) {
-    this->add_vertex(pair<int, int>(source, 0));
+  if (this->get_index(dest) < 0) {
+    this->add_vertex(pair<int, int>(dest, 0));
   }
   // increase vertex degree
   vertices[this->get_index(source)].second++;
@@ -105,7 +100,6 @@ bool Graph::has_edge(int vert1, int vert2){
 }
 
 int Graph::get_index(int value) {
-  // this works????
   if (vertex_indices.find(value) != vertex_indices.end()) {
     return vertex_indices[value];
   }
