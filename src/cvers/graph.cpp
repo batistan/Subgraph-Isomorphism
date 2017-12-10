@@ -30,40 +30,45 @@ Graph::Graph () {
   this->vertex_vals = map<int, int>();
 }
 
-void Graph::add_vertex(pair<int, int> vertex){
-  this->vertices.push_back(vertex);
-  // add mappings
-  //vertex_indices[vertex.first] = vertices.size()-1;
-  this->vertex_indices.insert(pair<int, int>(vertex.first, vertices.size()-1));
+void Graph::add_vertex(pair<int, int> vertex) {
+  if (this->get_index(vertex.first) < 0) {
+    this->vertices.push_back(vertex);
+    // add mappings
+    //vertex_indices[vertex.first] = vertices.size()-1;
+    this->vertex_indices.insert(pair<int, int>(vertex.first, vertices.size()-1));
 
-  //vertex_vals[vertices.size()-1] = vertex.first;
-  this->vertex_vals.insert(pair<int, int>(vertices.size()-1, vertex.first));
+    //vertex_vals[vertices.size()-1] = vertex.first;
+    this->vertex_vals.insert(pair<int, int>(vertices.size()-1, vertex.first));
 
-  // add row with edges.size()+1 -1s
-  this->edges.push_back(vector<int>(edges.size()+1,-1));
-  // add a set for its neighbors
-  this->adjacencies.push_back(unordered_set<int>());
+    // add row with edges.size()+1 -1s
+    this->edges.push_back(vector<int>(edges.size()+1,-1));
+    // add a set for its neighbors
+    this->adjacencies.push_back(unordered_set<int>());
+  }
 }
 
-void Graph::add_edge(int source, int dest, int weight){
+void Graph::add_edge(int source, int dest, int weight) {
 
   // WEIGHT SHOULD BE NON-NEGATIVE
-  if (this->get_index(source) < 0) {
-    this->add_vertex(pair<int, int>(source, 0));
-  }
+  this->add_vertex(pair<int, int>(source, 0));
 
-  if (this->get_index(dest) < 0) {
-    this->add_vertex(pair<int, int>(dest, 0));
-  }
+  this->add_vertex(pair<int, int>(dest, 0));
+
+  int sourceind = this->get_index(source);
+  int destind = this->get_index(dest);
+
   // increase vertex degree
   this->vertices[this->get_index(source)].second++;
   this->vertices[this->get_index(dest)].second++;
 
   // source -> dest
-  // we'd need a flag or something for directed graphs
-  // somewhere
-  this->edges[this->get_index(source)][this->get_index(dest)] = weight;
-  this->edges[this->get_index(dest)][this->get_index(source)] = weight;
+  if (sourceind < destind) {
+    this->edges[destind][sourceind] = weight;
+  }
+
+  else {
+    this->edges[sourceind][destind] = weight;
+  }
   // TODO: get adjacency set of source and dest (or create them if not in graph)
   // add dest/source to that set
   // once again, consider directed graphs

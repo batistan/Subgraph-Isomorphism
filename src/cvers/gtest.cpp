@@ -32,10 +32,10 @@ class dummy {
       this->v[destind].second++;
 
       if (sourceind < destind) {
-        this->edges[sourceind][destind] = weight;
+        this->edges[destind][sourceind] = weight;
       }
       else {
-        this->edges[destind][sourceind] = weight;
+        this->edges[sourceind][destind] = weight;
       }
     }
 
