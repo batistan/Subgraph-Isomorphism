@@ -51,7 +51,7 @@ vector < int > find_isomorphism (Graph &sub, Graph &graph) {
 
   if (find(possible_assignments[depth].begin(),
         possible_assignments[depth].end(), true) != possible_assignments[depth].end()
-      && find(column_depth.begin(), column_depth.end(), false) != column_depth.end()) {
+      && find(columns_used.begin(), columns_used.end(), false) != columns_used.end()) {
     // there exists such a j
     assignments_tree.push_back(possible_assignments);
     if (depth == 0) {
@@ -71,7 +71,10 @@ vector < int > find_isomorphism (Graph &sub, Graph &graph) {
   // 3
   // increment k until we find a possible assignment for this row
   three:
-  for (; !possible_assignments[depth][k] || columns_used[k]; k++) ;
+  do {
+    k++;
+  }
+  while (!possible_assignments[depth][k] || columns_used[k])
 
   // found one.
   for (j = 0; j < pb_n; j++) {
