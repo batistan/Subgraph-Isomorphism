@@ -1,6 +1,8 @@
-#include "graph.h"
+// #include "graph.h"
 #include <map>
+#include <vector>
 
+using std::vector;
 using std::pair;
 using std::map;
 
@@ -20,8 +22,8 @@ class dummy {
     }
 
     void add_edge(int source, int dest, int weight) {
-
-      this->insert(pair<int, int>(source, 0));
+      pair<int, int> source_vert(source, 0);
+      this->insert(source_vert);
 
       this->insert(pair<int, int>(dest, 0));
 
@@ -30,6 +32,9 @@ class dummy {
 
       this->v[sourceind].second++;
       this->v[destind].second++;
+
+      fprintf(stderr, "sourceind: %d\ndestind: %d\n\nvec1 size: %d\nvec2 size: %d\n",
+        sourceind, destind,this->edges.size(), this->edges[sourceind].size());
 
       if (sourceind < destind) {
         this->edges[destind][sourceind] = weight;
@@ -68,7 +73,7 @@ class dummy {
 
 int main() {
 
-  Graph g;
+  //Graph g;
   dummy d;
   map<int,int> vertex_indices = map<int, int>();
   map<int,int> vertex_vals = map<int, int>();
@@ -95,4 +100,3 @@ int main() {
 
   return 0;
 }
-
