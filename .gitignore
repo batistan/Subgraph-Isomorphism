@@ -20,3 +20,6 @@ src/pythonvers/out.txt
 
 # main executable
 main
+
+# testing executable
+test

@@ -176,7 +176,6 @@ vector<string> handle_args(int argc, char **argv) {
     { NULL, 0, NULL, 0 }
   };
 
-  // we only need to save interactive and debug for now
   vector<string> returnargs;
   returnargs.resize(4);
   int interactive = 0;
@@ -184,7 +183,6 @@ vector<string> handle_args(int argc, char **argv) {
   int debug = 1;
 
   if (argc < 2) {
-    //free(returnargs);
     usage(stderr, 1);
   }
 
@@ -194,7 +192,6 @@ vector<string> handle_args(int argc, char **argv) {
                               long_options, NULL);
     switch(next_option) {
       case 'h':
-        //free(returnargs);
         usage(stdout, 0);
         // calling usage quits the program anyway but whatever
         // we'll put a break here anyway
@@ -209,7 +206,6 @@ vector<string> handle_args(int argc, char **argv) {
         break;
 
       case '?': // invalid option
-        //free(returnargs);
         usage(stderr, 1);
         break;
 
@@ -227,10 +223,6 @@ vector<string> handle_args(int argc, char **argv) {
   // interactive was specified, in which case yell at the user.
 
   if (!interactive) {
-    // interactive was 0. free the memory it took up and reallocate enough for the two args
-    // and the two filenames
-    //free(returnargs);
-    //returnargs = (string *) malloc(4*sizeof(string));
     returnargs[2] = string(argv[optind]);
     returnargs[3] = string(argv[optind+1]);
 
@@ -244,9 +236,7 @@ vector<string> handle_args(int argc, char **argv) {
   }
 
   // put what we want to return in their places.
-  //sprintf(returnargs[0],"%d",interactive);
   returnargs[0] = std::to_string(interactive);
-  //sprintf(returnargs[1],"%d",debug);
   returnargs[1] = std::to_string(debug);
 
   return returnargs;
