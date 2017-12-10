@@ -19,7 +19,7 @@ vector < int > find_isomorphism (Graph &sub, Graph &graph) {
   vector < vector<bool> > possible_assignments = create_possible_assignments(sub, graph);
   // return the address of this vector, or null if no isomorphism was found
 
-  
+
   // columns_used[i] = true iff column i in M has been used at current stage of computation
   vector <bool> columns_used (possible_assignments[0].size(), false);
 
@@ -74,7 +74,7 @@ vector < int > find_isomorphism (Graph &sub, Graph &graph) {
   do {
     k++;
   }
-  while (!possible_assignments[depth][k] || columns_used[k])
+  while (!possible_assignments[depth][k] || columns_used[k]);
 
   // found one.
   for (j = 0; j < pb_n; j++) {
