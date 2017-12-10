@@ -101,7 +101,7 @@ vector < int > find_isomorphism (Graph &sub, Graph &graph) {
     // 6
     six:
     column_depth[depth] = k;
-    columns_used[depth] = true;
+    columns_used[k] = true;
     depth++;
     goto two;
 
