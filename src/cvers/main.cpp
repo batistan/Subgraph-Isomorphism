@@ -80,7 +80,9 @@ int main(int argc, char **argv) {
     printf("Isomorphism found! Assignments are:\n");
     size_t num_assignments = isomorphism.size();
     for (size_t i = 0; i < num_assignments; i++) {
-      printf("Vertex %lu maps to vertex %d\n", i, isomorphism[i]);
+      int subgraph_vert = subgraph.get_value(i);
+      int graph_vert = graph.get_value(isomorphism[i]);
+      printf("Vertex %d maps to vertex %d\n", subgraph_vert, graph_vert);
     }
   }
 
