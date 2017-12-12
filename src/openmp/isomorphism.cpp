@@ -167,13 +167,13 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
   while (changes_made) {
     changes_made = false;
+
     for (i = 0; i < pa_n; i++) {
       // check if this row contains no 1s
       bool no_one = true;
-      #pragma omp parallel num_threads(THREADS)
+    #pragma omp parallel num_threads(THREADS)
       for (j = 0; j < pb_n; j++) {
         if (possible_assignments[i][j]) {
-          #pragma omp critical
           no_one = false;
           // check if all of i's neighbors have a possible assignment to a neighbor of j
           // iterate through all neighbors of i
