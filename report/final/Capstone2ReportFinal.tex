@@ -132,8 +132,21 @@ The goal of this project is to understand and optimize an algorithm for solving 
   $|V|$ indicates the number of vertices.
   $|E|$ indicates the number of edges.
 
-  
-  \subsection{Cordella Improvement on Ullman}
+
+  For this algorithm, we need to generate all possible maps between two graphs, then check if any of those maps is a subgraph isomorphism.
+
+  The maps can be represented using a \textit{search space tree}, which has a dummy root. Each node represents a possible match between a vertex in graph $G$ of the pattern in the target graph $G'$.
+
+  The path from the root to a node
+
+  Bonnici's algorithm has a significant reduction in running time compared to VF2 (in its VFlib implementation). However, due to a--
+  \includegraphics[scale=0.5]{images/bonnici_searchtree.png}
+
+  \cite{bonnici}
+
+  \subsection{VF2 Algorithm}
+
+
 
 \section{Implementation of the Algorithm}
 
