@@ -14,6 +14,15 @@ graph.o: graph.cpp graph.h
 
 isomorphism.o: isomorphism.cpp isomorphism.h
 	$(CC) $(CFLAGS) -c isomorphism.cpp
+<<<<<<< HEAD
+=======
+
+debug: main.cpp graph.cpp graph.h isomorphism.cpp isomorphism.h
+	$(CC) $(CFLAGS) -O0 -c -g graph.cpp
+	$(CC) $(CFLAGS) -O0 -c -g isomorphism.cpp
+	$(CC) $(CFLAGS) -O0 -c -g main.cpp
+	$(CC) -o $(TGT) -O0 main.o graph.o isomorphism.o $(LDFLAGS)
+>>>>>>> origin/openmp
 
 clean:
 	rm *.o

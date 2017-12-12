@@ -19,22 +19,8 @@ struct CompareFirst
     int val_;
 };
 
-// Vertex::Vertex(int label, bool visited) {
-//   this->label = label;
-//   this->visited = visited;
-// }
-
 // edges[i][j] = weight of edge connecting i and j
-// 0 if no such edge
-// TODO please never use this constructor.
-//Graph::Graph (vector< pair<int, int>  > vertices, vector<vector<int> > edges,
-//  vector< unordered_set<int> > adjacencies){
-//
-//  this->vertices = vertices;
-//  this->edges = edges;
-//  this->adjacencies = adjacencies;
-//  update_adjacencies();
-//}
+// -1 if no such edge
 
 Graph::Graph () {
   this->vertices = vector<pair<int, int> >();
@@ -44,48 +30,45 @@ Graph::Graph () {
   this->vertex_vals = map<int, int>();
 }
 
-void Graph::add_vertex(pair<int, int> vertex){
-  vertices.push_back(vertex);
-  // add mappings
-  vertex_indices[vertex.first] = vertices.size()-1;
-  vertex_vals[vertices.size()-1] = vertex.first;
-  // add row with edges.size()+1 zeros
-  edges.push_back(vector<int>(edges.size()+1,0));
-  // add a set for its neighbors
-  adjacencies.push_back(unordered_set<int>());
+void Graph::add_vertex(pair<int, int> vertex) {
+  if (this->get_index(vertex.first) < 0) {
+    this->vertices.push_back(vertex);
+    // add mappings
+    //vertex_indices[vertex.first] = vertices.size()-1;
+    this->vertex_indices.insert(pair<int, int>(vertex.first, vertices.size()-1));
+
+    //vertex_vals[vertices.size()-1] = vertex.first;
+    this->vertex_vals.insert(pair<int, int>(vertices.size()-1, vertex.first));
+
+    // add row with edges.size()+1 -1s
+    this->edges.push_back(vector<int>(edges.size()+1,-1));
+    // add a set for its neighbors
+    this->adjacencies.push_back(unordered_set<int>());
+  }
 }
 
-void Graph::add_edge(int source, int dest, int weight){
-  // weight should be non-zero
-  //if (find_if(vertices.begin(),vertices.end(), CompareFirst(source)) == vertices.end()) {
-  //  pair<int, bool>  vsrc(source, false);
-  //  vertices.push_back(vsrc);
-  //}
+void Graph::add_edge(int source, int dest, int weight) {
 
-  //if (find_if(vertices.begin(),vertices.end(), CompareFirst(dest)) == vertices.end()) {
-  //  pair<int, bool> vdest(dest, false);
-  //  vertices.push_back(vdest);
-  //}
+  // WEIGHT SHOULD BE NON-NEGATIVE
+  this->add_vertex(pair<int, int>(source, 0));
 
-  //tuple<int, int, int> new_edge (source, dest, weight);
-  //edges.push_back(new_edge);
+  this->add_vertex(pair<int, int>(dest, 0));
 
-  if (this->get_index(source) < 0) {
-    this->add_vertex(pair<int, int>(source, 0));
-  }
+  int sourceind = this->get_index(source);
+  int destind = this->get_index(dest);
 
-  if (get_index(dest) < 0) {
-    this->add_vertex(pair<int, int>(source, 0));
-  }
   // increase vertex degree
-  vertices[this->get_index(source)].second++;
-  vertices[this->get_index(dest)].second++;
+  this->vertices[this->get_index(source)].second++;
+  this->vertices[this->get_index(dest)].second++;
 
   // source -> dest
-  // we'd need a flag or something for directed graphs
-  // somewhere
-  edges[this->get_index(source)][this->get_index(dest)] = weight;
-  edges[this->get_index(dest)][this->get_index(source)] = weight;
+  if (sourceind < destind) {
+    this->edges[destind][sourceind] = weight;
+  }
+
+  else {
+    this->edges[sourceind][destind] = weight;
+  }
   // TODO: get adjacency set of source and dest (or create them if not in graph)
   // add dest/source to that set
   // once again, consider directed graphs
@@ -94,28 +77,22 @@ void Graph::add_edge(int source, int dest, int weight){
 }
 
 bool Graph::has_edge(int vert1, int vert2){
-  //unordered_set<int> edge ( {vert1, vert2} );
-  //if (find(adjacencies.begin(), adjacencies.end(), edge) == adjacencies.end())
-  //  return false;
-
-  //return true;
   // just got this bad boy down to O(1)
   // you're welcome
-  return (edges[vert1][vert2] != 0);
+  return (edges[vert1][vert2] >= 0);
 }
 
 int Graph::get_index(int value) {
-  // this works????
-  if (vertex_indices.find(value) != vertex_indices.end()) {
-    return vertex_indices[value];
+  if (this->vertex_indices.find(value) != this->vertex_indices.end()) {
+    return this->vertex_indices[value];
   }
 
   return -1;
 }
 
 int Graph::get_value(int index) {
-  if (vertex_vals.find(index) != vertex_vals.end()) {
-    return vertex_vals[index];
+  if (this->vertex_vals.find(index) != this->vertex_vals.end()) {
+    return this->vertex_vals[index];
   }
 
   return -1;
