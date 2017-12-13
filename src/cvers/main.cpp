@@ -1,6 +1,11 @@
+// use stderr to print debug info since stderr is unbuffered
+// i.e. anything sent to stderr will be printed immediately
+// instead of put into a buffer and printed when the buffer
+// gets flushed
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <iostream> //debugging
 #include <vector>
 #include <tuple>
 #include <getopt.h>
@@ -11,22 +16,21 @@
 #include <errno.h>
 #include "graph.h"
 #include "isomorphism.h"
-
+#include <unordered_set>
+#include <cstring>
 using std::string;
 
 const char* program_name;
 
-string *handle_args(int argc, char **argv);
+vector<string> handle_args(int argc, char **argv);
 void usage (FILE* stream, int exit_code);
 Graph import_data(const char *filename, const int debug);
 
 int main(int argc, char **argv) {
 
   program_name = argv[0];
-  // TODO change to a tuple. this doesn't work
-  // tuple <int, int, char*, char*>
-  // possibly strings but keep in mind these will be used for fopen
-  string *args = handle_args(argc, argv);
+
+  vector<string> args = handle_args(argc, argv);
 
   int interactive = atoi(args[0].c_str());
   int debug = atoi(args[1].c_str());
@@ -37,29 +41,51 @@ int main(int argc, char **argv) {
                                               : filename_default;
   const char *sub_filename = (!interactive) ? args[3].c_str()
                                               : filename_default;
-  /*if (!interactive) {
-    const char *graph_filename = args[2].c_str();
-    const char *sub_filename = args[3].c_str();
-  }
-
-  else {
-    const char *graph_filename = filename_default;
-    const char *sub_filename = filename_default;
-  }*/
 
   if (debug) {
-    printf("inter = %d, debug = %d\n", interactive, debug);
-    printf("Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
+    fprintf(stderr, "inter = %d, debug = %d\n", interactive, debug);
+    fprintf(stderr, "Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
   }
 
 
   Graph graph = import_data(graph_filename, debug);
+
+  if (debug) {
+    fprintf(stderr, "Successfully imported graph from file %s.\n",
+        graph_filename);
+  }
+
   Graph subgraph = import_data(sub_filename, debug);
 
-  int matches = 0;
-  // TODO: multiple instances of isomorphism
-  vector < pair<int,int> > *result = find_isomorphism(subgraph, graph);
-  printf("Made it to after find_isomorphism");
+  if (debug) {
+    fprintf(stderr, "Successfully imported subgraph from file %s.\n",
+        sub_filename);
+  }
+
+  if (debug) {
+    fprintf(stderr, "Running find_isomorphism....\n");
+  }
+
+  vector<int> isomorphism = find_isomorphism(subgraph, graph);
+
+  if (debug){
+    fprintf(stderr, "find_isomorphism terminated.\n");
+  }
+
+  if (isomorphism.size() == 0) {
+    printf("No isomorphism found.\n");
+  }
+
+  else{
+    printf("Isomorphism found! Assignments are:\n");
+    size_t num_assignments = isomorphism.size();
+    for (size_t i = 0; i < num_assignments; i++) {
+      int subgraph_vert = subgraph.get_value(i);
+      int graph_vert = graph.get_value(isomorphism[i]);
+      printf("Vertex %d maps to vertex %d\n", subgraph_vert, graph_vert);
+    }
+  }
+
   return 0;
 }
 
@@ -85,13 +111,15 @@ Graph import_data(const char *filename, const int debug) {
   Graph g;
 
   if (debug) {
-    printf("Reading file %s...\n", filename);
+    fprintf(stderr, "Reading file %s...\n", filename);
   }
 
   char *tempa, *tempb, *tempweight;
   char tempweight_default[] = "0";
+  ssize_t bytes_read;
   // getline returns -1 on failure to read a line (including EOF)
-  while (getline(&line, &n, fd) != -1) {
+  bytes_read = getline(&line, &n, fd);
+  while (bytes_read != -1) {
     tempa = strtok(line, " ");
     // strtok returns NULL if the token (space in this case) was not found in the str
     // otherwise return the string up to the token (exclusive)
@@ -101,14 +129,15 @@ Graph import_data(const char *filename, const int debug) {
       exit(-1);
     }
 
-    tempb = strtok(line, " ");
+    // if arg is null after a call to strtok, it'll keep reading after the position of the last token
+    tempb = strtok(NULL, " ");
     if (tempb == NULL) {
       fprintf(stderr, "Error parsing file %s. Adjacency list must be of form 'node1 node2 [edge_weight]',\
           but line was %s\n", filename, line);
       exit(-1);
     }
 
-    tempweight = strtok(line, " ");
+    tempweight = strtok(NULL, " ");
     if (tempweight == NULL) {
       tempweight = tempweight_default;
     }
@@ -121,6 +150,7 @@ Graph import_data(const char *filename, const int debug) {
     // this will also add the vertices if they don't exist
     // add_vertex is called from within add_edge if no vertex with the given value exists
     g.add_edge(atempa, atempb, atempweight);
+    bytes_read = getline(&line, &n, fd);
   }
 
   if (fd != stdin) {
@@ -133,12 +163,12 @@ Graph import_data(const char *filename, const int debug) {
     }
   }
 
-  free(line);
+  // don't free line since it's null now
 
   return g;
 }
 
-string *handle_args(int argc, char **argv) {
+vector<string> handle_args(int argc, char **argv) {
   // for getopt
   const char* const short_options = "hid";
   const struct option long_options[] = {
@@ -148,11 +178,15 @@ string *handle_args(int argc, char **argv) {
     { NULL, 0, NULL, 0 }
   };
 
-  // we only need to save interactive and debug for now
-  string *returnargs = (string *) malloc(2*sizeof(string));
+  vector<string> returnargs;
+  returnargs.resize(4);
   int interactive = 0;
   // TODO change to 0 for final deployment
   int debug = 1;
+
+  if (argc < 2) {
+    usage(stderr, 1);
+  }
 
   int next_option;
   do {
@@ -191,26 +225,20 @@ string *handle_args(int argc, char **argv) {
   // interactive was specified, in which case yell at the user.
 
   if (!interactive) {
-    // interactive was 0. free the memory it took up and reallocate enough for the two args
-    // and the two filenames
-    free(returnargs);
-    returnargs = (string *) malloc(4*sizeof(string));
-    returnargs[2] = argv[optind];
-    returnargs[3] = argv[optind+1];
+    returnargs[2] = string(argv[optind]);
+    returnargs[3] = string(argv[optind+1]);
 
   }
 
   if (debug) {
-    printf("Interactive set to %d. Debug is %d.\n", interactive, debug);
+    fprintf(stderr,"Interactive set to %d. Debug is %d.\n", interactive, debug);
     if (!interactive) {
-      printf("Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
+      fprintf(stderr,"Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
     }
   }
 
   // put what we want to return in their places.
-  //sprintf(returnargs[0],"%d",interactive);
   returnargs[0] = std::to_string(interactive);
-  //sprintf(returnargs[1],"%d",debug);
   returnargs[1] = std::to_string(debug);
 
   return returnargs;

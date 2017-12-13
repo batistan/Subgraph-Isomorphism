@@ -17,3 +17,9 @@ src/pythonvers/out.txt
 
 # object files
 *.o
+
+# main executable
+main
+
+# testing executable
+test

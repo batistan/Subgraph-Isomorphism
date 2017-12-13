@@ -6,143 +6,145 @@
 
 using std::find;
 
-vector < pair<int,int> > *find_isomorphism (Graph &sub, Graph &graph) {
+vector <int> find_isomorphism (Graph &sub, Graph &graph) {
 
-  // assignments_tree[i] specifies the possible_assignments at depth i
-  vector <vector <vector <bool> > > assignments_tree;
-  // generate M0
   vector < vector<bool> > possible_assignments = create_possible_assignments(sub, graph);
-  // return the address of this vector, or null if no isomorphism was found
+  vector <vector <vector <bool> > > assignments_tree;
+  // we need a way to keep track of which columns we've already assigned for each row
+  // cols_used[i] == true if column i has already been used
+  vector <bool> cols_used = vector<bool>(possible_assignments[0].size(), false);
+  // keep track of which column was used at which depth
+  // col_depth[i-1] == k iff column k was used at depth i
+  vector <size_t> col_depth = vector<size_t>(possible_assignments.size(), 0);
 
-  //This doesn't work, assignments is out of scope. Throw it on the heap.
-  //vector <pair<int, int> > assignments = vector<pair<int, int> >(0);
+  size_t depth = 1;
 
-  vector <pair<int, int> > *assignments = new vector <pair<int, int> >;
+  if (search(sub, graph, assignments_tree, possible_assignments, cols_used, col_depth, depth)) {
 
-
-  // columns_used[i] = true iff column i in M has been used at current stage of computation
-  vector <bool> columns_used (possible_assignments[0].size(), false);
-
-  // column_depth[d] = k if column k was used at depth d
-  vector<int> column_depth (possible_assignments.size(), 0);
-
-  ssize_t i, j, k, pa_n = possible_assignments.size(), pb_n = possible_assignments[0].size();
-
-  int depth = 0;
-  columns_used[depth] = 0;
-
-  // refine the possible assignments using the initial set of possible assignments
-  // refine M0
-  if (!refine_possible_assignments(sub, graph, possible_assignments)) {
-    // if refine_possible_assignments returns false, then there is no possible isomorphism
-    // so we can just stop here.
-    return NULL;
-  }
-
-  // check if there's a j such that possible_assignments[d][j] = 1 and f[j] = 0
-  // 2
-  // if there is no j such that possible_assignments[d][j] == true and f[j] == false goto 7
-  two:
-  if (find(possible_assignments[depth].begin(),
-        possible_assignments[depth].end(), true) != possible_assignments[depth].end()
-      && find(column_depth.begin(), column_depth.end(), false) != column_depth.end()) {
-    // there exists such a j
-    assignments_tree.push_back(possible_assignments);
-    if (depth == 0) {
-      k = column_depth[depth];
-    }
-
-    else {
-      k = 0;
-    }
-  }
-
-  else {
-    // we found no such j
-    goto seven;
-  }
-
-  // 3
-  // increment k until we find a possible assignment for this row
-  three:
-  for (; !possible_assignments[depth][k] || columns_used[k]; k++) ;
-
-  // found one.
-  for (j = 0; j < pb_n; j++) {
-    // set all of the columns in this row to 0 except that first assignment we just found
-    if (j != k) {
-      possible_assignments[depth][j] = false;
-    }
-  }
-
-  if(!refine_possible_assignments(sub, graph, possible_assignments)) {
-    // 5
-    five:
-    int r;
-    r = k+1;
-    for (; r < pb_n; r++) {
-      if (possible_assignments[depth][j] && !columns_used[j]) {
-        possible_assignments = assignments_tree[depth];
-        goto three;
-      }
-    }
-    goto seven;
-
-    // 6
-    six:
-    column_depth[depth] = k;
-    columns_used[depth] = true;
-    depth++;
-    goto two;
-
-    // 7
-    seven:
-    if (depth == 1) {
-      return NULL;
-    }
-
-    else {
-      columns_used[depth] = false;
-      depth--;
-      possible_assignments = assignments_tree[depth];
-      k = column_depth[depth];
-      // TODO goto 5
-      goto five;
-    }
-
-  }
-
-  // 4
-  four:
-  if (depth < pa_n) {
-    goto six;
-  }
-
-  else {
-    // isomorphism found. add it
-    for (int i = 0; i < pa_n; i++) {
-      for (int j = 0; j < pb_n; j++) {
-        if (possible_assignments[i][j]) {
-          (*assignments).push_back(pair<int, int>(sub.get_value(i), graph.get_value(j)));
+    vector<vector<bool> > assignments = assignments_tree[depth-2];
+    vector<int> isomorphism;
+    for (size_t i = 0; i < assignments.size(); i++) {
+      //fprintf(stderr, "Row %lu\n", i);
+      for (size_t j = 0; j < assignments[i].size(); j++) {
+        //fprintf(stderr, "%d\n", assignments[i][j] ? 1 : 0);
+        if (assignments[i][j]) {
+          isomorphism.push_back(j);
+          // go to next row
+          // no need to waste iterations
+          break;
         }
       }
     }
+
+    return isomorphism;
   }
 
-  return assignments;
+  return vector<int>(0);
+}
+
+bool search (Graph &sub, Graph &graph, 
+      vector<vector<vector<bool> > > &assignments_tree,
+      vector<vector<bool> > &possible_assignments,
+      vector<bool> &cols_used,
+      vector<size_t> &col_depth,
+      size_t &depth) {
+
+  // if refine fails, no possible isomorphism
+  if (!refine_possible_assignments(sub, graph, possible_assignments)) {
+    return false;
+  }
+
+  do {
+    size_t numrows = possible_assignments.size(), numcols = possible_assignments[0].size(), col;
+
+    for (col = col_depth[depth-1]; col < numcols; col++) {
+      // find first column we havent already used 
+      // col is index of vertex in search graph we're trying to assign
+      // we start searching from col_depth[depth-1]+1 since 
+      // that's the col after the one we attempted previously and 
+      // we gotta find the next one
+      if (possible_assignments[depth-1][col] && !cols_used[col]) {
+        break;
+      }
+    }
+
+    if (col == numcols) {
+      // we couldn't find a valid column.
+      // if we're on depth 1, there's no level to go back up to
+      // no possible isomorphism
+      if (depth == 1) {
+        return false;
+      }
+
+      // otherwise, go up to the previous depth and try to assign that
+      // row to another column
+      else {
+        depth--;
+        possible_assignments = assignments_tree[depth-1];
+        return false;
+      }
+    }
+
+    // we found a valid column
+    // set all other possible assignments in this col to 0
+    // if we're assigning this vertex to the subgraph vertex
+    // we can't have any other subgraph vertex also assigned to it
+    size_t i;
+    for (i = 0; i < numrows; i++) {
+      if (i != depth-1) {
+        possible_assignments[i][col] = false;
+      }
+    }
+
+    // set all other 1s in this row to 0
+    // we can only assign each subgraph vertex to a single column
+    for (i = 0; i < numcols; i++) {
+      if (i != col) {
+        possible_assignments[depth-1][i] = false;
+      }
+    }
+
+    // now go to the next row and repeat
+    // we used this column
+    cols_used[col] = true;
+    // and we used it at this depth
+    col_depth[depth-1] = col;
+    // save a copy of possible assignments
+    assignments_tree.push_back(possible_assignments);
+    // increment depth
+    depth++;
+    
+    if (depth == possible_assignments.size()) {
+      // we've assigned every row to a column
+      // isomorphism found
+      return true;
+    }
+
+    // if we get all the way to the bottom by doing this repeatedly,
+    // we'll have found an isomorphism
+    if (search(sub, graph, assignments_tree, possible_assignments, cols_used, col_depth, depth)) {
+      return true;
+    }
+    else {
+      // that didn't work. find a new column.
+      cols_used[col] = false;
+    }
+    // this is fine since we only get here if we need to find a new column
+  } while (true);
 }
 
 vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
-  // possible_assignments[i][j] == true iff a possible assignm  ent exists from i in sub
+  // possible_assignments[i][j] == true iff a possible assignment exists from i in sub
   // to j in search graph
   vector < vector<bool> > possible_assignments (sub.vertices.size(),
     vector<bool>(graph.vertices.size(), false));
 
-  // at first, every vertex in search graph with rank >= i is a possible assignments
+  // at first, every vertex in search graph with rank >= i is a possible assignment
   // this will be refined later
-  ssize_t i, j;
-  ssize_t s_n = sub.vertices.size();
-  ssize_t g_n = graph.vertices.size();
+  // see refine_possible_assignments
+  size_t i, j;
+  size_t s_n = sub.vertices.size();
+  size_t g_n = graph.vertices.size();
   for (i = 0; i < s_n; i++) {
     for (j = 0; j < g_n; j++) {
       if (graph.vertices[j].second >= sub.vertices[i].second) {
@@ -155,9 +157,9 @@ vector < vector<bool> > create_possible_assignments(Graph &sub, Graph &graph) {
 }
 
 bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool> > &possible_assignments) {
-  ssize_t i, j;
-  ssize_t pa_n = possible_assignments.size();
-  ssize_t pb_n = possible_assignments[0].size();
+  size_t i, j;
+  size_t pa_n = possible_assignments.size();
+  size_t pb_n = possible_assignments[0].size();
   bool changes_made = true;
 
   while (changes_made) {
@@ -175,7 +177,7 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
           for (; n_i != neighbors_i.end(); n_i++) {
             // for each neighbor of i, iterate through all its possible assignments
-            ssize_t k;
+            size_t k;
             bool has_corresponding_neighbor = false;
             for (k = 0; k < pb_n; k++) {
               if (possible_assignments[sub.get_index(*(n_i))][k]) {
@@ -190,11 +192,11 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
 
             // if this neighbor has no corresponding neighbor, then j is an invalid match.
             // move on to the next possible assignment
-              if (!has_corresponding_neighbor) {
-                possible_assignments[i][j] = 0;
-                changes_made = true;
-                break;
-              }
+            if (!has_corresponding_neighbor) {
+              possible_assignments[i][j] = 0;
+              changes_made = true;
+              break;
+            }
           }
         }
       }
@@ -204,13 +206,11 @@ bool refine_possible_assignments(Graph &sub, Graph &graph, vector < vector<bool>
       // vertex in the search graph, so we know that
       // possible_assignments cannot specify any isomorphism
       if (no_one) {
-        printf("Expecting no iso\n");
         return false;
       }
     }
   }
 
   // M was successfully refined without creating any rows with all 0s. return true.
-  printf("Expecting iso and seg fault\n");
   return true;
 }
