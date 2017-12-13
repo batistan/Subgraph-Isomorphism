@@ -47,7 +47,6 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Graph file %s, subgraph file %s\n", graph_filename, sub_filename);
   }
 
-
   Graph graph = import_data(graph_filename, debug);
 
   if (debug) {
