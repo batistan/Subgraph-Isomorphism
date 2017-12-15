@@ -119,30 +119,49 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \subsection{VF2 Algorithm}
 
-  \subsection{Bonnici Algorithm}
+  One algorithm that we considered using was the VF2 Algorithm
+  It was developed by Cordella, Foggia, Sansone, and Vento
+  Given two graphs $G1(N_1,B_1)$ and $G2(N_2,B_2)$ and Mapping $M : N_1 x N_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
+  only the nodes included in the components of $M(s)$, and the branches connecting them
+  This is what Cordella's team wrote VF2 to look like
 
-  Bonnici's paper proposes an algorithm for subgraph isomorphism, for usage in understanding of biological systems.
+  \includegraphics{../images/vf2_rules.png}
 
-  The following are defined by the paper, which are repeated here for clarity.
+  Basically, for each mapping$(m,n)$, it applies five feasibility rules to the current state and the pair to be added
+  Rpred, Rsucc, Rin, Rout, and Rnew.
+  Only if all feasibility rules are satisfied is $(n,m)$ added to the mapping $M(s)$
+  $F_syn(s,n,m) = R_pred ^ R_succ ^ R_in ^ R_out ^ R_new$
+  $R_pred$ and $R_succ$ represent the predecessors and successors respectively of a given node n in a graph
+  The other three feasibilty rules are meant to prune the tree
+  $R_in$ and $R$ out are both one step ahead look ahead searches while Rnew is a two step look ahead
 
-  A graph $G$ is a pair $(V, E)$, where $V$ is the set of vertices and $E$ is a subset of $(V \times V)$. ($E \subseteq (V \times V)$.
+  These are how each of the feasibility rules are created
 
-  $A$ is a set of labels.  The functions \textit{lab} : $V \to A$ and $\beta \to A$ assign labels to vertices and edges, respectively.
+    \includegraphics{../images/vf2_algo.png}
 
-  If $(u, v)$ is a member of $E$ (where $u, v \in V$), then $v$ is a neighbor of $u$.
+  In comparison to Ullman's algorithm, it appears that past 200 nodes VF2 becomes more efficient than the Ullman algorithm
+  The time complexity of VF2 is $O(n^2)$ at best and O(N!N) at worst
+  Ullman on the other hand ranges from $O(N^3)$ to $O(N!N^2)$
+  \cite{cordella}
 
-  $|V|$ indicates the number of vertices.
-  $|E|$ indicates the number of edges.
-
+  \subsection{RI Algorithm}
 
   For this algorithm, we need to generate all possible maps between two graphs, then check if any of those maps is a subgraph isomorphism.
 
-  The maps can be represented using a \textit{search space tree}, which has a dummy root. Each node represents a possible match between a vertex in graph $G$ of the pattern in the target graph $G'$.
+  The maps can be represented using a \textit{search space tree}, which has a dummy root. Each node represents a possible match between a vertex in graph $G$ (which is referred to as the pattern graph) in the target graph $G'$.
 
-  The path from the root to a node
+  Unlike other algorithms, RI orders the vertices of the pattern graph to maximize the chance a partial path will be removed. The idea is to introduce edge constraints as early as possible, and are modeled only on the pattern graph.
 
-  Bonnici's algorithm has a significant reduction in running time compared to VF2 (in its VFlib implementation). However, due to a--
-  \includegraphics[scale=0.5]{images/bonnici_searchtree.png}
+  RI is also modeled for directed graphs, which allows for more pruning since $(u,v)$ does not imply $(v, u)$ (where $u, v$ are vertices).
+
+  The majority of the work is used in a greedy algorithm called /texttt{GreatestConstraintFirst}, which is used to find a good sequence of vertices based on the number of neighbors a vertex has.
+
+  Using the results of \texttt{GreatestConstraintFirst}, the following isomorphism rules remove unfeasible paths.
+
+  \includegraphics{../images/ri_rules.png}
+
+  The algorithm does not have a dedicated pruning function, which is another factor for the increase in performance when compared against other algorithms (such as VF2); instead, pruning is done through the matching process.
+
 
   \cite{bonnici}
 
