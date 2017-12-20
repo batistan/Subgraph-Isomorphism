@@ -121,12 +121,12 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   % this whole section looks like you copied it verbatim out of notes you took while skimming a paper
   % i'd confuse it for a chat log if not for the fact that there's actual capitalization
-  One algorithm that we considered using was the VF2 Algorithm
-  It was developed by Cordella, Foggia, Sansone, and Vento
+  One algorithm that we considered using was the VF2 Algorithm, which was developed by Cordella, Foggia, Sansone, and Vento.
+
   Given two graphs $G_1(n_1,b_1)$ and $G_2(n_2,b_2)$ and Mapping $M : n_1 x n_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
   only the nodes included in the components of $M(s)$, and the branches connecting them
   % this sentence jesus christ
-  This is what Cordella's team wrote VF2 to look like
+  The following algorithm is defined by the paper to implement VF2.
 
   \begin{figure}[H]
     \centering
@@ -137,13 +137,22 @@ The goal of this project is to understand and optimize an algorithm for solving 
     \label{fig:vf2algo}
   \end{figure}
 
-  Basically, for each mapping $(m,n)$, it applies five feasibility rules to the current state and the pair to be added. These rules are denoted as: $R_{pred}, R_{succ}, R_{in}, R_{out},$ and $R_{new}$. Only if all feasibility rules are satisfied is $(n,m)$ added to the set of mappings $M(s)$
-  $F_{syn}(s,n,m) = R_{pred} \land R_{succ} \land R_{in} \land R_{out} \land R_{new}$
-  $R_{pred}$ and $R_{succ}$ represent the predecessors and successors respectively of a given node n in a graph
-  The other three feasibilty rules are meant to prune the tree
-  $R_{in}$ and $R_{out}$ are both one step ahead look ahead searches while $R_{new}$ is a two step look ahead
+  For each mapping $(m,n)$, VF2 applies five feasibility rules to the current state and the pair to be added. These rules are denoted as: $R_{pred}, R_{succ}, R_{in}, R_{out},$ and $R_{new}$.
 
-  These are how each of the feasibility rules are created
+  Only if all feasibility rules are satisfied is $(n,m)$ added to the set of mappings $M(s)$.
+
+  The general form of the feasibility function is defined as:
+
+  $F_{syn}(s,n,m) = R_{pred} \land R_{succ} \land R_{in} \land R_{out} \land R_{new}$
+
+  $R_{pred}$ and $R_{succ}$ represent the predecessors and successors respectively of a given node \texttt{n}  in a graph.
+
+  The other three feasibilty rules are meant to prune the tree
+  $R_{in}$ and $R_{out}$ are both 1 step ahead look ahead while $R_{new}$ is a 2 step look ahead.
+
+  \"Look ahead" refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
+
+  The feasibility rules are defined as the following:
 
   \begin{figure}[H]
     \centering
@@ -152,9 +161,10 @@ The goal of this project is to understand and optimize an algorithm for solving 
     \label{fuckyou}
   \end{figure}
 
-  In comparison to Ullman's algorithm, it appears that past 200 nodes VF2 becomes more efficient than the Ullman algorithm
-  The time complexity of VF2 is $O(n^2)$ at best and $O(n!n)$ at worst
-  Ullman on the other hand ranges from $O(n^3)$ to $O(n!n^2)$
+  In comparison to the Ullman algorithm, it appears that when working with greater than 200 nodes, VF2 becomes more efficient than the it.
+
+  The time complexity of VF2 is $O(n^2)$ at best, $O(n!n)$ at worst.
+  Ullman's algorithm ranges from $O(n^3)$ to $O(n!n^2)$.
   % this was broken btw
   % when you have a list of authors you're supposed to use and (the literal word "and") to separate them in the bib entry
   % that's how biber recognizes different authors
@@ -257,7 +267,7 @@ For all of our measurements, we used the worst-case input: the Facebook graph me
   \end{figure}
 
   \subsection{C++ Implementation}
-  The source code used to test the performance of the C++ implementations can be found in the appendix. We used Linux's \texttt{perf\_event\_open} system call, which allows for high-precision performance monitoring. The only part of the program which is timed is the call to \texttt{find\_isomorphism}. 
+  The source code used to test the performance of the C++ implementations can be found in the appendix. We used Linux's \texttt{perf\_event\_open} system call, which allows for high-precision performance monitoring. The only part of the program which is timed is the call to \texttt{find\_isomorphism}.
 
   The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs significantly more quickly than the Python implementation; it runs in about 8 seconds, compared to about 16 seconds for the Python implementation. This is about twice as fast, even without any parallelisms. However, we found it was generally more precise to measure the number of CPU clock cycles taken for the algorithm to complete, so we measured that instead. The output of the program used to measure this is below:
 
