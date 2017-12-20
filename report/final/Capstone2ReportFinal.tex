@@ -160,14 +160,7 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \includegraphics{../images/ri_rules.png}
 
-  The algorithm does not have a dedicated pruning function, which is another factor for the increase in performance when compared against other algorithms (such as VF2); instead, pruning is done through the matching process.
-
-
-  \cite{bonnici}
-
-
-
-
+  The algorithm does not have a dedicated pruning function, which is another factor for the increase in performance when compared against other algorithms (such as VF2); instead, pruning is done through the matching process.\cite{bonnici}
 
 \section{Implementation of the Algorithm}
 
@@ -214,17 +207,29 @@ The full source code for all versions can be found in the appendix.
 
   We also have stored vertices in such a way that each vertex is also stored along with its degree, allowing quick and easy lookup of a vertex's degree.
 
+  The improved C++ implementation follows a bit of a loose interpretation of Ullmann's description of the algorithm. A version which used the \texttt{goto} command with labels was considered, to more closely match said description, but was scrapped in favor of a more conventional approach
+
   \subsection{Optimizations through OpenMP}
   OpenMP utilizes the multiple cores of a computer's processor in order implement multithreading to run related tasks in parallel. We intend to use it where the bottlenecks in our algorithm are to improve the algorithm's performance. The default number of cores for many computers is four. We intend to place the parallelisms where there tend to be a large number iterations, specifically in loops. This means that, theoretically, the program should run four times faster than without multithreading, using our earlier assumption of four processor cores allotted to the algorithm. It is more likely that it will be approximately 3 to 3.5 times faster, since we may not be able to completely parallelize the bottlenecks as intended. Additionally, using OpenMP, as is the case with any parallelization method, comes with a certain amount of overhead in separating the work to be done. There is also the issue of load balancing: making sure that each thread is performing approximately the same amount of computation so that no thread is idling.
 
   The most important place to place the OpenMP is in the \texttt{refine\_possible\_assignments} function. This function is where the majority of the algorithm's computation takes place, as it has several layers of nested loops, each iterating through vectors which may be very large, depending on the sizes of the graphs being examined. Ideally, we want to balance the loads such that each processor core does an equal amount of work, so as to maximize the amount of parallelization done. However, while we may simply parallelize every iterative process, that might not be efficient enough. Ideally, we would further parallelize in nodes of the search tree which have many possible assignments.
 
+  \subsection{Sample Run}
+
+  For visualization purposes, we have provided a sample run of the algorithm. For simplicity, only the C++ implementation is seen here. The graphs used are very simple, as this is only for demonstration. The following is the list of edges defining the search graph:
+
+  \lstinputlisting[caption={Search graph used for walkthrough.}]{../../src/toy1.edges}
+
+  And the following is the subgraph we will be searching for an instance of in that graph:
+
+  \lstinputlisting[caption={Subgraph being searched for in search graph.}]{../../src/toy1sub.edges}
+  % TODO this
 \section{Performance}
 
-  Since the OpenMP optimizations are still in progress, we do not yet have performance information for the OpenMP version of our project.
+For all of our measurements, we used the worst-case input: the Facebook graph mentioned previously as the search graph, and that same graph (or, equivalently, any isomorphic graph of the same size) as the ``subgraph.'' This would take the longest of the graphs available to us, since it requires the algorithm to assign the greatest number of vertices (all of them) before returning, and, since the graphs are indeed isomorphic, there is no chance of \texttt{refine\_possible\_assignments} returning false, which would allow us to skip a large amount of work.
 
   \subsection{Python Implementation}
-  The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took between 13 and 16 seconds to determine if an isomorphism existed between a specified graph a subgraph of the Facebook graph specified earlier.
+  The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took between 13 and 16 seconds to determine if an isomorphism existed.
 
   We used the Python \texttt{cProfile} library to measure the performance of our Python implementation. The documentation is available at \url{https://docs.python.org/3.5/library/profile.html}. A typical run of the \texttt{find\_isomorphism} function timed by \texttt{cProfile} produces the following output:
 
@@ -235,13 +240,18 @@ The full source code for all versions can be found in the appendix.
   \end{figure}
 
   \subsection{C++ Implementation}
-  The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs orders of magnitude more quickly than the Python implementation; running in much less than a second where the Python implementation took over ten. We timed it using the Linux \texttt{time} utility, which takes a command as an argument, runs the command, and reports the amount of time taken for the command to complete. In our case, we run \texttt{time ./main}, adding the appropriate arguments, and \texttt{time} reports the time the program took to run and exit. While this adds a bit more overhead than the Python version (we time the entire program rather than a single function call), it is clear this makes little difference, given the huge improvement over the Python version.
+  The source code used to test the performance of the C++ implementations can be found in the appendix. We used Linux's \texttt{perf\_event\_open} system call, which allows for high-precision performance monitoring. The only part of the program which is timed is the call to \texttt{find\_isomorphism}. 
+
+  The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs significantly more quickly than the Python implementation; it runs in about 8 seconds, compared to We timed it using the Linux \texttt{time} utility, which takes a command as an argument, runs the command, and reports the amount of time taken for the command to complete. In our case, we run \texttt{time ./main}, adding the appropriate arguments, and \texttt{time} reports the time the program took to run and exit. While this adds a bit more overhead than the Python version (we time the entire program rather than a single function call), it is clear this makes little difference, given the huge improvement over the Python version.
 
   \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/cperf}
     \caption{Timed sample run of the C++ implementation of subgraph isomorphism.}
   \end{figure}
+
+  \subsection{OpenMP Optimization}
+  The OpenMP code performs very well compared to the non-parallelized version.
 
 \section{Conclusion}
   Over the coming two weeks, we should have completed the OpenMP parallelizations and thoroughly tested the performance of the resulting program. We will also be much more in-depth in the explanation of the Ullmann algorithm. We also hope to use a more precise method of getting performance information for the C++ implementation, as our current method is rather volatile.
@@ -262,6 +272,16 @@ The full source code for all versions can be found in the appendix.
       \lstinputlisting[language=C++,caption={C++ algorithm to find isomorphism.}]{../../src/cvers/isomorphism.cpp}
     \subsubsection{Main}
       \lstinputlisting[language=C++,caption={C++ main function to process arguments and run the ismorphism algorithm.}]{../../src/cvers/main.cpp}
+
+  \subsection{OpenMP Code}
+    \textbf{Note:} Since the OpenMP version of our algorithm uses the same graph class and \texttt{main.cpp}, we have omitted them from this section.
+
+    \subsubsection{Subgraph Isomorphism Algorithm}
+      \lstinputlisting[language=C++,caption={C++ algorithm to find isomorphism, with parallelisms through OpenMP.}]{../../src/openmp/isomorphism.cpp}
+
+  \subsection{Code Used to Check Performance of C++ code}
+    % if you've got a better caption be my guest
+    \lstinputlisting[language=C++,caption={Code used to check performance of C++ code}]{../../src/cvers/perf.cpp}
 
   \printbibliography[heading=bibintoc,
                      title={References}]
