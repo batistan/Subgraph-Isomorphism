@@ -1,15 +1,15 @@
 [0] Config.pm:340> INFO - This is Biber 2.4
-[3] Config.pm:343> INFO - Logfile is 'Capstone2ReportFinal.blg'
-[130] biber:287> INFO - === Tue Dec 19, 2017, 21:21:46
-[456] Biber.pm:348> INFO - Reading 'Capstone2ReportFinal.bcf'
-[920] Biber.pm:742> INFO - Found 6 citekeys in bib section 0
-[945] Biber.pm:3151> INFO - Processing section 0
-[1046] Biber.pm:3308> INFO - Looking for bibtex format file 'sources.bib' for section 0
-[1070] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[1100] bibtex.pm:974> INFO - Found BibTeX data source 'sources.bib'
-[1497] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1498] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1498] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
-[1498] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[1524] bbl.pm:519> INFO - Writing 'Capstone2ReportFinal.bbl' with encoding 'UTF-8'
-[1591] bbl.pm:615> INFO - Output to Capstone2ReportFinal.bbl
+[2] Config.pm:343> INFO - Logfile is 'Capstone2ReportFinal.blg'
+[148] biber:287> INFO - === Wed Dec 20, 2017, 17:06:41
+[444] Biber.pm:348> INFO - Reading 'Capstone2ReportFinal.bcf'
+[926] Biber.pm:742> INFO - Found 6 citekeys in bib section 0
+[993] Biber.pm:3151> INFO - Processing section 0
+[1144] Biber.pm:3308> INFO - Looking for bibtex format file 'sources.bib' for section 0
+[1170] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[1195] bibtex.pm:974> INFO - Found BibTeX data source 'sources.bib'
+[1568] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1571] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1571] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[1572] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[1596] bbl.pm:519> INFO - Writing 'Capstone2ReportFinal.bbl' with encoding 'UTF-8'
+[1671] bbl.pm:615> INFO - Output to Capstone2ReportFinal.bbl

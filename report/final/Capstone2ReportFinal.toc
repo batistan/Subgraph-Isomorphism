@@ -20,52 +20,62 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1}VF2 Algorithm}{4}{subsection.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}RI Algorithm}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.2}RI Algorithm}{6}{subsection.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Implementation of the Algorithm}{6}{section.4}
+\contentsline {section}{\numberline {4}Implementation of the Algorithm}{7}{section.4}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1}Python Implementation}{7}{subsection.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Initial C++ Implementation}{7}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.2}Initial C++ Implementation}{8}{subsection.4.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3}Improved C++ Implementation}{8}{subsection.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4}Optimizations through OpenMP}{8}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.4}Options for Parallelization}{8}{subsection.4.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5}Sample Run}{9}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.4.1}CUDA}{8}{subsubsection.4.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Performance}{9}{section.5}
+\contentsline {subsubsection}{\numberline {4.4.2}MPI}{9}{subsubsection.4.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1}Python Implementation}{9}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {4.4.3}SIMD}{9}{subsubsection.4.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2}C++ Implementation}{10}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {4.4.4}OpenMP}{9}{subsubsection.4.4.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.3}OpenMP Optimization}{10}{subsection.5.3}
+\contentsline {subsection}{\numberline {4.5}Optimizations through OpenMP}{9}{subsection.4.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6}Conclusion}{10}{section.6}
+\contentsline {subsection}{\numberline {4.6}Sample Run}{10}{subsection.4.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7}Appendix}{11}{section.7}
+\contentsline {section}{\numberline {5}Performance}{10}{section.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.1}Python Code}{11}{subsection.7.1}
+\contentsline {subsection}{\numberline {5.1}Python Implementation}{11}{subsection.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.1.1}Graph Class}{11}{subsubsection.7.1.1}
+\contentsline {subsection}{\numberline {5.2}C++ Implementation}{11}{subsection.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.1.2}Subgraph Isomorphism Algorithm}{13}{subsubsection.7.1.2}
+\contentsline {subsection}{\numberline {5.3}OpenMP Optimization}{11}{subsection.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.1.3}Main}{16}{subsubsection.7.1.3}
+\contentsline {section}{\numberline {6}Conclusion}{12}{section.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2}C++ Code}{20}{subsection.7.2}
+\contentsline {section}{\numberline {7}Appendix}{12}{section.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.2.1}Graph Class}{20}{subsubsection.7.2.1}
+\contentsline {subsection}{\numberline {7.1}Python Code}{12}{subsection.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.2.2}Subgraph Isomorphism Algorithm}{24}{subsubsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.1.1}Graph Class}{12}{subsubsection.7.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.2.3}Main}{31}{subsubsection.7.2.3}
+\contentsline {subsubsection}{\numberline {7.1.2}Subgraph Isomorphism Algorithm}{14}{subsubsection.7.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.3}OpenMP Code}{39}{subsection.7.3}
+\contentsline {subsubsection}{\numberline {7.1.3}Main}{17}{subsubsection.7.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {7.3.1}Subgraph Isomorphism Algorithm}{39}{subsubsection.7.3.1}
+\contentsline {subsection}{\numberline {7.2}C++ Code}{21}{subsection.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.4}Code Used to Check Performance of C++ code}{46}{subsection.7.4}
+\contentsline {subsubsection}{\numberline {7.2.1}Graph Class}{21}{subsubsection.7.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{55}{section*.2}
+\contentsline {subsubsection}{\numberline {7.2.2}Subgraph Isomorphism Algorithm}{25}{subsubsection.7.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {7.2.3}Main}{32}{subsubsection.7.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.3}OpenMP Code}{40}{subsection.7.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {7.3.1}Subgraph Isomorphism Algorithm}{41}{subsubsection.7.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.4}Code Used to Check Performance of C++ code}{48}{subsection.7.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{References}{56}{section*.2}
