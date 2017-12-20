@@ -123,8 +123,8 @@ The goal of this project is to understand and optimize an algorithm for solving 
   % i'd confuse it for a chat log if not for the fact that there's actual capitalization
   One algorithm that we considered using was the VF2 Algorithm, which was developed by Cordella, Foggia, Sansone, and Vento.
 
-  Given two graphs $G_1(n_1,b_1)$ and $G_2(n_2,b_2)$ and Mapping $M : n_1 x n_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
-  only the nodes included in the components of $M(s)$, and the branches connecting them
+  Given two graphs $G_1(n_1,b_1)$ and $G_2(n_2,b_2)$ and Mapping $M : n_1 \times n_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
+  only the nodes included in the components of $M(s)$, and the branches connecting them.
   % this sentence jesus christ
   The following algorithm is defined by the paper to implement VF2.
 
@@ -150,7 +150,7 @@ The goal of this project is to understand and optimize an algorithm for solving 
   The other three feasibilty rules are meant to prune the tree
   $R_{in}$ and $R_{out}$ are both 1 step ahead look ahead while $R_{new}$ is a 2 step look ahead.
 
-  \"Look ahead" refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
+  "Look ahead" refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
 
   The feasibility rules are defined as the following:
 
@@ -185,7 +185,13 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   Using the results of \texttt{GreatestConstraintFirst}, the following isomorphism rules remove unfeasible paths:
 
-  \includegraphics{images/ri_rules.png}
+  \begin{figure}[H]
+    \centering
+    \includegraphics{images/ri_rules.png}
+    \caption{RI Feasibility Rules}
+    \label{ri_feas}
+  \end{figure}
+
 
   The algorithm does not have a dedicated pruning function, which is another factor for the increase in performance when compared against other algorithms (such as VF2); instead, pruning is done through the matching process.\cite{bonnici}
 
@@ -237,26 +243,30 @@ The full source code for all versions can be found in the appendix.
   The improved C++ implementation follows a bit of a loose interpretation of Ullmann's description of the algorithm. A version which used the \texttt{goto} command with labels was considered, to more closely match said description, but was scrapped in favor of a more conventional approach
 
   \subsection{Options for Parallelization}
-    
+
     % todo needs to be cleaned up
     % lots of sloppy/awkward phrasing
     % some parts unclear
     % lots of missed opportunities to go into detail
-    \subsubsection{CUDA}
+    \subsubsection{GPGPU}
     % talk about gpgpu in general
-    CUDA is a proprietary API made specifically for NVIDIA hardware. It has the to use more than the 4 threads we ended up using. This is because it uses the GPU of a computer. The main difference between using CUDA and OpenMP is that CUDA has access to more threads. OpenMP relies on using the cores on a machine to do parallel work, so work is sped up by approximately a factor of 2 to 8, depending on how many cores a computer has. CUDA on the other hand can have anywhere from hundreds and even thousands of threads in a block thanks to the NVIDIA GPU
+    When GPUs (graphics processing units) began including programmable shaders and support for floating point arithmetic, they became capable of doing calculations on matrices or vectors. While early GPGPU programming (General Purpose computing on Graphics Processing Units) required formulating problems as graphics primitives, there are now APIs to avoid the translation.
+
+    One of these APIs is CUDA, which is a proprietary parallel computing platform created by Nvidia. Source code written in CUDA uses C++ syntax, and only Nvidia GPUs are enabled for CUDA. It has the potential to use more than the available cores from a standard CPU, and is only limited by the number of CUDA cores that a GPU contains. This ranges from 8 to 5760 (at the time of writing, the Titan Z has 5760 CUDA cores). The main difference between using CUDA and OpenMP is that CUDA has access to more threads. OpenMP relies on using the cores of a CPU to do parallel work; as a result, work is sped up by approximately a factor of $2^8$, depending on how many cores a computer has.
+
+    A similar API is OpenCL (Open Computing Language), a framework that allows programs to execute accross multiple types of processing hardware. Similar to CUDA, source code is written using C-like syntax. Unlike CUDA, it does not require specialized hardware; OpenCL is an open standard, which can be used across AMD, Nvidia, and Intel GPUs, as well as other processors.
 
     \subsubsection{MPI}
     % the function runs once on each machine.
     % and the machines have to communicate with each other to combine their results
     % further reducing the potential speedup
     % talk about that for a bit
-    MPI stands for Message Passing Interface. This utilizes multiple machines in order to parallelize the work. Unfortunately there is a huge difference between parallelization using threading and MPI. With MPI, the function runs multiple times on each machine. This means that in order to increase effectiveness, the workload must be balanced among the machines, otherwise some machines might do much more work than other machines, reducing the effective time saved, as a program running in parallel is only as fast as its slowest processor. One cannot simply throw MPI onto a program and expect it to go faster by some factor. In the case of graph and subgraph isomorphism, we would have to split the work based on which sections of the graph take longer.
-   
+    MPI stands for Message Passing Interface. This utilizes multiple machines in order to parallelize the work. Unfortunately there is a huge difference between parallelization using threading and MPI. With MPI, the function runs once on each machine. This means that in order to increase effectiveness, the workload must be balanced among the machines, otherwise some machines might do much more work than other machines, reducing the effective time saved, as a program running in parallel is only as fast as its slowest processor. One cannot simply throw MPI onto a program and expect it to go faster by some factor. In the case of graph and subgraph isomorphism, we would have to split the work based on which sections of the graph take longer.
+
    % "system of machines"
    % last sentence is a little wonky
-    Theoretically it is possible to combine MPI with OpenMP in order to increase the efficiency. However, our team did not have a system of machines in order to fully utilize MPI. If we did, the time it would take to find an isomorphism would decrease by at most a factor based on the number of processors used multiplied by the number of cores in each processor capable of using OpenMP
-   
+    Theoretically it is possible to combine MPI with OpenMP in order to increase the efficiency. However, our team did not have a network of machines in order to fully utilize MPI. If we did, the time it would take to find an isomorphism would decrease by at most a factor based on the number of processors used, multiplied by the number of cores in each processor capable of using OpenMP.
+
     \subsubsection{SIMD}
     % he's trying to explain vector instructions here
     SIMD stands for single instruction multiple data. This system uses a series of data types found in specific systems. Examples of SIMD include AVX, SSE, and ARM-NEON vector instructions. These instructions allow for a certain datatype that could hold multiple values and perform operations on multiple pieces of data at once. These operations can either be between two vectors or between values within the vectors. We would have to drastically alter the data structures we currently have in place to incorporate SIMD datatypes.
