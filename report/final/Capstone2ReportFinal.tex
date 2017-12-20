@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{mathtools,setspace,indentfirst,graphicx,float,url,color}
+\usepackage{mathtools,setspace,indentfirst,graphicx,float,hyperref,courier,color}
 \usepackage{fancyhdr} % for header
 \usepackage{listings}
 \usepackage[english]{babel}
@@ -119,29 +119,46 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \subsection{VF2 Algorithm}
 
+  % this whole section looks like you copied it verbatim out of notes you took while skimming a paper
+  % i'd confuse it for a chat log if not for the fact that there's actual capitalization
   One algorithm that we considered using was the VF2 Algorithm
   It was developed by Cordella, Foggia, Sansone, and Vento
-  Given two graphs $G1(N_1,B_1)$ and $G2(N_2,B_2)$ and Mapping $M : N_1 x N_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
+  Given two graphs $G_1(n_1,b_1)$ and $G_2(n_2,b_2)$ and Mapping $M : n_1 x n_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
   only the nodes included in the components of $M(s)$, and the branches connecting them
+  % this sentence jesus christ
   This is what Cordella's team wrote VF2 to look like
 
-  \includegraphics{../images/vf2_rules.png}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{images/vf2_rules.png}
+    \caption{Description of the VF2 Algorithm.}
+    % use \ref{fig:vf2algo} to refer to this figure in text
+    % not that you do anyway
+    \label{fig:vf2algo}
+  \end{figure}
 
-  Basically, for each mapping$(m,n)$, it applies five feasibility rules to the current state and the pair to be added
-  Rpred, Rsucc, Rin, Rout, and Rnew.
-  Only if all feasibility rules are satisfied is $(n,m)$ added to the mapping $M(s)$
-  $F_syn(s,n,m) = R_pred ^ R_succ ^ R_in ^ R_out ^ R_new$
-  $R_pred$ and $R_succ$ represent the predecessors and successors respectively of a given node n in a graph
+  Basically, for each mapping $(m,n)$, it applies five feasibility rules to the current state and the pair to be added. These rules are denoted as: $R_{pred}, R_{succ}, R_{in}, R_{out},$ and $R_{new}$. Only if all feasibility rules are satisfied is $(n,m)$ added to the set of mappings $M(s)$
+  $F_{syn}(s,n,m) = R_{pred} \land R_{succ} \land R_{in} \land R_{out} \land R_{new}$
+  $R_{pred}$ and $R_{succ}$ represent the predecessors and successors respectively of a given node n in a graph
   The other three feasibilty rules are meant to prune the tree
-  $R_in$ and $R$ out are both one step ahead look ahead searches while Rnew is a two step look ahead
+  $R_{in}$ and $R_{out}$ are both one step ahead look ahead searches while $R_{new}$ is a two step look ahead
 
   These are how each of the feasibility rules are created
 
-    \includegraphics{../images/vf2_algo.png}
+  \begin{figure}[H]
+    \centering
+    \includegraphics{images/vf2_algo.png}
+    \caption{Description of the creation of feasbility rules.}
+    \label{fuckyou}
+  \end{figure}
 
   In comparison to Ullman's algorithm, it appears that past 200 nodes VF2 becomes more efficient than the Ullman algorithm
-  The time complexity of VF2 is $O(n^2)$ at best and O(N!N) at worst
-  Ullman on the other hand ranges from $O(N^3)$ to $O(N!N^2)$
+  The time complexity of VF2 is $O(n^2)$ at best and $O(n!n)$ at worst
+  Ullman on the other hand ranges from $O(n^3)$ to $O(n!n^2)$
+  % this was broken btw
+  % when you have a list of authors you're supposed to use and (the literal word "and") to separate them in the bib entry
+  % that's how biber recognizes different authors
+  % the way you had it made the entries invalid so the citations wouldn't show up
   \cite{cordella}
 
   \subsection{RI Algorithm}
@@ -150,15 +167,15 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   The maps can be represented using a \textit{search space tree}, which has a dummy root. Each node represents a possible match between a vertex in graph $G$ (which is referred to as the pattern graph) in the target graph $G'$.
 
-  Unlike other algorithms, RI orders the vertices of the pattern graph to maximize the chance a partial path will be removed. The idea is to introduce edge constraints as early as possible, and are modeled only on the pattern graph.
+  Unlike other algorithms, RI orders the vertices of the pattern graph in a way that maximizes the chance that a partial path will be removed. The idea is to introduce edge constraints as early as possible, and are modeled only on the pattern graph.
 
   RI is also modeled for directed graphs, which allows for more pruning since $(u,v)$ does not imply $(v, u)$ (where $u, v$ are vertices).
 
-  The majority of the work is used in a greedy algorithm called /texttt{GreatestConstraintFirst}, which is used to find a good sequence of vertices based on the number of neighbors a vertex has.
+  The majority of the work is performed in a greedy algorithm called \texttt{GreatestConstraintFirst}, which is used to find a good sequence of vertices based on the number of neighbors a vertex has.
 
-  Using the results of \texttt{GreatestConstraintFirst}, the following isomorphism rules remove unfeasible paths.
+  Using the results of \texttt{GreatestConstraintFirst}, the following isomorphism rules remove unfeasible paths:
 
-  \includegraphics{../images/ri_rules.png}
+  \includegraphics{images/ri_rules.png}
 
   The algorithm does not have a dedicated pruning function, which is another factor for the increase in performance when compared against other algorithms (such as VF2); instead, pruning is done through the matching process.\cite{bonnici}
 
@@ -242,13 +259,7 @@ For all of our measurements, we used the worst-case input: the Facebook graph me
   \subsection{C++ Implementation}
   The source code used to test the performance of the C++ implementations can be found in the appendix. We used Linux's \texttt{perf\_event\_open} system call, which allows for high-precision performance monitoring. The only part of the program which is timed is the call to \texttt{find\_isomorphism}. 
 
-  The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs significantly more quickly than the Python implementation; it runs in about 8 seconds, compared to We timed it using the Linux \texttt{time} utility, which takes a command as an argument, runs the command, and reports the amount of time taken for the command to complete. In our case, we run \texttt{time ./main}, adding the appropriate arguments, and \texttt{time} reports the time the program took to run and exit. While this adds a bit more overhead than the Python version (we time the entire program rather than a single function call), it is clear this makes little difference, given the huge improvement over the Python version.
-
-  \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6]{images/cperf}
-    \caption{Timed sample run of the C++ implementation of subgraph isomorphism.}
-  \end{figure}
+  The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs significantly more quickly than the Python implementation; it runs in about 8 seconds, compared to about 16 seconds for the Python implementation. This is about twice as fast, even without any parallelisms. However, we found it was generally more precise to measure the number of CPU clock cycles taken for the algorithm to complete, so we measured that instead. The output of the program used to measure this is below:
 
   \subsection{OpenMP Optimization}
   The OpenMP code performs very well compared to the non-parallelized version.
