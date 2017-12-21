@@ -1,15 +1,15 @@
 [0] Config.pm:340> INFO - This is Biber 2.4
 [0] Config.pm:343> INFO - Logfile is 'Capstone2ReportFinal.blg'
-[75] biber:287> INFO - === Wed Dec 20, 2017, 22:59:03
-[212] Biber.pm:348> INFO - Reading 'Capstone2ReportFinal.bcf'
-[447] Biber.pm:742> INFO - Found 6 citekeys in bib section 0
-[457] Biber.pm:3151> INFO - Processing section 0
-[510] Biber.pm:3308> INFO - Looking for bibtex format file 'sources.bib' for section 0
-[520] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[530] bibtex.pm:974> INFO - Found BibTeX data source 'sources.bib'
-[773] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[773] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[774] Biber.pm:3028> INFO - Sorting list 'apa/global' of type 'entry' with scheme 'apa' and locale 'en-US'
-[774] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[790] bbl.pm:519> INFO - Writing 'Capstone2ReportFinal.bbl' with encoding 'UTF-8'
-[837] bbl.pm:615> INFO - Output to Capstone2ReportFinal.bbl
+[74] biber:287> INFO - === Wed Dec 20, 2017, 23:37:57
+[224] Biber.pm:348> INFO - Reading 'Capstone2ReportFinal.bcf'
+[467] Biber.pm:742> INFO - Found 6 citekeys in bib section 0
+[476] Biber.pm:3151> INFO - Processing section 0
+[536] Biber.pm:3308> INFO - Looking for bibtex format file 'sources.bib' for section 0
+[552] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[571] bibtex.pm:974> INFO - Found BibTeX data source 'sources.bib'
+[823] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[827] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[829] Biber.pm:3028> INFO - Sorting list 'apa/global' of type 'entry' with scheme 'apa' and locale 'en-US'
+[830] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[847] bbl.pm:519> INFO - Writing 'Capstone2ReportFinal.bbl' with encoding 'UTF-8'
+[903] bbl.pm:615> INFO - Output to Capstone2ReportFinal.bbl

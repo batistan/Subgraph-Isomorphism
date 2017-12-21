@@ -116,7 +116,7 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \subsection{``Refine M'' Procedure}
 
-  In the most basic algorithm, the entire tree is searched, including branches which cannot possibly contain a solution at any depth. This is a large number of $M$ matrices to evaluate, so Ullmann introduces a ``refine M'' procedure to reduce the number that must be checked by eliminating nodes of the tree which cannot contain a solution.
+  In the naive algorithm, the entire tree is searched, including branches which cannot possibly contain a solution at any depth. This is a large number of $M$ matrices to evaluate, so Ullmann introduces a ``refine M'' procedure to reduce the number that must be checked by eliminating nodes of the tree, and thus all of their child nodes, which cannot contain a solution.
 
   The procedure is actually quite simple. We iterate through each 1 $m_{ij}$ in $M$ and check whether, for each neighbor of the vertex in $G_\alpha$ corresponding to $i$, there exists at least one possible assignment from it to a neighbor of the vertex in $G_\beta$ corresponding to $j$. If this condition does not hold, the 1 is changed to a 0. Since doing so may render other 1s invalid, we repeat the refine procedure on the modified $M$ until running the procedure does not change it any further, indicating that the refinements do not produce any new invalid 1s. This obviously involves several layers of nested loops, adding considerable overhead to the overall algorithm. However, this overhead is very little considering the number of possibilities that are subsequently eliminated, making it a very worthwhile operation to perform regardless.
 
@@ -126,13 +126,9 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   \subsection{VF2 Algorithm}
 
-  % this whole section looks like you copied it verbatim out of notes you took while skimming a paper
-  % i'd confuse it for a chat log if not for the fact that there's actual capitalization
-  One algorithm that we considered using was the VF2 Algorithm, which was developed by Cordella, Foggia, Sansone, and Vento.
+  One algorithm that we considered using was the VF2 Algorithm, which was developed in 2004 by Luigi P. Cordella et al. We have included a general idea of how the algorithm works here, but greater details can be found in the paper itself, listed under our references.
 
-  Given two graphs $G_1(n_1,b_1)$ and $G_2(n_2,b_2)$ and Mapping $M : n_1 x n_2$, a subset mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$
-  only the nodes included in the components of $M(s)$, and the branches connecting them
-  % this sentence jesus christ
+  Given two graphs $G_1(n_1,b_1)$ and $G_2(n_2,b_2)$ and Mapping $M : n_1 \times n_2$, a subset-mapping solution $M(s)$ takes two subgraphs $G_1(s)$ and $G_2(s)$, obtained by selecting from $G_1$ and $G_2$. only the nodes included in the components of $M(s)$, and the branches connecting them.
   The following algorithm is defined by the paper to implement VF2.
 
   \begin{figure}[H]
@@ -144,39 +140,22 @@ The goal of this project is to understand and optimize an algorithm for solving 
     \label{fig:vf2algo}
   \end{figure}
 
-  For each mapping $(m,n)$, VF2 applies five feasibility rules to the current state and the pair to be added. These rules are denoted as: $R_{pred}, R_{succ}, R_{in}, R_{out},$ and $R_{new}$.
-
-  Only if all feasibility rules are satisfied is $(n,m)$ added to the set of mappings $M(s)$.
-
-  The general form of the feasibility function is defined as:
+  For each mapping $(m,n)$, VF2 applies five feasibility rules to the current state and the pair to be added. These rules are denoted as: $R_{pred}, R_{succ}, R_{in}, R_{out},$ and $R_{new}$. Only if all feasibility rules are satisfied is $(n,m)$ added to the set of mappings $M(s)$. The general form of the feasibility function is defined as:
 
   \[ F_{syn}(s,n,m) = R_{pred} \land R_{succ} \land R_{in} \land R_{out} \land R_{new} \]
 
-  $R_{pred}$ and $R_{succ}$ represent the predecessors and successors respectively of a given node \texttt{n}  in a graph.
+  $R_{pred}$ and $R_{succ}$ represent the predecessors and successors respectively of a given node \texttt{n}  in a graph. The other three feasibilty rules are meant to prune the tree. $R_{in}$ and $R_{out}$ are both 1-step ahead look ahead while $R_{new}$ is a 2-step look ahead. ``Look ahead'' refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
 
-  The other three feasibilty rules are meant to prune the tree
-  $R_{in}$ and $R_{out}$ are both 1 step ahead look ahead while $R_{new}$ is a 2 step look ahead.
-
-  ``Look ahead'' refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
-
-  The feasibility rules are defined as the following:
+  The feasibility rules are defined as follows:
 
   \begin{figure}[H]
     \centering
     \includegraphics{images/vf2_algo.png}
-    \caption{Description of the creation of feasbility rules.}
+    \caption{Description of the feasibility rules.}
     \label{fig:vf2feas}
   \end{figure}
 
-  In comparison to the Ullman algorithm, it appears that when working with greater than 200 nodes, VF2 becomes more efficient than the it.
-
-  The time complexity of VF2 is $O(n^2)$ at best, $O(n!n)$ at worst.
-  Ullman's algorithm ranges from $O(n^3)$ to $O(n!n^2)$.
-  % this was broken btw
-  % when you have a list of authors you're supposed to use and (the literal word "and") to separate them in the bib entry
-  % that's how biber recognizes different authors
-  % the way you had it made the entries invalid so the citations wouldn't show up
-  \cite{cordella}
+  When working with graphs with more than 200 vertices, VF2 typically performs better than Ullmann's algorithm. The time complexity of VF2 is O$(n^2)$ at best, and O$(n!n)$ at worst. Ullmann's algorithm ranges from O$(n^3)$ to O$(n!n^2)$.\cite{cordella}
 
   \subsection{RI Algorithm}
 
@@ -192,7 +171,13 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   Using the results of \texttt{GreatestConstraintFirst}, the following isomorphism rules remove unfeasible paths:
 
-  \includegraphics{images/ri_rules.png}
+  \begin{figure}[H]
+    \centering
+    \includegraphics{images/ri_rules.png}
+    \caption{RI Feasibility Rules}
+    \label{ri_feas}
+  \end{figure}
+
 
   The algorithm does not have a dedicated pruning function, which is another factor for the increase in performance when compared against other algorithms (such as VF2); instead, pruning is done through the matching process.\cite{bonnici}
 
@@ -256,29 +241,33 @@ The full source code for all versions can be found in the appendix.
   The improved C++ implementation follows a bit of a loose interpretation of Ullmann's description of the algorithm. A version which used the \texttt{goto} command with labels was considered, to more closely match said description, but was scrapped in favor of a more conventional approach
 
   \subsection{Options for Parallelization}
-    
+
     % todo needs to be cleaned up
     % lots of sloppy/awkward phrasing
     % some parts unclear
     % lots of missed opportunities to go into detail
-    \subsubsection{CUDA}
+    \subsubsection{GPGPU}
     % talk about gpgpu in general
-    CUDA is a proprietary API made specifically for NVIDIA hardware. It has the to use more than the 4 threads we ended up using. This is because it uses the GPU of a computer. The main difference between using CUDA and OpenMP is that CUDA has access to more threads. OpenMP relies on using the cores on a machine to do parallel work, so work is sped up by approximately a factor of 2 to 8, depending on how many cores a computer has. CUDA on the other hand can have anywhere from hundreds and even thousands of threads in a block thanks to the NVIDIA GPU
+    When GPUs (graphics processing units) began including programmable shaders and support for floating point arithmetic, they became capable of doing calculations on matrices or vectors. While early GPGPU programming (General Purpose computing on Graphics Processing Units) required formulating problems as graphics primitives, there are now APIs to avoid the translation.
+
+    One of these APIs is CUDA, which is a proprietary parallel computing platform created by Nvidia. Source code written in CUDA uses C++ syntax, and only Nvidia GPUs are enabled for CUDA. It has the potential to use more than the available cores from a standard CPU, and is only limited by the number of CUDA cores that a GPU contains. This ranges from 8 to 5760 (at the time of writing, the Titan Z has 5760 CUDA cores). The main difference between using CUDA and OpenMP is that CUDA has access to more threads. OpenMP relies on using the cores of a CPU to do parallel work; as a result, work is sped up by approximately a factor of $2^8$, depending on how many cores a computer has.
+
+    A similar API is OpenCL (Open Computing Language), a framework that allows programs to execute accross multiple types of processing hardware. Similar to CUDA, source code is written using C-like syntax. Unlike CUDA, it does not require specialized hardware; OpenCL is an open standard, which can be used across AMD, Nvidia, and Intel GPUs, as well as other processors.
 
     \subsubsection{MPI}
     % the function runs once on each machine.
     % and the machines have to communicate with each other to combine their results
     % further reducing the potential speedup
     % talk about that for a bit
-    MPI stands for Message Passing Interface. This utilizes multiple machines in order to parallelize the work. Unfortunately there is a huge difference between parallelization using threading and MPI. With MPI, the function runs multiple times on each machine. This means that in order to increase effectiveness, the workload must be balanced among the machines, otherwise some machines might do much more work than other machines, reducing the effective time saved, as a program running in parallel is only as fast as its slowest processor. One cannot simply throw MPI onto a program and expect it to go faster by some factor. In the case of graph and subgraph isomorphism, we would have to split the work based on which sections of the graph take longer.
-   
+    MPI stands for Message Passing Interface. This utilizes multiple machines in order to parallelize the work. Unfortunately there is a huge difference between parallelization using threading and MPI. With MPI, the function runs once on each machine. This means that in order to increase effectiveness, the workload must be balanced among the machines, otherwise some machines might do much more work than other machines, reducing the effective time saved, as a program running in parallel is only as fast as its slowest processor. One cannot simply throw MPI onto a program and expect it to go faster by some factor. In the case of graph and subgraph isomorphism, we would have to split the work based on which sections of the graph take longer.
+
    % "system of machines"
    % last sentence is a little wonky
-    Theoretically it is possible to combine MPI with OpenMP in order to increase the efficiency. However, our team did not have a system of machines in order to fully utilize MPI. If we did, the time it would take to find an isomorphism would decrease by at most a factor based on the number of processors used multiplied by the number of cores in each processor capable of using OpenMP
-   
+    Theoretically it is possible to combine MPI with OpenMP in order to increase the efficiency. However, our team did not have a network of machines in order to fully utilize MPI. If we did, the time it would take to find an isomorphism would decrease by at most a factor based on the number of processors used, multiplied by the number of cores in each processor capable of using OpenMP.
+
     \subsubsection{SIMD}
     % he's trying to explain vector instructions here
-    SIMD stands for single instruction multiple data. This system uses a series of data types found in specific systems. Examples of SIMD include AVX, SSE, and ARM-NEON vector instructions. These instructions allow for a certain datatype that could hold multiple values and perform operations on multiple pieces of data at once. These operations can either be between two vectors or between values within the vectors. We would have to drastically alter the data structures we currently have in place to incorporate SIMD datatypes.
+    SIMD (single instruction, multiple data) uses a series of data types, which can be utilized on CPUs that support them. These data types allow for data level parallelism, similar to OpenMP. Examples of SIMD instructions that utilize these data types are AVX, SSE, and ARM-NEON vector instructions. These instructions allow for operations to be done on these data types on multiple sections at once. These operations can either be between two vectors or between values within the vectors. We would have to drastically alter the data structures we currently have in place to incorporate SIMD datatypes.
 
     % include openmp here to justify why we went with it over the others
     \subsubsection{OpenMP}
@@ -446,7 +435,9 @@ For all of our measurements, we used the worst-case input: the Facebook graph me
   At 3.669 times faster, the parallel version of the algorithm runs much closer to four times faster than we had anticipated, given the factors discussed earlier. This greatly supports our hypothesis that parallelizing just the refinement procedure leads to a much more efficient implementation, since that function is by far the most computationally expensive portion of the algorithm, and is called many, many times.
 
 \section{Conclusion}
-  While we did not manage to implement a graphical interface, or a recommender system for social media, as we had originally set out to do, our results were nonetheless quite promising.
+  Using parallelization techniques in order to increase efficiency of the NP-complete problem of subgraph isomorphism proved to be a success. In our C++ implementation of Ullman's algorithm with OpenMP, graph isomorphism took two to three seconds to compute; this is down from the average of eight seconds from the C++ implementation without parallelization, using what was easily our worst-case scenario. Additionally, solving smaller instances of the subgraph isomorphism problem take less than a second. In either case, using C++ and adding OpenMP optimizations resulted in a much faster implementation than our Python implementation, which took between 14 and 16 seconds to run. 
+  
+  When it comes to innovation, everyone wants their next thing to be more efficient, both time-wise and space-wise. This project has shown that even the smallest amount of parallelization can make a large difference for very complex problems. If we had combined various parallelization techniques, such as utilizing SIMD instructions alongside the multithreading technique we used, we might have gotten an implementation even faster than what we had. Parallelization is seeing growing usage to address the problems of an increasingly demanding world.
 
 \section{Appendix}
   \subsection{Python Code}
