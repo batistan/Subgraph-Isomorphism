@@ -269,7 +269,7 @@ The full source code for all versions can be found in the appendix.
 
     \subsubsection{SIMD}
     % he's trying to explain vector instructions here
-    SIMD stands for single instruction multiple data. This system uses a series of data types found in specific systems. Examples of SIMD include AVX, SSE, and ARM-NEON vector instructions. These instructions allow for a certain datatype that could hold multiple values and perform operations on multiple pieces of data at once. These operations can either be between two vectors or between values within the vectors. We would have to drastically alter the data structures we currently have in place to incorporate SIMD datatypes.
+    SIMD (single instruction, multiple data) uses a series of data types, which can be utilized on CPUs that support them. These data types allow for data level parallelism, similar to OpenMP. Examples of SIMD instructions that utilize these data types are AVX, SSE, and ARM-NEON vector instructions. These instructions allow for operations to be done on these data types on multiple sections at once. These operations can either be between two vectors or between values within the vectors. We would have to drastically alter the data structures we currently have in place to incorporate SIMD datatypes.
 
     % include openmp here to justify why we went with it over the others
     \subsubsection{OpenMP}
