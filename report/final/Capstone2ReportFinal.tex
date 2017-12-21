@@ -1,12 +1,16 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{mathtools,setspace,indentfirst,graphicx,float,hyperref,courier,color}
+\usepackage{mathtools,setspace,indentfirst,graphicx,float,hyperref,courier,color,times}
 \usepackage{fancyhdr} % for header
 \usepackage{listings}
-\usepackage[english]{babel}
-\usepackage[backend=biber,style=numeric]{biblatex}
-\addbibresource{sources.bib}
+\usepackage{csquotes}
+\usepackage[american]{babel}
+\usepackage[backend=biber,citestyle=numeric,bibstyle=apa]{biblatex}
+%\bibliographystyle{apacite}
+%\addbibresource{sources.bib}
+\DeclareLanguageMapping{american}{american-apa}
+\bibliography{sources}
 
 \doublespacing{}
 
@@ -17,6 +21,9 @@
 \chead{\thepage}
 \rhead{Fall 2017}
 \renewcommand{\headrulewidth}{0pt} % remove the horizontal line along the header
+% figure numbering you can actually follow
+% only downside is you need to reset the counter every subsection
+\renewcommand{\thefigure}{\arabic{section}.\arabic{subsection}.\arabic{figure}} 
 
 \lstset{%
   basicstyle=\ttfamily,
@@ -143,14 +150,14 @@ The goal of this project is to understand and optimize an algorithm for solving 
 
   The general form of the feasibility function is defined as:
 
-  $F_{syn}(s,n,m) = R_{pred} \land R_{succ} \land R_{in} \land R_{out} \land R_{new}$
+  \[ F_{syn}(s,n,m) = R_{pred} \land R_{succ} \land R_{in} \land R_{out} \land R_{new} \]
 
   $R_{pred}$ and $R_{succ}$ represent the predecessors and successors respectively of a given node \texttt{n}  in a graph.
 
   The other three feasibilty rules are meant to prune the tree
   $R_{in}$ and $R_{out}$ are both 1 step ahead look ahead while $R_{new}$ is a 2 step look ahead.
 
-  \"Look ahead" refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
+  ``Look ahead'' refers to the \texttt{k-look-ahead} rules defined in the paper. They are used to reduce the number of states generated, by checking in advance if a consistent state \texttt{s} has no consistent successors after \texttt{k} steps.
 
   The feasibility rules are defined as the following:
 
@@ -158,7 +165,7 @@ The goal of this project is to understand and optimize an algorithm for solving 
     \centering
     \includegraphics{images/vf2_algo.png}
     \caption{Description of the creation of feasbility rules.}
-    \label{fuckyou}
+    \label{fig:vf2feas}
   \end{figure}
 
   In comparison to the Ullman algorithm, it appears that when working with greater than 200 nodes, VF2 becomes more efficient than the it.
@@ -196,16 +203,23 @@ The full source code for all versions can be found in the appendix.
   \subsection{Python Implementation}
   The Python code is based largely on an implementation of the Ullmann algorithm provided by an answer on the website \textit{StackOverflow}.\cite{pyiso} It would not run in its original form, so a few adjustments were needed.
 
-  \begin{lstlisting}[language=Python,caption={Function used to determine whether an isomorphism exists.}]
-  def find_isomorphism(graph, subgraph):
+  % restart counting figure numbers
+  \setcounter{figure}{0}
+  \begin{figure}[H]
+    \centering
+    \begin{lstlisting}[language=Python]
+    def find_isomorphism(graph, subgraph):
 
-      assignments = []
-      possible_assignments = [[True]*graph.n_vertices() \
-                    for i in range(subgraph.n_vertices())]
-      if search(graph, subgraph, assignments, possible_assignments):
-          return True
-      return matches
-  \end{lstlisting}
+        assignments = []
+        possible_assignments = [[True]*graph.n_vertices() \
+                      for i in range(subgraph.n_vertices())]
+        if search(graph, subgraph, assignments, possible_assignments):
+            return True
+        return matches
+    \end{lstlisting}
+    \caption{Function used to determine whether an isomorphism exists.}
+    \label{ls:findisopy}
+  \end{figure}
 
   The main function is \texttt{find\_isomorphism}, which is depicted above. It calls the function \texttt{search}, which performs the actual work of finding an isomorphism.
 
@@ -213,14 +227,19 @@ The full source code for all versions can be found in the appendix.
 
   This was mostly due to the usage of the \texttt{has\_edge} method of the graph class, shown below.
 
-  \begin{lstlisting}[language=Python,caption={Code for the \texttt{has\_edge} method of our graph class.}]
-  def has_edge(self, vert1, vert2):
-       """ Checks if edge connecting vert1 and vert2 is in the graph
-       """
-       #if adjacent, there's an edge
-       return ({vert1, vert2} in self.adjacencies)
+  \begin{figure}[H]
+    \centering
+    \begin{lstlisting}[language=Python]
+    def has_edge(self, vert1, vert2):
+         """ Checks if edge connecting vert1 and vert2 is in the graph
+         """
+         #if adjacent, there's an edge
+         return ({vert1, vert2} in self.adjacencies)
 
-  \end{lstlisting}
+    \end{lstlisting}
+    \caption{Code for the \texttt{has\_edge} method of our graph class.}
+    \label{ls:hasedgepy}
+  \end{figure}
 
   This method calls the built-in \texttt{in} function of Python lists, which has a runtime complexity of O(n).\cite{bigopy} Thus, the \texttt{has\_edge} method of the Python implementation is O(n).
 
@@ -273,15 +292,104 @@ The full source code for all versions can be found in the appendix.
 
   For visualization purposes, we have provided a sample run of the algorithm. For simplicity, only the C++ implementation is seen here. The graphs used are very simple, as this is only for demonstration. The following is the list of edges defining the search graph:
 
-  \lstinputlisting[caption={Search graph used for walkthrough.}]{../../src/toy1.edges}
+  % restart counting figure numbers
+  \setcounter{figure}{0}
+  \begin{figure}[H]
+    \centering
+    \lstinputlisting{../../src/toy1.edges}
+    \caption{Search graph used for walkthrough.}
+    \label{ls:toysearch}
+  \end{figure}
 
-  And the following is the subgraph we will be searching for an instance of in that graph:
+  The following is the subgraph we will be searching for an instance of in that graph:
 
-  \lstinputlisting[caption={Subgraph being searched for in search graph.}]{../../src/toy1sub.edges}
-  % TODO this
+  \begin{figure}[H]
+    \centering
+    \lstinputlisting{../../src/toy1sub.edges}
+    \caption{Subgraph being searched for in search graph.}
+    \label{ls:toysub}
+  \end{figure}
+
+  We can place these into text files, named \texttt{example.edges} and \texttt{sub.edges} for figures \ref{ls:toysearch} and \ref{ls:toysub}, respectively. With these filenames, and assuming the program executable is a file in the same directory named \texttt{main}, we may run the program from the terminal using the command \texttt{./main example.edges sub.edges}. That is, we pass the text file specifying the search graph in as the first argument, and the corresponding file for the subgraph as the second argument.
+
+  The program may also be run in interactive mode by passing in the argument \texttt{-i} or \texttt{--interactive}, in which case the user is prompted to enter the list of edges for each graph manually in the terminal. This allows for manual entering of the graphs in case files are not available for whatever reason, or for testing simple cases that are not worth creating files for. A full list of arguments along with usage information can be viewed by running the program with the \texttt{-h} or \texttt{--help} arguments. 
+
+  After the two files are parsed and the corresponding graph objects are created, the program runs \texttt{find\_isomorphism} with the subgraph and search graph as arguments, which returns a vector of assignments from the subgraph vertices to the search graph vertices, or an empty vector if no isomorphism exists.
+
+  Note that, at this point, the search graph consists of a graph with vertices $(1, 2, 3)$, and the subgraph consists of vertices $(10, 20)$.
+
+  In \texttt{find\_isomorphism}, we first set up the matrix of possible assignments M by running \texttt{vector < vector<bool> > possible\_assignments = create\_possible\_assignments(sub, graph);}. This creates the matrix by initializing a vector of size $p_{\alpha}$, populated with $p_{\alpha}$ vectors of size $p_{\beta}$. Each of the values in these vectors is initialized to false. This is all done in one line using one of the constructors provided by the C++ vector class. We then use a nested for loop to iterate through each position of the matrix, setting the position to true if the vertex corresponding to the current column in the search graph has a degree greater than or equal to the degree of the vertex corresponding to the current row in the subgraph. Our graph class stores vertices as pairs of integers. The first integer is the unique value associated with the vertex, and the second integer is the degree of the vertex. The degree is incremented every time a pair which contains the vertex is added to the graph. This way, looking up degree of a vertex is trivial. \texttt{create\_possible\_assignments} returns the matrix created.
+
+  The next step is to initialize the various variables used to keep track of our place in the computation. The first of these is \texttt{assignments\_tree}, which is a vector of max size $p_{\alpha}$ that will contain the matrix of possible assignments at each depth. This is so that we have a way to access the previous matrices in the event that we need to backtrack. The next variable we need is \texttt{cols\_used}, which keeps track of which columns (corresponding to search graph vertices) have already been assigned to a row (corresponding to subgraph vertices). \texttt{cols\_used[i] == true} if column \texttt{i} has been assigned. Each search graph vertex can only be assigned to a single subgraph vertex, so it is important to keep track of which columns have already been assigned. The next variable we will need is \texttt{col\_depth}. \texttt{col\_depth[i-1] == k} if column \texttt{k} was assigned to a row at depth \texttt{i}. The need for this will become clear later on in the example, but in simple terms it is used to keep track of what the last column we tried to assign to a row was, so that we do not continually attempt to assign the same column to the same row after determining doing so does not lead to an isomorphism. The final variable is self-explanatory: \texttt{depth}. This initialized to 1, and keeps track of our depth in the search tree, if we represent the sets of all possible assignments as a search tree, with isomorphisms at depth $p_{\alpha}$ if they exist.
+
+  Finally, we pass all of these variables along with the subgraph and search graph to the \texttt{search} function, which returns true if an isomorphism is found, and false otherwise. At this point, matrix M consists of:
+  
+  \[ \begin{pmatrix}
+      1 & 1 & 1 \\
+      1 & 1 & 1
+  \end{pmatrix} \]
+
+  Since every vertex in the search graph has degree $\geq 1$, every vertex is a possible assignment for every vertex in the subgraph.
+
+  The first thing we do in \texttt{search} is refine matrix M. This is done first, so that, if the refinement fails, we will know right away, and avoid having to do any unnecessary work. We place the call to the function as the conditional to an if statement. If it returns false, we go into the body of the if statement, which contains only the statement \texttt{return false;}, indicating that no isomorphism was found.
+
+  In the refinement procedure, to which we have passed the matrix of possible assignments and the two graphs, the first noteworthy variable is the boolean \texttt{changes\_made}, which is keeps track of whether or not we have made any changes to the possible assignments matrix. Since eliminating a possible assignment may make other possible assignments invalid, we must run the refinement procedure on the matrix repeatedly to eliminate these newly-invalid assignments. This may occur several times, so we have a variable to keep track of when we can stop. Thus, the entire procedure is wrapped in a while loop, with \texttt{changes\_made} being the conditional. In the while loop, we first set \texttt{changes\_made} to false, and we will set it to true if we mark any possible assignment as invalid.
+
+  For convenience, here is the current state of possible assignments once again:
+
+  \[ \begin{pmatrix}
+      1 & 1 & 1 \\
+      1 & 1 & 1
+  \end{pmatrix} \]
+
+  We first iterate through each of the rows using a simple for loop. That is, we check each subgraph vertex's possible assignments for validity. The next noteworthy variable is the boolean \texttt{no\_one}, which is initially true. This variable, which may be confusingly-named, keeps track of whether or not the current row contains no possible assignments. If this is true, we stop the procedure entirely and return false, since it is no longer possible for an isomorphism between the two graphs to exist. Thus, continuing to prune possible assignments is a pointless effort if we have already found there are no possible assignments for any given row. We then iterate through each column of the current row. If the column is a possible assignment of the current row, we first set \texttt{no\_one} to false since the current row has at least one possible assignment.
+
+  The next step is to look through all neighbors of the subgraph vertex corresponding to the current row. Since our subgraph consists only of two vertices, the set of neighbors in this case contains a single member. We use an iterator and a for loop to iterate through the set of neighbors of the current row's vertex. This set is provided by the graph class's \texttt{neighbors} method, which returns the set of neighbors of the vertex passed to it. For each of the row's neighbors $n_i$, we iterate through its possible assignments. We use the boolean value \texttt{has\_corresponding\_neighbor} to track whether or not the row's neighbor has a possible assignment which is a neighbor of the vertex corresponding to the current column. At each possible assignment of $n_i$, we check whether or not the corresponding vertex in the search graph has an edge connecting it to the current column, which is in turn a possible assignment of the current row. If such an edge exists, then we mark \texttt{has\_corresponding\_neighbor} true, and check the next neighbor.
+
+  If the current row has no neighbors which are neighbors of the current column, then \texttt{has\_corresponding\_neighbor} is never set to true, so we set the current column and row of possible assignments to false, and set \texttt{changes\_made} to true.
+
+  Unfortunately for us, there are no invalid assignments in the possible assignments matrix, so the refinement procedure returns true without changing the matrix. Here it is again, for convenience:
+
+  \[ \begin{pmatrix}
+      1 & 1 & 1 \\
+      1 & 1 & 1
+  \end{pmatrix} \]
+
+  We thus continue in \texttt{search}. Since the refinement procedure returned true, the if block is not executed, and we instead go onto a do..while loop. This was structured as a do..while, since we may need to iterate several times, but we would still like to execute the block at least once. We would later find that this was irrelevant, since the condition we used was \texttt{while(true)}, an infinite loop. Our reasoning for this should soon become apparent. 
+  
+  The next step is to initialize several variables for use in loops; nothing worth calling attention to. We enter a for loop to iterate through columns of the current row (the current row being given by \texttt{depth-1}), initializing the iterating variable \texttt{col} to \texttt{col\_depth[depth-1]}. We stop iterating once \texttt{col < numcols}, the latter of which should be self-explanatory. Once we find a possible assignment from the current row to a column, we check if that column has already been used by checking \texttt{cols\_used[col]}. If so, we continue iterating to find another column. If not, we break out of the loop.
+
+  The first thing we do after breaking from the loop is to check whether \texttt{col} is equal to \texttt{numcols}. If so, this means we couldn't find a valid column to assign the current row to, so we must backtrack to the previous row to attempt to assign it to a different column. We do this by decrementing \texttt{depth} by 1, setting the possible assignments matrix to the one stored at \texttt{assignments\_tree[depth-1]} (note that this the new value of depth), and returning false. If we are at depth 1, then there is no previous row to reassign, and we simply return false. In our particular example, since we haven't used any columns and every entry in the possible assignments matrix is true, \texttt{col} is 0 after exiting the for loop, and \texttt{numcols} is obviously 3. Thus, we do not enter the block of the if statement.
+
+  Since we have found a valid column to assign to the current row, we set all other columns in the current row of possible assignments to false, along with all other rows in the current column. For us, that means all other columns in row 0 and all other rows in column 0. This yields the following matrix of possible assignments:
+
+  \[ \begin{pmatrix}
+      1 & 0 & 0 \\
+      0 & 1 & 1
+  \end{pmatrix} \]
+
+  With one row assigned, we must recursively search for an isomorphism under this new matrix of possible assignments. We do this by calling \texttt{search} again, but with modified arguments. Namely, we append the current matrix of possible assignments to the assignments tree variable in case we need to backtrack later, we set \texttt{cols\_used[col]} to true to indicate that the column \texttt{col} has been used, set \texttt{col\_depth[depth-1]} to \texttt{col}, and increment \texttt{depth}. At this point, we check if \texttt{depth} is equal to $p_{\alpha}$ and, if so, return true, since that means every row has been assigned to a column. In our case, since there are only two rows, and \texttt{depth} is equal to 2, we return true. Note that this still leaves extra possible assignments in the bottom row of the possible assignments matrix. We simply ignore these and assign the bottom row to the first possible assignment in it. 
+  
+  If we'd had more rows, then the if block would not have executed, and we would have instead entered a different if statement which runs \texttt{search} recursively using the modified variables as arguments. If this search returns true, we have found an isomorphism under the modified possible assignments matrix, and we return true to report this finding. If it does not return true, then we set \texttt{cols\_used[col]} back to false and return to the top of the while loop to try a new column. Since we had already set \texttt{col\_depth[depth-1]} to \texttt{col}, we do not have to worry about the algorithm attempting to assign this row to the same column with the same result. It will continue attempting to reassign \texttt{col} starting from the next column.
+
+  The final state of our possible assignments matrix after returning is thus:
+
+  \[ \begin{pmatrix}
+      1 & 0 & 0 \\
+      0 & 1 & 1
+  \end{pmatrix} \]
+
+  Since we returned true from \texttt{search}, we extract the set of possible assignments at the lowest depth in the tree that we ended on. That is, we set the assignments list to \texttt{assignments\_tree[depth-2]}. We subtract 2 from \texttt{depth}, since we incremented \texttt{depth} by 1 before returning from \texttt{search}, so the list of assignments we want is actually at index \texttt{depth-2}. After assigning this to a variable we call \texttt{assignments}, we create a new vector called \texttt{isomorphism}, which contains the actual mappings which will be returned. To populate \texttt{isomorphism}, we iterate through the \texttt{assignments} matrix. Whenever we come upon an assignment, we push the current column number onto the \texttt{isomorphism} vector. In this way, \texttt{isomorphism[i]} is the vertex in the search graph assigned to vertex \texttt{i} in the subgraph. After pushing the column number, we break to go to the next row. Since each row can only have one possible assignment, there is no need to continue iterating through columns after we've found the assignment for a particular row. This also means that the bottom row, which may have multiple assignments, will have only the first of its assignments added to the vector, with the rest ignored.
+
+  Finally, after getting the assignments into a vector, we return the \texttt{isomorphism} vector. It is worth noting that, had we returned false from \texttt{search}, the if block would not have executed, and we would have instead returned an empty vector to indicate no isomorphism exists.
+
+  Back in the main function, we first check if the returned vector is empty. If so, no isomorphism was found, and we take action accordingly. In this case, we simply print a message indicating that no isomorphism was found. However, an isomorphism \textit{was} found, so the return vector is a vector of assignments. We thus print a message indicating that an isomorphism was found, and print out which vertices in the subgraph map to which vertices in the search graph. We can retrieve the original values of the vertices given their indices by using the graph class method \texttt{get\_value}, which takes the index of a vertex and returns the value of the vertex at that index in the vector of vertices in the graph. For example, for our subgraph, the vertex 10 has index 0, so \texttt{get\_value(0)} will return 10. This way, we do not need to actually store the vector values along with the isomorphism vector; we can simply retrieve them afterwards. In our case, we have found that subgraph vertex 10 can be mapped to search graph vertex 1, and subgraph vertex 20 can be mapped to search graph vertex 2. 
+  
+  Since the graphs are quite small, it is trivial to draw them and verify that this result is correct. Indeed, it is one of a number possible correct results, but we only return the first one found. Future improvements to the project may include listing all possible isomorphisms, or at the very least counting them.
+
 \section{Performance}
 
-For all of our measurements, we used the worst-case input: the Facebook graph mentioned previously as the search graph, and that same graph (or, equivalently, any isomorphic graph of the same size) as the ``subgraph.'' This would take the longest of the graphs available to us, since it requires the algorithm to assign the greatest number of vertices (all of them) before returning, and, since the graphs are indeed isomorphic, there is no chance of \texttt{refine\_possible\_assignments} returning false, which would allow us to skip a large amount of work.
+For all of our measurements, we used the worst-case input: the Facebook graph mentioned previously as the search graph, and that same graph (or, equivalently, any isomorphic graph of the same size) as the subgraph. This would take the longest of the graphs available to us, since it requires the algorithm to assign the greatest number of vertices (all of them) before returning, and, since the graphs are indeed isomorphic, there is no chance of \texttt{refine\_possible\_assignments} returning false, which would allow us to skip a large amount of work.
 
   \subsection{Python Implementation}
   The Python implementation was very inefficient, but it was necessary for us to understand what we had to do for a C++ implementation. It took between 13 and 16 seconds to determine if an isomorphism existed.
@@ -295,15 +403,50 @@ For all of our measurements, we used the worst-case input: the Facebook graph me
   \end{figure}
 
   \subsection{C++ Implementation}
-  The source code used to test the performance of the C++ implementations can be found in the appendix. We used Linux's \texttt{perf\_event\_open} system call, which allows for high-precision performance monitoring. The only part of the program which is timed is the call to \texttt{find\_isomorphism}.
 
-  The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs significantly more quickly than the Python implementation; it runs in about 8 seconds, compared to about 16 seconds for the Python implementation. This is about twice as fast, even without any parallelisms. However, we found it was generally more precise to measure the number of CPU clock cycles taken for the algorithm to complete, so we measured that instead. The output of the program used to measure this is below:
+    \subsubsection{Performance Tradeoffs}
+    While our graph class is remarkably efficient at determining whether a particular edge exists between two vertices, as well as determining the degree of a particular vertex, this efficiency is not without drawbacks. Most notably, storing a binary matrix of edges brings the space complexity of our graph class up to O$(n^2)$. Memory is very cheap in this day and age, so sacrificing it for performance (which, as we will see, is much better) was acceptable for our purposes. This is, however, something to keep in mind for future implementations.
+
+    Additionally, updating this matrix whenever an edge or vertex is added to the graph adds considerable overhead in itself, making \texttt{add\_edge} and \texttt{add\_vertex} more expensive methods to run.
+
+    \subsubsection{Results}
+    The source code used to test the performance of the C++ implementations can be found in the appendix. We used Linux's \texttt{perf\_event\_open} system call, which allows for high-precision performance monitoring. The only part of the program which is timed is the call to \texttt{find\_isomorphism}.
+
+    The C++ implementation, due to the improvement of \texttt{has\_edge}'s runtime, runs significantly more quickly than the Python implementation; it runs in about 8 seconds, compared to about 16 seconds for the Python implementation. This is about twice as fast, even without any parallelization. However, we found it was generally more precise to measure the number of CPU clock cycles taken for the algorithm to complete, so we measured that instead. The output of the program used to measure this is below:
+
+  \setcounter{figure}{0}
+  \begin{figure}[H]
+    \centering
+    \lstinputlisting{cperf.txt}
+    \caption{Performance of non-parallelized version of our algorithm.}
+    \label{ls:cperf}
+  \end{figure}
+
+  We see that the C++ version took 26,142,295,153 cycles to complete on the system used to test. This is equivalent to about eight seconds, as mentioned previously. The exact number of cycles will vary slightly from trial to trial, but repeated trials have made us confident that this is a representative sample.
 
   \subsection{OpenMP Optimization}
-  The OpenMP code performs very well compared to the non-parallelized version.
+  The OpenMP code performs very well compared to the non-parallelized version. The system we tested it on has a four-core CPU, allowing for up to four threads to run in parallel, leading to a four-fold performance improvement. It is important to note, however, that even in the case of absolute perfect parallelization, it is impossible to achieve exactly four times the performance. Using OpenMP requires the program execution to split up into four threads and combine back into one after each of the four threads have finished the work assigned to them. This necessitates the execution of a few additional instructions beyond the ones relevant to the computation in our algorithm. Thus, even in the best case, we can only hope for performance which is slightly less than four times faster.
+
+  Moreover, we must consider the fact that we are not parallelizing the entire algorithm; only \texttt{refine\_possible\_assignments} is run in parallel, and only part of it, at that. The rest of the algorithm runs serially, like the non-parallelized version. Thus, even without the overhead involved with using OpenMP, we cannot ever expect the entire algorithm to run four times faster, when only part of it runs (theoretically) four times as fast. 
+
+  With all that said, we came surprisingly close to four times faster, all things considered. The output of the program used to measure the performance of the OpenMP code is below:
+
+  \setcounter{figure}{0}
+  \begin{figure}[H]
+    \centering
+    \lstinputlisting{ompperf.txt}
+    \caption{Performance of OpenMP version of our algorithm.}
+    \label{ls:ompperf}
+  \end{figure}
+
+  Here we see instead that the algorithm now takes only 7,125,381,701 cycles to complete. Once again, this number will vary slightly for each run, but this particular number was about average. Using the number from figure \ref{ls:cperf}, we can compute how much faster this particular run of the parallelized algorithm is than that particular run of the non-parallelized algorithm by dividing the latter by the former. This comes out to:
+
+  \[ \frac{26142295153 \mathrm{ cycles}}{7125381701 \textrm{ cycles}} \approx 3.669 \]
+
+  At 3.669 times faster, the parallel version of the algorithm runs much closer to four times faster than we had anticipated, given the factors discussed earlier. This greatly supports our hypothesis that parallelizing just the refinement procedure leads to a much more efficient implementation, since that function is by far the most computationally expensive portion of the algorithm, and is called many, many times.
 
 \section{Conclusion}
-  Over the coming two weeks, we should have completed the OpenMP parallelizations and thoroughly tested the performance of the resulting program. We will also be much more in-depth in the explanation of the Ullmann algorithm. We also hope to use a more precise method of getting performance information for the C++ implementation, as our current method is rather volatile.
+  While we did not manage to implement a graphical interface, or a recommender system for social media, as we had originally set out to do, our results were nonetheless quite promising.
 
 \section{Appendix}
   \subsection{Python Code}

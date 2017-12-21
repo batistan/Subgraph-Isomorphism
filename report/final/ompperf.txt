@@ -1,0 +1,2 @@
+Isomorphism found! Assignments omitted, since we're just checking performance.
+Searching for isomorphism took 7125381701 CPU cycles

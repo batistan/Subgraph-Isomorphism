@@ -146,9 +146,9 @@ Graph import_data(const char *filename, const int debug) {
     int atempb = atoi(tempb);
     int atempweight = atoi(tempweight);
 
-    //printf("Edge is %d %d %d\n", atempa, atempb, atempweight);
     // this will also add the vertices if they don't exist
-    // add_vertex is called from within add_edge if no vertex with the given value exists
+    // add_vertex is called from within add_edge if no vertex 
+    // with the given value exists
     g.add_edge(atempa, atempb, atempweight);
     bytes_read = getline(&line, &n, fd);
   }
@@ -157,7 +157,8 @@ Graph import_data(const char *filename, const int debug) {
     int stat = fclose(fd);
     if (stat != 0) {
       perror("Error closing file");
-      // we never wrote to the file so we probably don't even need to check for errors in the first place
+      // we never wrote to the file so we probably don't even need to 
+      // check for errors in the first place
       // but just kill the program if there's an error closing it
       exit(errno);
     }
@@ -181,8 +182,7 @@ vector<string> handle_args(int argc, char **argv) {
   vector<string> returnargs;
   returnargs.resize(4);
   int interactive = 0;
-  // TODO change to 0 for final deployment
-  int debug = 1;
+  int debug = 0;
 
   if (argc < 2) {
     usage(stderr, 1);
@@ -233,7 +233,8 @@ vector<string> handle_args(int argc, char **argv) {
   if (debug) {
     fprintf(stderr,"Interactive set to %d. Debug is %d.\n", interactive, debug);
     if (!interactive) {
-      fprintf(stderr,"Using file %s for graph and %s for subgraph.\n",argv[optind],argv[optind+1]);
+      fprintf(stderr,"Using file %s for graph and %s for subgraph.\n",
+          argv[optind],argv[optind+1]);
     }
   }
 

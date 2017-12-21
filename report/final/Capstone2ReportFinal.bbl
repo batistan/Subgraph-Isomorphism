@@ -18,31 +18,31 @@
 
 
 \refsection{0}
-  \sortlist[entry]{nty/global}
+  \sortlist[entry]{apa/global}
     \entry{bonnici}{article}{}
       \name{author}{6}{}{%
-        {{hash=ad86c63c275542d0c1aa866653bb4760}{%
+        {{uniquename=0,hash=ad86c63c275542d0c1aa866653bb4760}{%
            family={Bonnici},
            family_i={B\bibinitperiod}}}%
-        {{hash=83a2a72cab009c0dcebe9140cfd7395d}{%
+        {{uniquename=0,hash=83a2a72cab009c0dcebe9140cfd7395d}{%
            family={V.},
            family_i={V\bibinitperiod},
            given={Giugno},
            given_i={G\bibinitperiod}}}%
-        {{hash=40ddba83c22acc2acaddff12c66d7adf}{%
+        {{uniquename=0,hash=40ddba83c22acc2acaddff12c66d7adf}{%
            family={R.},
            family_i={R\bibinitperiod}}}%
-        {{hash=7619e6dcc0b8d0aca3843be41a3fb471}{%
+        {{uniquename=0,hash=7619e6dcc0b8d0aca3843be41a3fb471}{%
            family={Pulvirenti},
            family_i={P\bibinitperiod},
            given={A.},
            given_i={A\bibinitperiod}}}%
-        {{hash=d38d0c9a2a44ab58cc6eff1da1a7e648}{%
+        {{uniquename=0,hash=d38d0c9a2a44ab58cc6eff1da1a7e648}{%
            family={Shasha},
            family_i={S\bibinitperiod},
            given={D.},
            given_i={D\bibinitperiod}}}%
-        {{hash=057416a6b61a7baa9d14f98cf8d31212}{%
+        {{uniquename=0,hash=057416a6b61a7baa9d14f98cf8d31212}{%
            family={Ferro},
            family_i={F\bibinitperiod},
            given={A.},
@@ -52,6 +52,9 @@
       \strng{fullhash}{90d2bf2ea2df7e45e9fd17d412b1d107}
       \field{sortinit}{B}
       \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2013}
+      \field{labelmonth}{04}
+      \field{datelabelsource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{BMC Bioinformatics}
@@ -66,7 +69,7 @@
     \endentry
     \entry{pyiso}{online}{}
       \name{author}{1}{}{%
-        {{hash=99852a091cc56672ae5f41ee1f7fb559}{%
+        {{uniquename=0,hash=99852a091cc56672ae5f41ee1f7fb559}{%
            family={Cato},
            family_i={C\bibinitperiod},
            given={Vaughn},
@@ -83,6 +86,10 @@
       \strng{fullhash}{99852a091cc56672ae5f41ee1f7fb559}
       \field{sortinit}{C}
       \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{2012}
+      \field{labelmonth}{11}
+      \field{labelday}{24}
+      \field{datelabelsource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{day}{24}
@@ -98,22 +105,22 @@
     \endentry
     \entry{cordella}{article}{}
       \name{author}{4}{}{%
-        {{hash=ddf86ec03b2ecca2b686ab6f6f52329f}{%
+        {{uniquename=0,hash=ddf86ec03b2ecca2b686ab6f6f52329f}{%
            family={Cordella},
            family_i={C\bibinitperiod},
            given={Luigi\bibnamedelima P.},
            given_i={L\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
-        {{hash=761465c5516ba160c8add4d6165ceed5}{%
+        {{uniquename=0,hash=761465c5516ba160c8add4d6165ceed5}{%
            family={Foggia},
            family_i={F\bibinitperiod},
            given={Pasquale},
            given_i={P\bibinitperiod}}}%
-        {{hash=74552849f307fe5664ce79aea7664d47}{%
+        {{uniquename=0,hash=74552849f307fe5664ce79aea7664d47}{%
            family={Sansone},
            family_i={S\bibinitperiod},
            given={Carlo},
            given_i={C\bibinitperiod}}}%
-        {{hash=9b180a65744f70a23bdcd75a767f4184}{%
+        {{uniquename=0,hash=9b180a65744f70a23bdcd75a767f4184}{%
            family={Vento},
            family_i={V\bibinitperiod},
            given={Mario},
@@ -123,6 +130,9 @@
       \strng{fullhash}{88e8e26886c5d39c1030df43aead5f53}
       \field{sortinit}{C}
       \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{2004}
+      \field{labelmonth}{10}
+      \field{datelabelsource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Pattern Analysis \& Machine Intelligence}
@@ -137,12 +147,12 @@
     \endentry
     \entry{fbgraph}{article}{}
       \name{author}{2}{}{%
-        {{hash=c48ebf5bba212ed9f95f1e6200537465}{%
+        {{uniquename=0,hash=c48ebf5bba212ed9f95f1e6200537465}{%
            family={McAuley},
            family_i={M\bibinitperiod},
            given={J.},
            given_i={J\bibinitperiod}}}%
-        {{hash=c604a89d1319108135da5c5839b3c49b}{%
+        {{uniquename=0,hash=c604a89d1319108135da5c5839b3c49b}{%
            family={Leskovec},
            family_i={L\bibinitperiod},
            given={J.},
@@ -152,6 +162,8 @@
       \strng{fullhash}{176906b4eedba7b0583200c05d1c162a}
       \field{sortinit}{M}
       \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelyear}{2012}
+      \field{datelabelsource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{NIPS}
@@ -165,8 +177,9 @@
       \endverb
     \endentry
     \entry{bigopy}{online}{}
-      \field{sortinit}{T}
-      \field{sortinithash}{423d138a005a533b47e6475e39378bf2}
+      \field{sortinit}{o}
+      \field{sortinithash}{7803d2715d5e795e70382b084ab8d00e}
+      \field{labelyear}{nodate}
       \field{labeltitlesource}{title}
       \field{title}{TimeComplexity}
       \field{urlday}{26}
@@ -178,7 +191,7 @@
     \endentry
     \entry{ullmann}{article}{}
       \name{author}{1}{}{%
-        {{hash=f88eaa56eaf01c3e4f6800d42cd91a30}{%
+        {{uniquename=0,hash=f88eaa56eaf01c3e4f6800d42cd91a30}{%
            family={Ullmann},
            family_i={U\bibinitperiod},
            given={Julian\bibnamedelima R.},
@@ -188,6 +201,9 @@
       \strng{fullhash}{f88eaa56eaf01c3e4f6800d42cd91a30}
       \field{sortinit}{U}
       \field{sortinithash}{8145509bd2718876fc77d31fd2cde117}
+      \field{labelyear}{1976}
+      \field{labelmonth}{01}
+      \field{datelabelsource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of the ACM}
